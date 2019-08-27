@@ -37,7 +37,7 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         items: [
-          { type: "text", name: "name", label: '名称', },
+          { type: "text", name: "name", label: '名称', rules: _this.importRules("inputRequired") },
           { type: "text", name: "code", label: '编码', },
         ],
         operate: [
@@ -57,7 +57,7 @@ export default {
     saveDept() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++;
-        this.formData.pid = this.id;
+        if(this.mode == 'add') this.formData.pid = this.id;
         saveDept(this.formData).then(res => {
           this.dialogVisible = false;
           this.$emit("refresh");

@@ -37,7 +37,7 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         items: [
-          { type: "text", name: "name", label: '名称（中文）', },
+          { type: "text", name: "name", label: '名称', rules: _this.importRules("inputRequired") },
           { type: "text", name: "value", label: '权限值', },
         ],
         operate: [
@@ -57,7 +57,7 @@ export default {
     savePermission() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++;
-        this.formData.pid = this.id;
+        if(this.mode == 'add') this.formData.pid = this.id;
         savePermission(this.formData).then(res => {
           this.dialogVisible = false;
           this.$emit("refresh");
