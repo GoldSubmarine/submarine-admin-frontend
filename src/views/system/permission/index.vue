@@ -10,9 +10,10 @@
         <span>
           <span style="color: #8492a6;">{{ data.value }}</span>
           <span>
-            <el-button type="text" size="mini" @click="add(data)"> 添加子节点 </el-button>
-            <el-button type="text" size="mini" @click="edit(data)"> 编辑 </el-button>
+            <el-button type="text" size="mini" @click="operate('add', data)"> 添加子节点 </el-button>
+            <el-button type="text" size="mini" @click="operate('edit', data)"> 编辑 </el-button>
             <el-button type="text" size="mini" @click="del(data)"> 删除 </el-button>
+            <el-button type="text" size="mini" @click="operate('detail', data)"> 详情 </el-button>
           </span>
         </span>
       </span>
@@ -48,14 +49,9 @@ export default {
         this.treeData = res;
       }).catch(e => console.log(e)).finally(() => this.loading--);
     },
-    add(data) {
+    operate(mode, data) {
       this.propId = data.id;
-      this.mode = 'add';
-      this.dialogName = 'dForm';
-    },
-    edit(data) {
-      this.propId = data.id;
-      this.mode = 'edit';
+      this.mode = mode;
       this.dialogName = 'dForm';
     },
     del(data) {
@@ -84,7 +80,7 @@ export default {
   padding-right: 8px;
   & > span:nth-of-type(2) {
     display: inline-block;
-    width: 300px;
+    width: 400px;
     span{
       display: inline-block;
       width: 50%;

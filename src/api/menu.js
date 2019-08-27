@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 /**
- * 分页获取权限
+ * 分页获取菜单
  */
 export function getMenuPage(params) {
   return request({
@@ -12,7 +12,7 @@ export function getMenuPage(params) {
 }
 
 /**
- * 不分页获取权限
+ * 不分页获取菜单
  */
 export function getMenuList(params) {
   return request({
@@ -23,7 +23,7 @@ export function getMenuList(params) {
 }
 
 /**
- * 获取权限详情
+ * 获取菜单详情
  */
 export function getMenuDetail(id) {
   return request({
@@ -34,7 +34,7 @@ export function getMenuDetail(id) {
 }
 
 /**
- * 获取权限的 tree
+ * 获取菜单的 tree
  */
 export function getMenuTree() {
   return request({
@@ -44,7 +44,7 @@ export function getMenuTree() {
 }
 
 /**
- * 保存权限
+ * 保存菜单
  */
 export function saveMenu(data) {
   return request({
@@ -55,7 +55,7 @@ export function saveMenu(data) {
 }
 
 /**
- * 删除权限
+ * 删除菜单
  */
 export function deleteMenu(id) {
   return request({

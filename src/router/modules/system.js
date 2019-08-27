@@ -22,6 +22,12 @@ const systemRouter = {
       name: 'menu',
       meta: { title: '菜单管理', icon: 'permission' }
     },
+    {
+      path: 'dept',
+      component: () => import('@/views/system/dept/index'),
+      name: 'dept',
+      meta: { title: '部门管理', icon: 'permission' }
+    },
     // {
     //   path: 'drag-table',
     //   component: () => import('@/views/table/drag-table'),

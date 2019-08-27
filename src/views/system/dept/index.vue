@@ -8,7 +8,7 @@
       <span class="tree-node" slot-scope="{ node, data }">
         <span style="margin-left: 10px;">{{ data.name }}</span>
         <span>
-          <span style="color: #8492a6;">{{ data.value }}</span>
+          <span style="color: #8492a6;">{{ data.code }}</span>
           <span>
             <el-button type="text" size="mini" @click="operate('add', data)"> 添加子节点 </el-button>
             <el-button type="text" size="mini" @click="operate('edit', data)"> 编辑 </el-button>
@@ -19,12 +19,12 @@
       </span>
     </el-tree>
 
-    <dForm :mode="mode" :id="propId" @refresh="getMenuTree" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
+    <dForm :mode="mode" :id="propId" @refresh="getDeptTree" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
   </div>
 </template>
 
 <script>
-import { getMenuDetail, getMenuTree, saveMenu, deleteMenu } from '@/api/menu';
+import { getDeptDetail, getDeptTree, saveDept, deleteDept } from '@/api/dept';
 import dForm from './form';
 export default {
   components: {
@@ -40,12 +40,12 @@ export default {
     };
   },
   mounted() {
-    this.getMenuTree();
+    this.getDeptTree();
   },
   methods: {
-    getMenuTree() {
+    getDeptTree() {
       this.loading++;
-      getMenuTree().then(res => {
+      getDeptTree().then(res => {
         this.treeData = res;
       }).catch(e => console.log(e)).finally(() => this.loading--);
     },
@@ -57,9 +57,9 @@ export default {
     del(data) {
       this.delConfirm().then(() => {
         this.loading++;
-        deleteMenu(data.id).then(res => {
+        deleteDept(data.id).then(res => {
           this.$message.success("删除成功");
-          this.getMenuTree();
+          this.getDeptTree();
         }).catch(e => console.log(e)).finally(() => this.loading--);
       }).catch(e => console.log(e))
     },
