@@ -17,10 +17,10 @@ const systemRouter = {
       meta: { title: '权限管理', icon: 'permission' }
     },
     {
-      path: 'permission2',
-      component: () => import('@/views/system/permission/index'),
-      name: 'Permission2',
-      meta: { title: '权限管理', icon: 'permission' }
+      path: 'menu',
+      component: () => import('@/views/system/menu/index'),
+      name: 'menu',
+      meta: { title: '菜单管理', icon: 'permission' }
     },
     // {
     //   path: 'drag-table',

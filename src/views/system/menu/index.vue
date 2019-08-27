@@ -18,12 +18,12 @@
       </span>
     </el-tree>
 
-    <dForm :mode="mode" :id="propId" @refresh="getPermissionTree" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
+    <dForm :mode="mode" :id="propId" @refresh="getMenuTree" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
   </div>
 </template>
 
 <script>
-import { getPermissionDetail, getPermissionTree, savePermission, deletePermission } from '@/api/permission';
+import { getMenuDetail, getMenuTree, saveMenu, deleteMenu } from '@/api/menu';
 import dForm from './form';
 export default {
   components: {
@@ -39,12 +39,12 @@ export default {
     };
   },
   mounted() {
-    this.getPermissionTree();
+    this.getMenuTree();
   },
   methods: {
-    getPermissionTree() {
+    getMenuTree() {
       this.loading++;
-      getPermissionTree().then(res => {
+      getMenuTree().then(res => {
         this.treeData = res;
       }).catch(e => console.log(e)).finally(() => this.loading--);
     },
@@ -61,9 +61,9 @@ export default {
     del(data) {
       this.delConfirm().then(() => {
         this.loading++;
-        deletePermission(data.id).then(res => {
+        deleteMenu(data.id).then(res => {
           this.$message.success("删除成功");
-          this.getPermissionTree();
+          this.getMenuTree();
         }).catch(e => console.log(e)).finally(() => this.loading--);
       }).catch(e => console.log(e))
     },
