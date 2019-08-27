@@ -1,0 +1,66 @@
+import request from '@/utils/request'
+
+/**
+ * 分页获取权限
+ */
+export function getPermissionPage(params) {
+  return request({
+    url: '/permission/list/page',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 不分页获取权限
+ */
+export function getPermissionList(params) {
+  return request({
+    url: '/permission/list/all',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 获取权限详情
+ */
+export function getPermissionDetail(id) {
+  return request({
+    url: '/permission/detail',
+    method: 'get',
+    params: {id}
+  })
+}
+
+/**
+ * 获取权限的 tree
+ */
+export function getPermissionTree() {
+  return request({
+    url: '/permission/tree/list',
+    method: 'get',
+  })
+}
+
+/**
+ * 保存权限
+ */
+export function savePermission(data) {
+  return request({
+    url: '/permission/save',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 删除权限
+ */
+export function deletePermission(id) {
+  return request({
+    url: '/permission/del',
+    method: 'delete',
+    data: { id }
+  })
+}
