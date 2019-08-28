@@ -1,0 +1,106 @@
+<template>
+  <div class="app-container" v-loading="loading">
+    <x-table
+      v-model="searchData"
+      :config="tableConfig"
+      :data="tableData"
+      :page.sync="page"
+      :load="get<%= Entity %>Page"
+    />
+    <dForm :mode="mode" :id="propId" @refresh="get<%= Entity %>Page" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
+  </div>
+</template>
+
+<script>
+import { get<%= Entity %>Page, delete<%= Entity %> } from "@/api/<%= entity %>";
+import dForm from './form';
+
+export default {
+  components: {
+    dForm
+  },
+  data() {
+    let _this = this;
+    return {
+      loading: 0,
+      tableData: [],
+      page: {
+        pageNum: 1,
+        pageSize: 10,
+        total: 0
+      },
+      searchData: {},
+      propId: '',
+      dialogName: '',
+    };
+  },
+  mounted() {
+    this.get<%= Entity %>Page();
+  },
+  computed: {
+    tableConfig() {
+      let _this = this;
+      return {
+        // index: false,
+        search: true,
+        reset: true,
+        btns: [
+          { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
+        ],
+        columns: [
+<%
+  function getType(str) {
+      if(str == 'varchar') return 'text';
+      if(str == 'text') return 'text';
+      if(str == 'bigint') return 'text';
+      if(str == 'datetime') return 'datetime';
+      if(str == 'int') return 'text';
+  }
+-%>
+<% baseField = ['id', 'createBy', 'createTime', 'updateBy', 'updateTime', 'delFlag']; -%>
+<% fields.forEach(function(field){ -%>
+  <%_ if( !baseField.includes(field.field) ) { -%>
+          { label: '<%= field.comment %>', name: "<%= field.field %>", search: true, type: "<%= getType(field.type) %>" },
+  <%_ } -%>
+<% }); -%>
+        ],
+        operate: [
+          { text: "编辑", show: true, click: data => _this.operate('edit', data) },
+          { text: "删除", show: true, click: _this.del },
+          { text: "详情", show: true, click: data => _this.operate('detail', data) },
+        ]
+      };
+    }
+  },
+  methods: {
+    get<%= Entity %>Page() {
+      this.loading++;
+      get<%= Entity %>Page(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
+        this.tableData = res.list;
+        this.page.total = res.total;
+      }).catch(e => console.error(e)).finally(() => this.loading--);
+    },
+    operate(mode, data) {
+      if(mode != 'add') this.propId = data.id;
+      this.mode = mode;
+      this.dialogName = 'dForm';
+    },
+    del(data) {
+      this.delConfirm().then(() => {
+        this.loading++;
+        delete<%= Entity %>(data.id).then(res => {
+          this.$message.success("删除成功");
+          this.get<%= Entity %>Page();
+        }).catch(e => console.log(e)).finally(() => this.loading--);
+      }).catch(e => console.log(e))
+    },
+    closeDialog() {
+      this.dialogName = '';
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+</style>

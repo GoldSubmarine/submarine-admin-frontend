@@ -28,6 +28,12 @@ const systemRouter = {
       name: 'dept',
       meta: { title: '部门管理', icon: 'permission' }
     },
+    {
+      path: 'role',
+      component: () => import('@/views/system/role/index'),
+      name: 'role',
+      meta: { title: '角色管理', icon: 'permission' }
+    },
     // {
     //   path: 'drag-table',
     //   component: () => import('@/views/table/drag-table'),

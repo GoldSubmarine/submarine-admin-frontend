@@ -22,13 +22,7 @@ export default {
     };
   },
   mounted() {
-    if(['edit', 'detail'].includes(this.mode)) {
-      this.getPermissionDetail();
-    }
-    if(this.mode == 'detail') {
-      this.formDisabled = true;
-      this.showBtn = false;
-    }
+
   },
   computed: {
     formConfig() {
@@ -64,6 +58,26 @@ export default {
         }).catch(e => console.error(e)).finally(() => this.loading--);
       }).catch(e => console.error(e));
     },
+  },
+  watch: {
+    mode: {
+      handler: function(mode) {
+        if(this.mode == 'add') {
+          this.dialogTitle = "新建";
+        }
+        if(this.mode == 'edit') {
+          this.dialogTitle = "编辑";
+          this.getPermissionDetail();
+        }
+        if(this.mode == 'detail') {
+          this.dialogTitle = "详情";
+          this.getPermissionDetail();
+          this.formDisabled = true;
+          this.showBtn = false;
+        }
+      },
+      immediate: true
+    }
   }
 };
 </script>

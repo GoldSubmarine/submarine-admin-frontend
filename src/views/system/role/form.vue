@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getDeptDetail, saveDept } from '@/api/dept';
+import { getRoleDetail, saveRole } from '@/api/role';
 export default {
   props: ['mode', 'id'], // edit, detail, add
   data() {
@@ -31,28 +31,28 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         items: [
-          { type: "text", name: "name", label: '名称', rules: _this.importRules("inputRequired") },
-          { type: "text", name: "code", label: '编码', },
+          { type: "text", name: "name", label: '名称（中文）', rules: _this.importRules("inputRequired") },
+          { type: "text", name: "code", label: '编码', rules: _this.importRules("inputRequired") },
+          { type: "text", name: "remark", label: '备注', rules: _this.importRules("inputRequired") },
         ],
         operate: [
-          { text: "保存", show: _this.showBtn, click: _this.saveDept },
+          { text: "保存", show: _this.showBtn, click: _this.saveRole },
           { text: "取消", show: _this.showBtn, click: () => _this.dialogVisible = false },
         ]
       };
     },
   },
   methods: {
-    getDeptDetail() {
+    getRoleDetail() {
       this.loading++;
-      getDeptDetail(this.id).then(res => {
+      getRoleDetail(this.id).then(res => {
         this.formData = res;
       }).catch(e => console.error(e)).finally(() => this.loading--);
     },
-    saveDept() {
+    saveRole() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++;
-        if(this.mode == 'add') this.formData.pid = this.id;
-        saveDept(this.formData).then(res => {
+        saveRole(this.formData).then(res => {
           this.dialogVisible = false;
           this.$emit("refresh");
         }).catch(e => console.error(e)).finally(() => this.loading--);
@@ -67,11 +67,11 @@ export default {
         }
         if(this.mode == 'edit') {
           this.dialogTitle = "编辑";
-          this.getDeptDetail();
+          this.getRoleDetail();
         }
         if(this.mode == 'detail') {
           this.dialogTitle = "详情";
-          this.getDeptDetail();
+          this.getRoleDetail();
           this.formDisabled = true;
           this.showBtn = false;
         }
@@ -83,7 +83,5 @@ export default {
 </script>
 
 <style scoped>
-.dialogStyle {
-  width: 540px;
-}
+
 </style>

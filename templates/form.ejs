@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getDeptDetail, saveDept } from '@/api/dept';
+import { get<%= Entity %>Detail, save<%= Entity %> } from '@/api/<%= entity %>';
 export default {
   props: ['mode', 'id'], // edit, detail, add
   data() {
@@ -31,28 +31,40 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         items: [
-          { type: "text", name: "name", label: '名称', rules: _this.importRules("inputRequired") },
-          { type: "text", name: "code", label: '编码', },
+<%
+  function getType(str) {
+      if(str == 'varchar') return 'text';
+      if(str == 'text') return 'text';
+      if(str == 'bigint') return 'text';
+      if(str == 'datetime') return 'datetime';
+      if(str == 'int') return 'text';
+  }
+-%>
+<% baseField = ['id', 'createBy', 'createTime', 'updateBy', 'updateTime', 'delFlag']; -%>
+<% fields.forEach(function(field){ -%>
+  <%_ if( !baseField.includes(field.field) ) { -%>
+          { type: "<%= getType(field.type) %>", name: "<%= field.field %>", label: '<%= field.comment %>', rules: _this.importRules("inputRequired") },
+  <%_ } -%>
+<% }); -%>
         ],
         operate: [
-          { text: "保存", show: _this.showBtn, click: _this.saveDept },
+          { text: "保存", show: _this.showBtn, click: _this.save<%= Entity %> },
           { text: "取消", show: _this.showBtn, click: () => _this.dialogVisible = false },
         ]
       };
     },
   },
   methods: {
-    getDeptDetail() {
+    get<%= Entity %>Detail() {
       this.loading++;
-      getDeptDetail(this.id).then(res => {
+      get<%= Entity %>Detail(this.id).then(res => {
         this.formData = res;
       }).catch(e => console.error(e)).finally(() => this.loading--);
     },
-    saveDept() {
+    save<%= Entity %>() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++;
-        if(this.mode == 'add') this.formData.pid = this.id;
-        saveDept(this.formData).then(res => {
+        save<%= Entity %>(this.formData).then(res => {
           this.dialogVisible = false;
           this.$emit("refresh");
         }).catch(e => console.error(e)).finally(() => this.loading--);
@@ -67,11 +79,11 @@ export default {
         }
         if(this.mode == 'edit') {
           this.dialogTitle = "编辑";
-          this.getDeptDetail();
+          this.get<%= Entity %>Detail();
         }
         if(this.mode == 'detail') {
           this.dialogTitle = "详情";
-          this.getDeptDetail();
+          this.get<%= Entity %>Detail();
           this.formDisabled = true;
           this.showBtn = false;
         }
@@ -83,7 +95,5 @@ export default {
 </script>
 
 <style scoped>
-.dialogStyle {
-  width: 540px;
-}
+
 </style>

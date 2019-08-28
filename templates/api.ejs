@@ -1,0 +1,56 @@
+import request from '@/utils/request'
+
+/**
+ * 分页获取
+ */
+export function get<%= Entity %>Page(params) {
+  return request({
+    url: '/<%= entity %>/list/page',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 不分页获取
+ */
+export function get<%= Entity %>List(params) {
+  return request({
+    url: '/<%= entity %>/list/all',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 获取详情
+ */
+export function get<%= Entity %>Detail(id) {
+  return request({
+    url: '/<%= entity %>/detail',
+    method: 'get',
+    params: {id}
+  })
+}
+
+/**
+ * 保存
+ */
+export function save<%= Entity %>(data) {
+  return request({
+    url: '/<%= entity %>/save',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 删除
+ */
+export function delete<%= Entity %>(id) {
+  return request({
+    url: '/<%= entity %>/del',
+    method: 'delete',
+    data: { id }
+  })
+}
