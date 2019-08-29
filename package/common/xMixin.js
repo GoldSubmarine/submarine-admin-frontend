@@ -48,6 +48,16 @@ export default function () {
                 return true;
             },
             /**
+             * 计算出布尔值，并且可以配置默认值
+             */
+            computeFunction(fun, ...data) {
+              if(fun) {
+                fun(...data);
+              } else {
+                return false;
+              }
+            },
+            /**
              * 判断是否是 disabled
              */
             // isDisabled(value) {

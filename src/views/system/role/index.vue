@@ -8,16 +8,28 @@
       :load="getRolePage"
     />
     <dForm :mode="mode" :id="propId" @refresh="getRolePage" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
+
+    <el-row :gutter="40" style="margin-top: 20px;">
+      <el-col :span="12">
+        <treeSelect mode="permission" :id="propTreeId"></treeSelect>
+      </el-col>
+
+      <el-col :span="12">
+        <treeSelect mode="menu" :id="propTreeId"></treeSelect>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import { getRolePage, deleteRole } from "@/api/role";
 import dForm from './form';
+import treeSelect from './treeSelect';
 
 export default {
   components: {
-    dForm
+    dForm,
+    treeSelect
   },
   data() {
     let _this = this;
@@ -31,6 +43,7 @@ export default {
       },
       searchData: {},
       propId: '',
+      propTreeId: "",
       dialogName: '',
     };
   },
@@ -44,6 +57,7 @@ export default {
         // index: false,
         search: true,
         reset: true,
+        rowClick: _this.rowClick,
         btns: [
           { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
         ],
@@ -72,6 +86,10 @@ export default {
       if(mode != 'add') this.propId = data.id;
       this.mode = mode;
       this.dialogName = 'dForm';
+    },
+    rowClick(data) {
+      this.propTreeId = data.id;
+      console.log(data)
     },
     del(data) {
       this.delConfirm().then(() => {

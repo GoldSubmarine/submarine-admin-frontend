@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
+import qs from 'qs';
 
 // create an axios instance
 const service = axios.create({
@@ -21,6 +22,9 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       config.headers['X-Token'] = getToken()
     }
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    config.url = config.url + '?_timestamp=' + Date.now();
+    config.data = qs.stringify(config.data, { allowDots: true, indices: false });
     return config
   },
   error => {

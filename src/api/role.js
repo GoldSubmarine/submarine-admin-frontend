@@ -45,6 +45,34 @@ export function saveRole(data) {
 }
 
 /**
+ * 权限保存
+ */
+export function saveRolePermission(id, permissionList) {
+  return request({
+    url: '/role/permission/save',
+    method: 'post',
+    data: {
+      id,
+      permissionList
+    }
+  })
+}
+
+/**
+ * 菜单保存
+ */
+export function saveRoleMenu(id, menuList) {
+  return request({
+    url: '/role/menu/save',
+    method: 'post',
+    data: {
+      id,
+      menuList
+    }
+  })
+}
+
+/**
  * 删除
  */
 export function deleteRole(id) {

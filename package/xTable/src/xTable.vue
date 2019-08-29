@@ -1,7 +1,7 @@
 <template>
     <div>
 		<x-form v-if="formConfig" ref="xForm" :config="formConfig" v-model="formData" @reset="reset" @submit="getList"/>
-        <el-table :data="data" style="width: 100%;" :border="config.border" stripe @select="config.select ? config.select(...arguments) : (() => {})() ">
+        <el-table :data="data" style="width: 100%;" :border="config.border" stripe @row-click="data => computeFunction(config.rowClick, data) " @select="data => computeFunction(config.select, data) ">
 			<el-table-column type="selection" width="55" v-if="config.select"></el-table-column>
             <el-table-column v-if="config.index != false" type="index" width="50" align="center" label="编号"></el-table-column>
             <template v-for="(configItem, configIndex) in config.columns">
