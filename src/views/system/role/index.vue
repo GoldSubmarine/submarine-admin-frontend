@@ -57,7 +57,9 @@ export default {
         // index: false,
         search: true,
         reset: true,
-        rowClick: _this.rowClick,
+        stripe: false,
+        highlightCurrentRow: true,
+        currentChange: _this.currentChange,
         btns: [
           { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
         ],
@@ -87,7 +89,7 @@ export default {
       this.mode = mode;
       this.dialogName = 'dForm';
     },
-    rowClick(data) {
+    currentChange(data) {
       this.propTreeId = data.id;
       console.log(data)
     },
