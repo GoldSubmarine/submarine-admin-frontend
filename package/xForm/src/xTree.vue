@@ -23,7 +23,6 @@
       :show-checkbox="config.multiple"
       :default-expand-all="computeBoolen(config.defaultExpandAll, true)"
       :expand-on-click-node="false"
-      :default-checked-keys="config.multiple ? [config.formData] : config.formData"
       @check="handleCheckChange"
       @node-click="handleNodeClick"
       :props="getTreeProps">
@@ -56,8 +55,7 @@ export default {
   mixins: [mixinComponent()],
   data() {
     return {
-      options: [],
-      treeData: []
+      treeData: [],
     };
   },
   mounted() {
@@ -68,7 +66,6 @@ export default {
     handleNodeClick(data) {
       if(!this.config.multiple) {
         this.formData = data[this.getNodekey];
-        this.$nextTick().then(() => this.updateOptions())
       }
     },
     // 多选时
@@ -78,10 +75,6 @@ export default {
       } else {
         this.formData = this.$refs.tree.getCheckedKeys()[0];
       }
-      this.updateOptions();
-    },
-    updateOptions() {
-      this.options = this.$refs.tree.getCheckedNodes();
     },
     // disableAllTree() {
     //   disableArray(this.treeData, true);
@@ -123,20 +116,35 @@ export default {
       }
       return defaultProps;
     },
+    options() {
+      return this.listData.filter(item => this.formData.includes(item.id));
+    },
+    listData() {
+      let arr = [];
+      function getList(source) {
+        source.forEach(item => {
+          arr.push(item);
+          if(item.children) getList(item.children);
+        })
+      }
+      getList(this.treeData);
+      return arr;
+    }
   },
   watch: {
     // remove tag时同步tree
-    // default-checked-keys 只在 第一次赋值时有效，所以不需要immediate，也不用担心后续formData的变动
-    formData: function(val) {
-      let data = this.config.multiple ? val : [val];
-      this.$refs.tree.setCheckedKeys(data);
+    formData: {
+      handler: function(val) {
+        let data = this.config.multiple ? val : [val];
+        if(val !== null && val != undefined && val !== '' && data.length) {
+          this.$refs.tree.setCheckedKeys(data);
+        };
+      },
+      immediate: true
     },
     // 初始化时父级的tree可能没有数据，所以要watch
     config: {
       handler: function(val) {
-        this.$nextTick().then(() => {
-          this.updateOptions();
-        })
         let tree = this.config.tree;
         if(tree instanceof Array) {
           this.treeData = tree;

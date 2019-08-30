@@ -89,7 +89,6 @@ export default {
             this.config.items.forEach(item => {
                 if(item.multiple || arrayType.includes(item.type)) {
                     if(!this.OriginalFormData[item.name]) {
-                      console.log(item.name)
                         this.OriginalFormData[item.name] = [];
                     }
                 } else {
