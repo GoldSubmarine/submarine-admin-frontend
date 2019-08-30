@@ -48,6 +48,15 @@ export default function () {
                 return true;
             },
             /**
+             * 如果给属性配置默认值
+             */
+            computeData(value, defaultValue) {
+                if(value) {
+                    return value;
+                }
+                return defaultValue;
+            },
+            /**
              * 计算出布尔值，并且可以配置默认值
              */
             computeFunction(fun, ...data) {

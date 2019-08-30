@@ -1,9 +1,9 @@
 <template>
     <el-form
-        v-if="config.items"
+        v-if="isInitFormData && config.items"
         :disabled="config.disabled"
         :inline="config.inline"
-        :rules="rulesGenerate"
+        :rules="rules"
         :validate-on-rule-change="false"
         ref="refForm"
         :model="formData"
@@ -69,11 +69,15 @@ export default {
     data() {
         return {
             OriginalFormData: {},
+            rules: {},
             ruleEnable: true,
+            isInitFormData: false,
         };
     },
     created() {
         this.initFormData();
+        this.rulesGenerate();
+        this.isInitFormData = true;
     },
     methods: {
         //初始化表单数据
@@ -85,6 +89,7 @@ export default {
             this.config.items.forEach(item => {
                 if(item.multiple || arrayType.includes(item.type)) {
                     if(!this.OriginalFormData[item.name]) {
+                      console.log(item.name)
                         this.OriginalFormData[item.name] = [];
                     }
                 } else {
@@ -94,6 +99,19 @@ export default {
                 }
             })
             this.formData = JSON.parse(JSON.stringify(this.OriginalFormData));
+        },
+        //检验规则
+        rulesGenerate() {
+            for (let index = 0; index < this.config.items.length; index++) {
+                const item = this.config.items[index];
+                //不存在跳过当前item
+                if(!item.rules) continue;
+                if(item.rules instanceof Array) {
+                    this.rules[item.name] = item.rules;
+                } else {
+                    console.error(`校验规则：${item.rules}配置错误，请检查！`);
+                }
+            }
         },
         //获取动态组件类型
         getComponentType(type) {
@@ -115,35 +133,27 @@ export default {
         },
         //重置表单
         resetFields() {
-            this.ruleEnable = false;
-            this.formData = JSON.parse(JSON.stringify(this.OriginalFormData));
-            this.$refs['refForm'].clearValidate();
-            this.$nextTick().then(() => {
-                this.ruleEnable = true;
-            })
+            // this.ruleEnable = false;
+            // this.formData = JSON.parse(JSON.stringify(this.OriginalFormData));
+            this.$refs['refForm'].resetFields();
+            // this.$nextTick().then(() => {
+            //     this.ruleEnable = true;
+            // })
+        },
+        //清除校验
+        clearValidate() {
+          this.$refs['refForm'].clearValidate();
         },
         // 校验
-        validate() {
+        validate(fun) {
+          if(fun) {
+            return this.$refs['refForm'].validate(fun);
+          }
           return this.$refs['refForm'].validate();
         }
     },
     computed: {
-        //检验规则
-        rulesGenerate() {
-            let rules = {};
-            if(!this.ruleEnable) return rules;
-            for (let index = 0; index < this.config.items.length; index++) {
-                const item = this.config.items[index];
-                //不存在跳过当前item
-                if(!item.rules) continue;
-                if(item.rules instanceof Array) {
-                    rules[item.name] = item.rules;
-                } else {
-                    console.error(`校验规则：${item.rules}配置错误，请检查！`);
-                }
-            }
-            return rules;
-        }
+
     }
 };
 </script>
