@@ -32,8 +32,8 @@ export default {
         inline: false,
         items: [
           { type: "text", name: "name", label: '名称（中文）', rules: _this.importRules("inputRequired") },
-          { type: "text", name: "code", label: '编码', rules: _this.importRules("inputRequired") },
-          { type: "text", name: "remark", label: '备注', rules: _this.importRules("inputRequired") },
+          { type: "text", name: "code", label: '编码', },
+          { type: "text", name: "remark", label: '备注', },
         ],
         operate: [
           { text: "保存", show: _this.showBtn, click: _this.saveRole },

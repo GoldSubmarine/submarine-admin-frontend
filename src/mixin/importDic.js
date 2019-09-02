@@ -1,4 +1,4 @@
-import * as selectListAll from '../utils/dict';
+import * as selectListAll from '../utils/dic';
 
 export default {
 	install: function(Vue, options) {
@@ -15,11 +15,11 @@ export default {
 					});
 					return arr;
 				},
-				filterDict(listName, value) {
-					let dict = selectListAll[listName];
-					if(dict) {
-						for(let i = 0; i < dict.length; i++) {
-							if(dict[i].value == value) return dict[i].label;
+				filterDic(listName, value) {
+					let dic = selectListAll[listName];
+					if(dic) {
+						for(let i = 0; i < dic.length; i++) {
+							if(dic[i].value == value) return dic[i].label;
 						}
 					}
 					return '';

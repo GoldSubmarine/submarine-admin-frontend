@@ -34,6 +34,12 @@ const systemRouter = {
       name: 'role',
       meta: { title: '角色管理', icon: 'permission' }
     },
+    {
+      path: 'user',
+      component: () => import('@/views/system/user/index'),
+      name: 'user',
+      meta: { title: '用户管理', icon: 'permission' }
+    },
     // {
     //   path: 'drag-table',
     //   component: () => import('@/views/table/drag-table'),

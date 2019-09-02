@@ -24,6 +24,8 @@ service.interceptors.request.use(
     }
     config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     config.url = config.url + '?_timestamp=' + Date.now();
+    removeBlankKeys(config.data);
+    removeBlankKeys(config.params);
     config.data = qs.stringify(config.data, { allowDots: true, indices: false });
     return config
   },
@@ -85,5 +87,14 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+function removeBlankKeys(obj) {
+  if(!obj) return undefined;
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key) && (obj[key] === '' || obj[key] === undefined || obj[key] === null) ) {
+      delete obj[key];
+    }
+  }
+}
 
 export default service

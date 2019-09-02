@@ -83,6 +83,8 @@ export default {
     id: function(val) {
       if(val) {
         this.getRoleDetail();
+      } else {
+        this.$refs.tree.setCheckedKeys([]);
       }
     }
   }

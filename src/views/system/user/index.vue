@@ -5,31 +5,19 @@
       :config="tableConfig"
       :data="tableData"
       :page.sync="page"
-      :load="getRolePage"
+      :load="getUserPage"
     />
-    <dForm :mode="mode" :id="propId" @refresh="getRolePage" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
-
-    <el-row :gutter="40" style="margin-top: 20px;">
-      <el-col :span="12">
-        <treeSelect mode="permission" :id="propTreeId"></treeSelect>
-      </el-col>
-
-      <el-col :span="12">
-        <treeSelect mode="menu" :id="propTreeId"></treeSelect>
-      </el-col>
-    </el-row>
+    <dForm :mode="mode" :id="propId" @refresh="getUserPage" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
   </div>
 </template>
 
 <script>
-import { getRolePage, deleteRole } from "@/api/role";
+import { getUserPage, deleteUser } from "@/api/user";
 import dForm from './form';
-import treeSelect from './treeSelect';
 
 export default {
   components: {
-    dForm,
-    treeSelect
+    dForm
   },
   data() {
     let _this = this;
@@ -43,30 +31,33 @@ export default {
       },
       searchData: {},
       propId: '',
-      propTreeId: "",
       dialogName: '',
     };
   },
   mounted() {
-    this.getRolePage();
+    this.getUserPage();
   },
   computed: {
     tableConfig() {
       let _this = this;
       return {
         // index: false,
+        stripe: true,
         search: true,
         reset: true,
-        stripe: false,
-        highlightCurrentRow: true,
-        currentChange: _this.currentChange,
         btns: [
           { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
         ],
         columns: [
-          { label: '名称', name: "name", search: true, type: "text" },
-          { label: '编码', name: "code", search: true, type: "text" },
-          { label: '备注', name: "remark", },
+          { label: '登录名', name: "username", search: true, type: "text" },
+          { label: '姓名', name: "name", search: true, type: "text" },
+          { label: '部门', name: "deptName", search: true, type: "text" },
+          { label: '手机号', name: "phone", search: true, type: "text" },
+          { label: '邮箱', name: "email", search: true, type: "text" },
+          { label: '性别', name: "sex", dic: _this.importDic("sex"),  },
+          { label: '状态', name: "status", dic: _this.importDic("all", "userStatus"), search: true, type: "select" },
+          { label: '地址', name: "address", search: true, type: "text" },
+          { label: '备注', name: "remark" },
         ],
         operate: [
           { text: "编辑", show: true, click: data => _this.operate('edit', data) },
@@ -77,9 +68,9 @@ export default {
     }
   },
   methods: {
-    getRolePage() {
+    getUserPage() {
       this.loading++;
-      getRolePage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
+      getUserPage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
         this.tableData = res.list;
         this.page.total = res.total;
       }).catch(e => console.error(e)).finally(() => this.loading--);
@@ -89,15 +80,12 @@ export default {
       this.mode = mode;
       this.dialogName = 'dForm';
     },
-    currentChange(data) {
-      this.propTreeId = data ? data.id : null;
-    },
     del(data) {
       this.delConfirm().then(() => {
         this.loading++;
-        deleteRole(data.id).then(res => {
+        deleteUser(data.id).then(res => {
           this.$message.success("删除成功");
-          this.getRolePage();
+          this.getUserPage();
         }).catch(e => console.log(e)).finally(() => this.loading--);
       }).catch(e => console.log(e))
     },
