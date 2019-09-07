@@ -11,6 +11,7 @@
         node-key="id"
         :expand-on-click-node="false"
         default-expand-all
+        :check-strictly="checkStrictly"
         :show-checkbox="true">
         <span class="tree-node" slot-scope="{ node, data }">
           <span style="margin-left: 10px;">{{ data.name }}</span>
@@ -30,6 +31,7 @@ export default {
   data() {
     return {
       loading: 0,
+      checkStrictly: false,
       treeData: [],
     };
   },
@@ -37,6 +39,7 @@ export default {
     if(this.mode == 'permission') {
       this.getPermissionTree();
     } else if(this.mode == 'menu') {
+      this.checkStrictly = true;
       this.getMenuTree();
     }
   },
@@ -68,7 +71,8 @@ export default {
     save() {
       let promise = null;
       this.loading++;
-      let idList = this.$refs.tree.getCheckedKeys();
+      let nodeList = this.$refs.tree.getCheckedNodes();
+      let idList = nodeList.filter(item => item.value).map(item => item.id);
       if(this.mode == 'permission') {
         promise = saveRolePermission(this.id, idList);
       } else if(this.mode == 'menu') {

@@ -4,7 +4,7 @@
       :data="treeData"
       :expand-on-click-node="false"
       default-expand-all
-      :show-checkbox="true">
+      :show-checkbox="false">
       <span class="tree-node" slot-scope="{ node, data }">
         <span style="margin-left: 10px;">{{ data.name }}</span>
         <span>

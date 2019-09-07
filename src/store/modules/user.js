@@ -20,11 +20,11 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
-  SET_ROLES: (state, avatar) => {
-    state.avatar = avatar
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
   },
-  SET_PERMISSIONS: (state, avatar) => {
-    state.avatar = avatar
+  SET_PERMISSIONS: (state, permissions) => {
+    state.permissions = permissions
   },
 }
 
@@ -51,11 +51,10 @@ const actions = {
         const { data } = response
 
         if (!data) {
-          reject('Verification failed, please Login again.')
+          reject('没有获取到用户信息，请重新登录')
         }
 
         const { username, avatar, roles, permissions } = data
-
         commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
         commit('SET_ROLES', roles)
