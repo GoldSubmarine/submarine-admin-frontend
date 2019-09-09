@@ -48,7 +48,7 @@ export default {
           // { type: "text", name: "avatar", label: '头像', rules: _this.importRules("inputRequired") },
           { type: "select", name: "status", label: '状态', dic: _this.importDic("userStatus"), rules: _this.importRules("selectRequired") },
           { type: "text", name: "address", label: '地址', },
-          { type: "text", name: "password", label: '密码', },
+          // { type: "text", name: "password", label: '密码', },
           { type: "text", name: "remark", label: '备注', },
         ],
         operate: [
@@ -84,6 +84,11 @@ export default {
         let copy = JSON.parse(JSON.stringify(this.formData));
         copy.roleIdList = copy.roleIdList.join(",");
         saveUser(copy).then(res => {
+          if(this.mode == 'add') {
+            this.$alert(`初始化密码为：${res.data}，请及时保存`, '提示', {
+              confirmButtonText: '确定',
+            });
+          }
           this.dialogVisible = false;
           this.$emit("refresh");
         }).catch(e => console.error(e)).finally(() => this.loading--);

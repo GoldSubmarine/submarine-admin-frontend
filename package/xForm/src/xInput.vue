@@ -1,5 +1,5 @@
 <template>
-    <el-input 
+    <el-input
         v-model="formData"
         @change="handleChange"
         :placeholder="config.placeholder"
@@ -8,6 +8,7 @@
         :size="config.size"
         :type="config.type ? config.type : 'text'"
         :rows="config.rows"
+        :show-password="config.showPassword"
         :autosize="isObject(config.autosize) ? config.autosize : true"
     />
 </template>
@@ -23,7 +24,7 @@ export default {
     },
     methods: {
         handleChange(value) {
-            
+
         }
     },
 };

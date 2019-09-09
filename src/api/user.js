@@ -54,3 +54,25 @@ export function deleteUser(id) {
     data: { id }
   })
 }
+
+/**
+ * 修改密码
+ */
+export function changePass(data) {
+  return request({
+    url: '/user/changePass',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 重置密码
+ */
+export function resetPass(id) {
+  return request({
+    url: '/user/resetPass',
+    method: 'post',
+    data: { id }
+  })
+}

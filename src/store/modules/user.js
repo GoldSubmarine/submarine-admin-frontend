@@ -3,6 +3,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const state = {
+  id: '',
   token: getToken(),
   name: '',
   avatar: '',
@@ -11,6 +12,9 @@ const state = {
 }
 
 const mutations = {
+  SET_ID: (state, id) => {
+    state.id = id
+  },
   SET_TOKEN: (state, token) => {
     state.token = token
   },
@@ -54,7 +58,8 @@ const actions = {
           reject('没有获取到用户信息，请重新登录')
         }
 
-        const { username, avatar, roles, permissions } = data
+        const { id, username, avatar, roles, permissions } = data
+        commit('SET_ID', id)
         commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
         commit('SET_ROLES', roles)

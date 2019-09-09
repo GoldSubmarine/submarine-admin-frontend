@@ -57,6 +57,18 @@ export const constantRoutes = [
     }]
   },
 
+  {
+    path: '/personal/center',
+    component: Layout,
+    hidden: true,
+    children: [{
+      path: '',
+      name: 'personalCenter',
+      component: () => import('@/views/system/user/personalCenter'),
+      meta: { title: '个人中心', icon: 'dashboard' }
+    }]
+  },
+
   // ===========引入router模块 start===========
 
   systemRouter,

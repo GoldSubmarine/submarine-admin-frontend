@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { getUserPage, deleteUser } from "@/api/user";
+import { getUserPage, deleteUser, resetPass } from "@/api/user";
 import dForm from './form';
 
 export default {
@@ -62,6 +62,7 @@ export default {
         operate: [
           { text: "编辑", show: true, click: data => _this.operate('edit', data) },
           { text: "删除", show: true, click: _this.del },
+          { text: "重置密码", show: true, click: _this.resetPass },
           { text: "详情", show: true, click: data => _this.operate('detail', data) },
         ]
       };
@@ -86,6 +87,17 @@ export default {
         deleteUser(data.id).then(res => {
           this.$message.success("删除成功");
           this.getUserPage();
+        }).catch(e => console.log(e)).finally(() => this.loading--);
+      }).catch(e => console.log(e))
+    },
+    resetPass(data) {
+      this.commonConfirm(`确认重置 ${data.username} 的密码？`).then(() => {
+        this.loading++;
+        resetPass(data.id).then(res => {
+          this.$message.success(res.msg);
+          this.$alert(`重置密码为：${res.data}，请及时保存`, '提示', {
+            confirmButtonText: '确定',
+          });
         }).catch(e => console.log(e)).finally(() => this.loading--);
       }).catch(e => console.log(e))
     },
