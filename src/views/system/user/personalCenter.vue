@@ -51,7 +51,7 @@ export default {
           { type: "text", name: "phone", label: '手机号', rules: _this.importRules("inputRequired", "phone") },
           { type: "text", name: "email", label: '邮箱', rules: _this.importRules("email") },
           { type: "select", name: "sex", label: '性别', dic: _this.importDic("sex"), rules: _this.importRules("selectRequired") },
-          { type: "text", name: "avatar", label: '头像', rules: _this.importRules("inputRequired") },
+          // { type: "text", name: "avatar", label: '头像', rules: _this.importRules("inputRequired") },
           { type: "textarea", name: "address", label: '地址', },
           { type: "text", name: "createTime", label: '注册时间', disabled: true },
         ],
