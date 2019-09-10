@@ -1,89 +1,75 @@
-# vue-admin-template
+# submarine-admin-frontend
 
-English | [简体中文](./README-zh.md)
+本项目基于 [vue-admin-template](https://github.com/PanJiaChen/vue-admin-template) 进行二次开发，配后后端项目 [submarine-admin-backend](https://github.com/GoldSubmarine/submarine-admin-frontend) 可快速开发后台项目。
 
-> A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
+> vue-admin-template 是一个极简的 vue admin 管理后台。它只包含了 Element UI & axios & iconfont & permission control & lint，这些搭建后台必要的东西。其他功能集成，可从 [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin) 拷贝过来
 
-**Live demo:** http://panjiachen.github.io/vue-admin-template
-
-
-**The current version is `v4.0+` build on `vue-cli`. If you want to use the old version , you can switch branch to [tag/3.11.0](https://github.com/PanJiaChen/vue-admin-template/tree/tag/3.11.0), it does not rely on `vue-cli`**
-
-## Build Setup
-
+## 快速开始
 
 ```bash
-# clone the project
-git clone https://github.com/PanJiaChen/vue-admin-template.git
+# 克隆项目
+git clone https://github.com/GoldSubmarine/submarine-admin-frontend.git
 
-# enter the project directory
-cd vue-admin-template
+# 进入项目目录
+cd submarine-admin-frontend
 
-# install dependency
-npm install
+# 建议使用 yarn 安装，不要使用 cnpm 或 npm ，会有各种诡异的 bug。可以通过如下操作解决下载速度慢的问题
+yarn config set sass_binary_site https://npm.taobao.org/mirrors/node-sass/ ;
+yarn config set electron_mirror https://npm.taobao.org/mirrors/electron/ ;
+yarn config set registry https://registry.npm.taobao.org ;
+yarn config set phantomjs_cdnurl https://npm.taobao.org/mirrors/phantomjs/;
 
-# develop
-npm run dev
+# 安装依赖
+yarn install
+
+# 启动服务
+yarn dev
 ```
 
-This will automatically open http://localhost:9528
+浏览器访问 [http://localhost:9528](http://localhost:9528)
 
-## Build
+## 发布
 
 ```bash
-# build for test environment
+# 构建测试环境
 npm run build:stage
 
-# build for production environment
+# 构建生产环境
 npm run build:prod
 ```
 
-## Advanced
+## 其它
 
 ```bash
-# preview the release environment effect
+# 预览发布环境效果
 npm run preview
 
-# preview the release environment effect + static resource analysis
+# 预览发布环境效果 + 静态资源分析
 npm run preview -- --report
 
-# code format check
+# 代码格式检查
 npm run lint
 
-# code format check and auto fix
+# 代码格式检查并自动修复
 npm run lint -- --fix
 ```
 
-Refer to [Documentation](https://panjiachen.github.io/vue-element-admin-site/guide/essentials/deploy.html) for more information
+## 权限
 
-## Demo
+实现了权限，菜单，机构，角色，用户等页面
 
-![demo](https://github.com/PanJiaChen/PanJiaChen.github.io/blob/master/images/demo.gif)
+![rbac](./doc/images/rbac.jpg)
 
-## Extra
+## 动态表单
 
-If you want router permission && generate menu by user roles , you can use this branch [permission-control](https://github.com/PanJiaChen/vue-admin-template/tree/permission-control)
+封装了 Element UI ，将表单抽象成 json 快速开发页面，极大的提高了效率
 
-For `typescript` version, you can use [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (Credits: [@Armour](https://github.com/Armour))
+## 代码生成
 
-## Related Project
+使用 [xcrud-generator](https://github.com/GoldSubmarine/xcrud-generator) 无侵入的生成增删改查
 
-[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
-
-[electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)
-
-[vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template)
-
-## Browsers support
-
-Modern browsers and Internet Explorer 10+.
+## 浏览器支持
 
 | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE / Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
 | --------- | --------- | --------- | --------- |
 | IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions
-
-## License
-
-[MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
-
-Copyright (c) 2017-present PanJiaChen
