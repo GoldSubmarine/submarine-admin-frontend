@@ -7,38 +7,39 @@ const systemRouter = {
   name: 'System',
   meta: {
     title: '系统设置',
-    icon: 'system'
+    icon: 'system',
+    permission: ['system'],
   },
   children: [
     {
       path: 'permission',
       component: () => import('@/views/system/permission/index'),
       name: 'Permission',
-      meta: { title: '权限管理', icon: 'permission' }
+      meta: { title: '权限管理', icon: 'permission', permission: ['permission'], }
     },
     {
       path: 'menu',
       component: () => import('@/views/system/menu/index'),
       name: 'menu',
-      meta: { title: '菜单管理', icon: 'permission' }
+      meta: { title: '菜单管理', icon: 'permission', permission: ['menu'] }
     },
     {
       path: 'dept',
       component: () => import('@/views/system/dept/index'),
       name: 'dept',
-      meta: { title: '部门管理', icon: 'permission' }
+      meta: { title: '部门管理', icon: 'permission', permission: ['dept'] }
     },
     {
       path: 'role',
       component: () => import('@/views/system/role/index'),
       name: 'role',
-      meta: { title: '角色管理', icon: 'permission' }
+      meta: { title: '角色管理', icon: 'permission', permission: ['role'] }
     },
     {
       path: 'user',
       component: () => import('@/views/system/user/index'),
       name: 'user',
-      meta: { title: '用户管理', icon: 'permission' }
+      meta: { title: '用户管理', icon: 'permission', permission: ['user'] }
     },
     // {
     //   path: 'drag-table',

@@ -46,7 +46,7 @@ export default {
         search: true,
         reset: true,
         btns: [
-          { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
+          { text: "新增", show: _this.checkPermission(['user', 'user.add']), click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
         ],
         columns: [
           { label: '登录名', name: "username", search: true, type: "text" },
@@ -60,10 +60,10 @@ export default {
           { label: '备注', name: "remark" },
         ],
         operate: [
-          { text: "编辑", show: true, click: data => _this.operate('edit', data) },
-          { text: "删除", show: true, click: _this.del },
-          { text: "重置密码", show: true, click: _this.resetPass },
-          { text: "详情", show: true, click: data => _this.operate('detail', data) },
+          { text: "编辑", show: _this.checkPermission(['user', 'user.edit']), click: data => _this.operate('edit', data) },
+          { text: "删除", show: _this.checkPermission(['user', 'user.del']), click: _this.del },
+          { text: "重置密码", show: _this.checkPermission(['user', 'user.reset']), click: _this.resetPass },
+          { text: "详情", show: _this.checkPermission(['user', 'user.find']), click: data => _this.operate('detail', data) },
         ]
       };
     }

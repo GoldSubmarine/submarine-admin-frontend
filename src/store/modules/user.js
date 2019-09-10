@@ -9,6 +9,7 @@ const state = {
   avatar: '',
   roles: [],
   permissions: [],
+  menus: [],
 }
 
 const mutations = {
@@ -29,6 +30,9 @@ const mutations = {
   },
   SET_PERMISSIONS: (state, permissions) => {
     state.permissions = permissions
+  },
+  SET_MENUS: (state, menus) => {
+    state.menus = menus
   },
 }
 
@@ -58,12 +62,13 @@ const actions = {
           reject('没有获取到用户信息，请重新登录')
         }
 
-        const { id, username, avatar, roles, permissions } = data
+        const { id, username, avatar, roles, permissions, menus } = data
         commit('SET_ID', id)
         commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
         commit('SET_ROLES', roles)
         commit('SET_PERMISSIONS', permissions)
+        commit('SET_MENUS', menus)
         resolve(data)
       }).catch(error => {
         reject(error)

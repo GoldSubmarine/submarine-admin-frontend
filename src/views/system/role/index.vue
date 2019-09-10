@@ -61,7 +61,7 @@ export default {
         highlightCurrentRow: true,
         currentChange: _this.currentChange,
         btns: [
-          { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
+          { text: "新增", show: _this.checkPermission(['role', 'role.add']), click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
         ],
         columns: [
           { label: '名称', name: "name", search: true, type: "text" },
@@ -69,9 +69,9 @@ export default {
           { label: '备注', name: "remark", },
         ],
         operate: [
-          { text: "编辑", show: true, click: data => _this.operate('edit', data) },
-          { text: "删除", show: true, click: _this.del },
-          { text: "详情", show: true, click: data => _this.operate('detail', data) },
+          { text: "编辑", show: _this.checkPermission(['role', 'role.edit']), click: data => _this.operate('edit', data) },
+          { text: "删除", show: _this.checkPermission(['role', 'role.del']), click: _this.del },
+          { text: "详情", show: _this.checkPermission(['role', 'role.find']), click: data => _this.operate('detail', data) },
         ]
       };
     }

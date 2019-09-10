@@ -10,10 +10,10 @@
         <span>
           <span style="color: #8492a6;">{{ data.value }}</span>
           <span>
-            <el-button type="text" size="mini" @click="operate('add', data)"> 添加子节点 </el-button>
-            <el-button type="text" size="mini" @click="operate('edit', data)"> 编辑 </el-button>
-            <el-button type="text" size="mini" @click="del(data)"> 删除 </el-button>
-            <el-button type="text" size="mini" @click="operate('detail', data)"> 详情 </el-button>
+            <el-button type="text" size="mini" @click="operate('add', data)" v-if="checkPermission(['permission', 'permission.add'])"> 添加子节点 </el-button>
+            <el-button type="text" size="mini" @click="operate('edit', data)" v-if="checkPermission(['permission', 'permission.edit'])"> 编辑 </el-button>
+            <el-button type="text" size="mini" @click="del(data)" v-if="checkPermission(['permission', 'permission.del'])"> 删除 </el-button>
+            <el-button type="text" size="mini" @click="operate('detail', data)" v-if="checkPermission(['permission', 'permission.find'])"> 详情 </el-button>
           </span>
         </span>
       </span>
