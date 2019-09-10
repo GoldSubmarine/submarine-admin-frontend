@@ -78,9 +78,6 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ];
 
 /**
@@ -93,6 +90,9 @@ export const asyncRoutes = [
   systemRouter,
 
   // ===========引入router模块 end=============
+
+  // 404 page must be placed at the end !!!
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 const createRouter = () => new Router({
