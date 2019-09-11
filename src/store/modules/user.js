@@ -34,6 +34,26 @@ const mutations = {
   SET_MENUS: (state, menus) => {
     state.menus = menus
   },
+  RESET: (state) => {
+    for(let key in state) {
+      if(state[key] instanceof Array) {
+        state[key] = [];
+        continue;
+      }
+      if(typeof state[key] === "string") {
+        state[key] = '';
+        continue;
+      }
+      if(typeof state[key] === 'number') {
+        state[key] = 0;
+        continue;
+      }
+      if(state[key] instanceof Object) {
+        state[key] = {};
+        continue;
+      };
+    }
+  }
 }
 
 const actions = {
@@ -80,7 +100,7 @@ const actions = {
   logout({ commit, state }) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
+        commit('RESET')
         removeToken()
         resetRouter()
         resolve()
@@ -93,7 +113,7 @@ const actions = {
   // remove token
   resetToken({ commit }) {
     return new Promise(resolve => {
-      commit('SET_TOKEN', '')
+      commit('RESET')
       removeToken()
       resolve()
     })
