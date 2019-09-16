@@ -57,6 +57,7 @@ export default {
         changePass(copy).then(res => {
           this.dialogVisible = false;
           this.$message.success(res.msg);
+          this.$store.dispatch('user/logout');
         }).catch(e => console.error(e)).finally(() => this.loading--);
       }).catch(e => console.error(e));
     },
