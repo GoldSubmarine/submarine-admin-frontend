@@ -11,7 +11,6 @@
         node-key="id"
         :expand-on-click-node="false"
         default-expand-all
-        :check-strictly="checkStrictly"
         :show-checkbox="true">
         <span class="tree-node" slot-scope="{ node, data }">
           <span style="margin-left: 10px;">{{ data.name }}</span>
@@ -26,12 +25,12 @@
 import { getPermissionTree, } from '@/api/permission';
 import { getMenuTree, } from '@/api/menu';
 import { getRoleDetail, saveRolePermission, saveRoleMenu } from '@/api/role';
+import { getLeafFromList } from '@/utils/tree';
 export default {
   props: ['mode', 'id'], // permission, menu
   data() {
     return {
       loading: 0,
-      checkStrictly: false,
       treeData: [],
     };
   },
@@ -39,7 +38,6 @@ export default {
     if(this.mode == 'permission') {
       this.getPermissionTree();
     } else if(this.mode == 'menu') {
-      this.checkStrictly = true;
       this.getMenuTree();
     }
   },
@@ -50,10 +48,12 @@ export default {
         let setIds = [];
         if(this.mode == 'permission') {
           setIds = res.permissionList.map(item => item.id);
+          this.$refs.tree.setCheckedKeys(setIds);
         } else if(this.mode == 'menu') {
-          setIds = res.menuList.map(item => item.id);
+          setIds = getLeafFromList(res.menuList).map(item => item.id);
+          // 只设置叶子节点
+          this.$refs.tree.setCheckedKeys(setIds);
         }
-        this.$refs.tree.setCheckedKeys(setIds);
       }).catch(e => console.log(e)).finally(() => this.loading--);
     },
     getPermissionTree() {
@@ -71,11 +71,15 @@ export default {
     save() {
       let promise = null;
       this.loading++;
-      let nodeList = this.$refs.tree.getCheckedNodes();
-      let idList = nodeList.filter(item => item.value).map(item => item.id);
       if(this.mode == 'permission') {
+        // 具体模块可以有code，但大的模块不能有code
+        let nodeList = this.$refs.tree.getCheckedNodes();
+        let idList = nodeList.filter(item => item.value).map(item => item.id);
         promise = saveRolePermission(this.id, idList);
       } else if(this.mode == 'menu') {
+        // 保存选中节点和半开节点，设置时只设置叶子节点
+        let nodeList = this.$refs.tree.getCheckedNodes(false, true);
+        let idList = nodeList.filter(item => item.value).map(item => item.id);
         promise = saveRoleMenu(this.id, idList);
       }
       promise.then(res => {
