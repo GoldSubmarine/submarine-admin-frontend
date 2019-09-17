@@ -94,8 +94,8 @@ export default {
       this.commonConfirm(`确认重置 ${data.username} 的密码？`).then(() => {
         this.loading++;
         resetPass(data.id).then(res => {
-          this.$message.success(res.msg);
-          this.$alert(`重置密码为：${res.data}，请及时保存`, '提示', {
+          this.$message.success("重置成功");
+          this.$alert(`重置密码为：${res}，请及时保存`, '提示', {
             confirmButtonText: '确定',
           });
         }).catch(e => console.log(e)).finally(() => this.loading--);

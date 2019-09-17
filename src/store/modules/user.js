@@ -62,9 +62,8 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        commit('SET_TOKEN', response.token)
+        setToken(response.token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -76,20 +75,19 @@ const actions = {
   getInfo({ commit }) {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
-        const { data } = response
 
-        if (!data) {
+        if (!response) {
           reject('没有获取到用户信息，请重新登录')
         }
 
-        const { id, username, avatar, roles, permissions, menus } = data
+        const { id, username, avatar, roles, permissions, menus } = response
         commit('SET_ID', id)
         commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
         commit('SET_ROLES', roles)
         commit('SET_PERMISSIONS', permissions)
         commit('SET_MENUS', menus)
-        resolve(data)
+        resolve(response)
       }).catch(error => {
         reject(error)
       })

@@ -58,7 +58,7 @@ service.interceptors.response.use(
 
     // if the custom code is not 20000, it is judged as an error.
     // 业务代码错误
-    if (res.code >= 400) {
+    if (res.code && res.code >= 400) {
       Message({
         message: res.msg || '服务器错误',
         type: 'error',
@@ -72,10 +72,6 @@ service.interceptors.response.use(
   },
   error => {
     let res = error.response.data;
-    let msg = error.message;
-    if(res) {
-      msg = res.msg;
-    }
     console.log('err' + error) // for debug
 
     // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
@@ -92,7 +88,7 @@ service.interceptors.response.use(
       })
     } else {
       Message({
-        message: msg,
+        message: res.msg || '服务器错误',
         type: 'error',
         duration: 5 * 1000
       })
