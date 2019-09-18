@@ -42,7 +42,7 @@ export default {
     };
   },
   mounted() {
-    this.getDictionaryItemPage();
+
   },
   computed: {
     tableConfig() {
@@ -97,8 +97,10 @@ export default {
   watch: {
     dictionaryId: {
       handler: function(dictionaryId) {
-        this.searchData.dictionaryId = dictionaryId;
-        this.getDictionaryItemPage();
+        if(dictionaryId) {
+          this.searchData.dictionaryId = dictionaryId;
+          this.getDictionaryItemPage();
+        }
       },
       immediate: true
     }
