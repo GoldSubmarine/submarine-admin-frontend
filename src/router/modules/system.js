@@ -41,6 +41,12 @@ const systemRouter = {
       name: 'user',
       meta: { title: '用户管理', icon: 'user', permission: ['user'] }
     },
+    {
+      path: 'dictionary',
+      component: () => import('@/views/system/dictionary/index'),
+      name: 'dictionary',
+      meta: { title: '字典管理', icon: 'dictionary', permission: ['dictionary'] }
+    },
     // {
     //   path: 'drag-table',
     //   component: () => import('@/views/table/drag-table'),
