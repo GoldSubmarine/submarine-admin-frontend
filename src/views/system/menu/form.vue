@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getMenuDetail, saveMenu } from '@/api/menu';
+import { getMenuDetail, saveMenu, getMenuTree } from '@/api/menu';
 export default {
   props: ['mode', 'id'], // edit, detail, add
   data() {
@@ -18,11 +18,12 @@ export default {
       formData: {},
       formDisabled: false,
       dialogTitle: "编辑",
-      showBtn: true
+      showBtn: true,
+      treeData: [],
     };
   },
   mounted() {
-
+    this.getMenuTree();
   },
   computed: {
     formConfig() {
@@ -32,7 +33,9 @@ export default {
         inline: false,
         items: [
           { type: "text", name: "name", label: '名称', rules: _this.importRules("inputRequired") },
-          { type: "text", name: "value", label: '权限值', },
+          { type: "text", name: "value", label: '权限值', rules: _this.importRules("inputRequired") },
+          { type: "tree", name: "pid", tree: { data: _this.treeData, props: {label: 'name'} }, label: '父级', },
+          { type: "text", name: "remark", label: '备注', },
         ],
         operate: [
           { text: "保存", show: _this.showBtn, click: _this.saveMenu },
@@ -48,10 +51,15 @@ export default {
         this.formData = res;
       }).catch(e => console.error(e)).finally(() => this.loading--);
     },
+    getMenuTree() {
+      this.loading++;
+      getMenuTree().then(res => {
+        this.treeData = res;
+      }).catch(e => console.error(e)).finally(() => this.loading--);
+    },
     saveMenu() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++;
-        if(this.mode == 'add') this.formData.pid = this.id;
         saveMenu(this.formData).then(res => {
           this.dialogVisible = false;
           this.$emit("refresh");

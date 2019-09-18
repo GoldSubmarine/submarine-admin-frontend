@@ -36,10 +36,11 @@ export function getMenuDetail(id) {
 /**
  * 获取菜单的 tree
  */
-export function getMenuTree() {
+export function getMenuTree(params) {
   return request({
     url: '/menu/tree/list',
     method: 'get',
+    params
   })
 }
 

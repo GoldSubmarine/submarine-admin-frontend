@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getDeptDetail, saveDept } from '@/api/dept';
+import { getDeptDetail, saveDept, getDeptTree } from '@/api/dept';
 export default {
   props: ['mode', 'id'], // edit, detail, add
   data() {
@@ -18,11 +18,12 @@ export default {
       formData: {},
       formDisabled: false,
       dialogTitle: "编辑",
-      showBtn: true
+      showBtn: true,
+      treeData: [],
     };
   },
   mounted() {
-
+    this.getDeptTree();
   },
   computed: {
     formConfig() {
@@ -33,6 +34,8 @@ export default {
         items: [
           { type: "text", name: "name", label: '名称', rules: _this.importRules("inputRequired") },
           { type: "text", name: "code", label: '编码', },
+          { type: "tree", name: "pid", tree: { data: _this.treeData, props: {label: 'name'} }, label: '父级', },
+          { type: "text", name: "remark", label: '备注', },
         ],
         operate: [
           { text: "保存", show: _this.showBtn, click: _this.saveDept },
@@ -48,10 +51,15 @@ export default {
         this.formData = res;
       }).catch(e => console.error(e)).finally(() => this.loading--);
     },
+    getDeptTree() {
+      this.loading++;
+      getDeptTree().then(res => {
+        this.treeData = res;
+      }).catch(e => console.error(e)).finally(() => this.loading--);
+    },
     saveDept() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++;
-        if(this.mode == 'add') this.formData.pid = this.id;
         saveDept(this.formData).then(res => {
           this.dialogVisible = false;
           this.$emit("refresh");

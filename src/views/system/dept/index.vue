@@ -1,56 +1,72 @@
 <template>
-  <div class="app-container" style="width: 700px;" v-loading="loading">
-    <el-tree
-      :data="treeData"
-      :expand-on-click-node="false"
-      default-expand-all
-      :show-checkbox="false">
-      <span class="tree-node" slot-scope="{ node, data }">
-        <span style="margin-left: 10px;">{{ data.name }}</span>
-        <span>
-          <span style="color: #8492a6;">{{ data.code }}</span>
-          <span>
-            <el-button type="text" size="mini" @click="operate('add', data)" v-if="checkPermission(['dept', 'dept.add'])"> 添加子节点 </el-button>
-            <el-button type="text" size="mini" @click="operate('edit', data)" v-if="checkPermission(['dept', 'dept.edit'])"> 编辑 </el-button>
-            <el-button type="text" size="mini" @click="del(data)" v-if="checkPermission(['dept', 'dept.del'])"> 删除 </el-button>
-            <el-button type="text" size="mini" @click="operate('detail', data)" v-if="checkPermission(['dept', 'dept.find'])"> 详情 </el-button>
-          </span>
-        </span>
-      </span>
-    </el-tree>
-
+  <div class="app-container" v-loading="loading">
+    <x-table
+      v-model="searchData"
+      :config="tableConfig"
+      :data="tableData"
+      :load="getDeptTree"
+    />
     <dForm :mode="mode" :id="propId" @refresh="getDeptTree" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
   </div>
 </template>
 
 <script>
-import { getDeptDetail, getDeptTree, saveDept, deleteDept } from '@/api/dept';
+import { getDeptTree, deleteDept } from "@/api/dept";
 import dForm from './form';
+
 export default {
   components: {
     dForm
   },
   data() {
+    let _this = this;
     return {
       loading: 0,
-      dialogName: '',
-      mode: 'add',
+      tableData: [],
+      searchData: {},
       propId: '',
-      treeData: [],
+      dialogName: '',
     };
   },
   mounted() {
     this.getDeptTree();
   },
+  computed: {
+    tableConfig() {
+      let _this = this;
+      return {
+        index: false,
+        stripe: true,
+        search: true,
+        reset: true,
+        rowKey: "id",
+        treeProps: {children: 'children', hasChildren: 'hasChildren'},
+        btns: [
+          { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
+        ],
+        columns: [
+          { label: '名称', name: "name", align: 'left', search: true, type: "text" },
+          { label: '编码', name: "code", search: true, type: "text" },
+          { label: '备注', name: "remark", search: true, type: "text" },
+          { label: '创建时间', name: "createTime", },
+        ],
+        operate: [
+          { text: "编辑", show: true, click: data => _this.operate('edit', data) },
+          { text: "删除", show: true, click: _this.del },
+          { text: "详情", show: true, click: data => _this.operate('detail', data) },
+        ]
+      };
+    }
+  },
   methods: {
     getDeptTree() {
       this.loading++;
-      getDeptTree().then(res => {
-        this.treeData = res;
-      }).catch(e => console.log(e)).finally(() => this.loading--);
+      getDeptTree(this.searchData).then(res => {
+        this.tableData = res;
+      }).catch(e => console.error(e)).finally(() => this.loading--);
     },
     operate(mode, data) {
-      this.propId = data.id;
+      if(mode != 'add') this.propId = data.id;
       this.mode = mode;
       this.dialogName = 'dForm';
     },
@@ -70,21 +86,6 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.tree-node {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 14px;
-  padding-right: 8px;
-  & > span:nth-of-type(2) {
-    display: inline-block;
-    width: 400px;
-    span{
-      display: inline-block;
-      width: 50%;
-    }
-  }
-}
+<style scoped>
+
 </style>

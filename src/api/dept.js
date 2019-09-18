@@ -36,10 +36,11 @@ export function getDeptDetail(id) {
 /**
  * 获取部门的 tree
  */
-export function getDeptTree() {
+export function getDeptTree(params) {
   return request({
     url: '/dept/tree/list',
     method: 'get',
+    params
   })
 }
 
