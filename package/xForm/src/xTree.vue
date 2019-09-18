@@ -117,7 +117,9 @@ export default {
       return defaultProps;
     },
     options() {
-      return this.listData.filter(item => this.formData.includes(item.id));
+      if(this.formData) {
+        return this.listData.filter(item => this.formData.includes(item.id));
+      }
     },
     listData() {
       let arr = [];
