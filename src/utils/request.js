@@ -87,8 +87,16 @@ service.interceptors.response.use(
         })
       })
     } else {
+      let msg;
+      if(error.status === 404) {
+        msg = "接口不存在";
+      } else if(error.status === 403) {
+        msg = "无权访问";
+      } else if(error.status === 401) {
+        msg = "认证失败，请重新登录";
+      }
       Message({
-        message: res.msg || '服务器错误',
+        message: res.msg || msg || '服务器错误',
         type: 'error',
         duration: 5 * 1000
       })
