@@ -21,7 +21,7 @@
       :data="treeData"
       :node-key="getNodekey"
       :show-checkbox="config.multiple"
-      :default-expand-all="computeBoolen(config.defaultExpandAll, true)"
+      :default-expand-all="computeBoolen(config.defaultExpandAll, false)"
       :expand-on-click-node="false"
       @check="handleCheckChange"
       @node-click="handleNodeClick"

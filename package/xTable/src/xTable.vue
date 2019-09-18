@@ -1,39 +1,48 @@
 <template>
-    <div>
+  <div>
 		<x-form v-if="formConfig" ref="xForm" :config="formConfig" v-model="formData" @reset="reset" @submit="getList"/>
-        <el-table :data="data" style="width: 100%;" @current-change="(row, oldRow) => computeFunction(config.currentChange, row, oldRow)" :highlight-current-row="config.highlightCurrentRow" :border="config.border" :stripe="config.stripe" @row-click="data => computeFunction(config.rowClick, data) " @select="data => computeFunction(config.select, data) ">
-			<el-table-column type="selection" width="55" v-if="config.select"></el-table-column>
-            <el-table-column v-if="config.index != false" type="index" width="50" align="center" label="编号"></el-table-column>
-            <template v-for="(configItem, configIndex) in config.columns">
-                <el-table-column :prop="configItem.name" :label="configItem.label" show-overflow-tooltip align="center" :key="configIndex" v-if="computeBoolen(configItem.show, true)">
-                    <template slot-scope="scope">
-						<span :style="columnStyle(configItem.style, scope.row)">
-							{{ filterTableData(configItem, scope.row, scope) }}
-						</span>
-					</template>
-                </el-table-column>
+    <el-table
+      :data="data"
+      style="width: 100%;"
+      @current-change="(row, oldRow) => computeFunction(config.currentChange, row, oldRow)"
+      :highlight-current-row="config.highlightCurrentRow"
+      :border="config.border"
+      :stripe="config.stripe"
+      :row-key="config.rowKey"
+      @row-click="data => computeFunction(config.rowClick, data)"
+      @select="data => computeFunction(config.select, data)">
+      <el-table-column type="selection" width="55" v-if="config.select"></el-table-column>
+        <el-table-column v-if="config.index != false" type="index" width="50" align="center" label="编号"></el-table-column>
+        <template v-for="(configItem, configIndex) in config.columns">
+          <el-table-column :prop="configItem.name" :label="configItem.label" show-overflow-tooltip :align="computeData(configItem.align, 'center')" :key="configIndex" v-if="computeBoolen(configItem.show, true)">
+            <template slot-scope="scope">
+              <span :style="columnStyle(configItem.style, scope.row)">
+                {{ filterTableData(configItem, scope.row, scope) }}
+              </span>
             </template>
-			<el-table-column label="操作" align="center" v-if="config.operate">
-				<template slot-scope="scope">
-					<template v-for="(operateItem, operateIndex) in config.operate">
-						<el-button type="text" size="medium" v-if="operateShow(operateItem, scope.row)" @click="operateItem.click(scope.row)" :key="operateIndex">{{ operateItem.text }}</el-button>
-						<!-- <el-button type="text" v-if="scope.row.switchState == 'off'" @click="go('edit',scope.row.id)">编辑</el-button>
-						<el-button type="text" @click="changeState(scope.row)">{{ scope.row.switchState == 'off' ? '启用' : '停用' }}</el-button> -->
-					</template>
-				</template>
-			</el-table-column>
-        </el-table>
-        <div class="block foot" v-if="page && page.total">
-            <el-pagination @size-change="handleSizeChange"
-                           @current-change="handleCurrentChange"
-                           :current-page="page.pageNum"
-                           :page-sizes="pageSizes"
-                           :page-size="page.pageSize"
-						   style="margin-top: 8px;"
-                           layout="total, sizes, prev, pager, next, jumper" :total="page.total">
-            </el-pagination>
-        </div>
+          </el-table-column>
+        </template>
+      <el-table-column label="操作" align="center" v-if="config.operate">
+        <template slot-scope="scope">
+          <template v-for="(operateItem, operateIndex) in config.operate">
+            <el-button type="text" size="medium" v-if="operateShow(operateItem, scope.row)" @click="operateItem.click(scope.row)" :key="operateIndex">{{ operateItem.text }}</el-button>
+            <!-- <el-button type="text" v-if="scope.row.switchState == 'off'" @click="go('edit',scope.row.id)">编辑</el-button>
+            <el-button type="text" @click="changeState(scope.row)">{{ scope.row.switchState == 'off' ? '启用' : '停用' }}</el-button> -->
+          </template>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="block foot" v-if="page && page.total">
+      <el-pagination @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page.pageNum"
+        :page-sizes="pageSizes"
+        :page-size="page.pageSize"
+        style="margin-top: 8px;"
+        layout="total, sizes, prev, pager, next, jumper" :total="page.total">
+      </el-pagination>
     </div>
+  </div>
 </template>
 
 <script>
@@ -82,7 +91,9 @@
 		methods: {
 			//重置
 			reset() {
-				this.page.pageNum = 0;
+				if(this.page) {
+          this.page.pageNum = 0;
+        }
 				this.$refs['xForm'].$refs['refForm'].resetFields();
 				this.getList();
 			},
@@ -119,12 +130,18 @@
 			},
 			//点击搜索
 			search() {
-				this.page.pageNum = 0;
+        if(this.page) {
+          this.page.pageNum = 0;
+        }
 				this.getList();
 			},
 			//发送绑定的api
 			getList() {
-				this.load(this.formData, this.page.pageNum, this.page.pageSize);
+        if(this.page) {
+				  this.load(this.formData, this.page.pageNum, this.page.pageSize);
+        } else {
+				  this.load(this.formData);
+        }
 			},
 			handleSizeChange(val) { // 每页显示几条
 				this.page.pageSize = val;
