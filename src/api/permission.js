@@ -36,10 +36,11 @@ export function getPermissionDetail(id) {
 /**
  * 获取权限的 tree
  */
-export function getPermissionTree() {
+export function getPermissionTree(params) {
   return request({
     url: '/permission/tree/list',
     method: 'get',
+    params
   })
 }
 

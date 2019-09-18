@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getPermissionDetail, savePermission } from '@/api/permission';
+import { getPermissionDetail, savePermission, getPermissionTree } from '@/api/permission';
 export default {
   props: ['mode', 'id'], // edit, detail, add
   data() {
@@ -18,11 +18,12 @@ export default {
       formData: {},
       formDisabled: false,
       dialogTitle: "编辑",
-      showBtn: true
+      showBtn: true,
+      treeData: []
     };
   },
   mounted() {
-
+    this.getPermissionTree();
   },
   computed: {
     formConfig() {
@@ -33,6 +34,7 @@ export default {
         items: [
           { type: "text", name: "name", label: '名称', rules: _this.importRules("inputRequired") },
           { type: "text", name: "value", label: '权限值', },
+          { type: "tree", name: "pid", tree: { data: _this.treeData, props: {label: 'name'} }, label: '权限值', },
         ],
         operate: [
           { text: "保存", show: _this.showBtn, click: _this.savePermission },
@@ -48,10 +50,15 @@ export default {
         this.formData = res;
       }).catch(e => console.error(e)).finally(() => this.loading--);
     },
+    getPermissionTree() {
+      this.loading++;
+      getPermissionTree().then(res => {
+        this.treeData = res;
+      }).catch(e => console.error(e)).finally(() => this.loading--);
+    },
     savePermission() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++;
-        if(this.mode == 'add') this.formData.pid = this.id;
         savePermission(this.formData).then(res => {
           this.dialogVisible = false;
           this.$emit("refresh");
