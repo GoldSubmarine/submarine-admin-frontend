@@ -56,6 +56,17 @@ export function savePermission(data) {
 }
 
 /**
+ * 模块保存权限
+ */
+export function saveModulePermission(data) {
+  return request({
+    url: '/permission/save/module',
+    method: 'post',
+    data
+  })
+}
+
+/**
  * 删除权限
  */
 export function deletePermission(id) {

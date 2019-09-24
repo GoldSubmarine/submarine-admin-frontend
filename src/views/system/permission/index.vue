@@ -6,7 +6,7 @@
       :data="tableData"
       :load="getPermissionTree"
     />
-    <dForm :mode="mode" :id="propId" @refresh="getPermissionTree" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
+    <dForm :mode="mode" :id="propId" :isModule="isModule" @refresh="getPermissionTree" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
   </div>
 </template>
 
@@ -26,6 +26,8 @@ export default {
       searchData: {},
       propId: '',
       dialogName: '',
+      mode: '',
+      isModule: false,
     };
   },
   mounted() {
@@ -42,7 +44,8 @@ export default {
         rowKey: "id",
         treeProps: {children: 'children', hasChildren: 'hasChildren'},
         btns: [
-          { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
+          { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" },
+          { text: "新增模块", click: () => _this.operate('add', '', true), icon: "el-icon-circle-plus" },
         ],
         columns: [
           { label: '名称', name: "name", search: true, type: "text", align: 'left' },
@@ -65,8 +68,9 @@ export default {
         this.tableData = res;
       }).catch(e => console.error(e)).finally(() => this.loading--);
     },
-    operate(mode, data) {
+    operate(mode, data, isModule) {
       if(mode != 'add') this.propId = data.id;
+      this.isModule = Boolean(isModule);
       this.mode = mode;
       this.dialogName = 'dForm';
     },

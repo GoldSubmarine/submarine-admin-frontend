@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import { getPermissionDetail, savePermission, getPermissionTree } from '@/api/permission';
+import { getPermissionDetail, savePermission, saveModulePermission, getPermissionTree } from '@/api/permission';
 export default {
-  props: ['mode', 'id'], // edit, detail, add
+  props: ['mode', 'id', "isModule"], // edit, detail, add
   data() {
     let _this = this;
     return {
@@ -59,7 +59,13 @@ export default {
     savePermission() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++;
-        savePermission(this.formData).then(res => {
+        let promise;
+        if(this.isModule) {
+          promise = saveModulePermission(this.formData);
+        } else {
+          promise = savePermission(this.formData);
+        }
+        promise.then(res => {
           this.dialogVisible = false;
           this.$emit("refresh");
         }).catch(e => console.error(e)).finally(() => this.loading--);
@@ -71,6 +77,9 @@ export default {
       handler: function(mode) {
         if(this.mode == 'add') {
           this.dialogTitle = "新建";
+        }
+        if(this.mode == 'add' && this.isModule) {
+          this.dialogTitle = "新建模块";
         }
         if(this.mode == 'edit') {
           this.dialogTitle = "编辑";
