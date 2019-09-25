@@ -29,7 +29,7 @@ export function getPermissionDetail(id) {
   return request({
     url: '/permission/detail',
     method: 'get',
-    params: {id}
+    params: { id }
   })
 }
 

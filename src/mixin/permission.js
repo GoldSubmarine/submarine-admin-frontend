@@ -26,13 +26,13 @@ function checkPermission(value) {
 }
 
 export default {
-	install: function(Vue, options) {
-		Vue.mixin({
-			methods: {
+  install: function(Vue, options) {
+    Vue.mixin({
+      methods: {
         checkPermission
-			}
-		})
-	}
-};
+      }
+    })
+  }
+}
 
-export { checkPermission };
+export { checkPermission }

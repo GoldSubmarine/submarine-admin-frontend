@@ -29,7 +29,7 @@ export function getMenuDetail(id) {
   return request({
     url: '/menu/detail',
     method: 'get',
-    params: {id}
+    params: { id }
   })
 }
 

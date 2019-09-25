@@ -1,65 +1,65 @@
 <template>
-  <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" :show-checkbox="true"></el-tree>
+  <el-tree :data="data" :props="defaultProps" :show-checkbox="true" @node-click="handleNodeClick" />
 </template>
 
 <script>
-import mixinComponent from "../../common/xMixin";
+import mixinComponent from '../../common/xMixin'
 export default {
-  name: "xTree",
+  name: 'XTree',
   mixins: [mixinComponent()],
   data() {
     return {
       data: [
         {
-          label: "一级 1",
+          label: '一级 1',
           children: [
             {
-              label: "二级 1-1",
+              label: '二级 1-1',
               children: [
                 {
-                  label: "三级 1-1-1"
+                  label: '三级 1-1-1'
                 }
               ]
             }
           ]
         },
         {
-          label: "一级 2",
+          label: '一级 2',
           children: [
             {
-              label: "二级 2-1",
+              label: '二级 2-1',
               children: [
                 {
-                  label: "三级 2-1-1"
+                  label: '三级 2-1-1'
                 }
               ]
             },
             {
-              label: "二级 2-2",
+              label: '二级 2-2',
               children: [
                 {
-                  label: "三级 2-2-1"
+                  label: '三级 2-2-1'
                 }
               ]
             }
           ]
         },
         {
-          label: "一级 3",
+          label: '一级 3',
           children: [
             {
-              label: "二级 3-1",
+              label: '二级 3-1',
               children: [
                 {
-                  label: "三级 3-1-1"
+                  label: '三级 3-1-1'
                 }
               ]
             },
             {
-              label: "二级 3-2",
+              label: '二级 3-2',
               children: [
                 {
-                  label: "三级 3-2-1"
+                  label: '三级 3-2-1'
                 }
               ]
             }
@@ -67,16 +67,16 @@ export default {
         }
       ],
       defaultProps: {
-        children: "children",
-        label: "label"
+        children: 'children',
+        label: 'label'
       }
-    };
+    }
   },
   methods: {
     handleNodeClick(data) {
-      console.log(data);
+      console.log(data)
     }
   }
-};
+}
 </script>
 

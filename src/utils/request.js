@@ -2,7 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken, setToken } from '@/utils/auth'
-import qs from 'qs';
+import qs from 'qs'
 
 // create an axios instance
 const service = axios.create({
@@ -20,13 +20,13 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['Authorization'] = "bearer " + getToken();
+      config.headers['Authorization'] = 'bearer ' + getToken()
     }
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    config.url = config.url + '?_timestamp=' + Date.now();
-    removeBlankKeys(config.data);
-    removeBlankKeys(config.params);
-    config.data = qs.stringify(config.data, { allowDots: true, indices: false });
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    config.url = config.url + '?_timestamp=' + Date.now()
+    removeBlankKeys(config.data)
+    removeBlankKeys(config.params)
+    config.data = qs.stringify(config.data, { allowDots: true, indices: false })
     return config
   },
   error => {
@@ -50,8 +50,8 @@ service.interceptors.response.use(
    */
   response => {
     // 更新token
-    if(response.headers['x-token']) {
-      setToken(response.headers['x-token']);
+    if (response.headers['x-token']) {
+      setToken(response.headers['x-token'])
     }
 
     const res = response.data
@@ -71,7 +71,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    let res = error.response.data;
+    const res = error.response.data
     console.log('err' + error) // for debug
 
     // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
@@ -87,13 +87,13 @@ service.interceptors.response.use(
         })
       })
     } else {
-      let msg;
-      if(error.status === 404) {
-        msg = "接口不存在";
-      } else if(error.status === 403) {
-        msg = "无权访问";
-      } else if(error.status === 401) {
-        msg = "认证失败，请重新登录";
+      let msg
+      if (error.status === 404) {
+        msg = '接口不存在'
+      } else if (error.status === 403) {
+        msg = '无权访问'
+      } else if (error.status === 401) {
+        msg = '认证失败，请重新登录'
       }
       Message({
         message: res.msg || msg || '服务器错误',
@@ -107,10 +107,10 @@ service.interceptors.response.use(
 )
 
 function removeBlankKeys(obj) {
-  if(!obj) return undefined;
+  if (!obj) return undefined
   for (const key in obj) {
-    if (obj.hasOwnProperty(key) && (obj[key] === '' || obj[key] === undefined || obj[key] === null) ) {
-      delete obj[key];
+    if (obj.hasOwnProperty(key) && (obj[key] === '' || obj[key] === undefined || obj[key] === null)) {
+      delete obj[key]
     }
   }
 }

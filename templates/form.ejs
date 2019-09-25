@@ -9,9 +9,17 @@
 <script>
 import { get<%= Entity %>Detail, save<%= Entity %> } from '@/api/<%= entity %>';
 export default {
-  props: ['mode', 'id'], // edit, detail, add
+  props: {
+    mode: { // edit, detail, add
+      type: String,
+      required: true
+    },
+    id: {
+      type: String,
+      default: null
+    }
+  },
   data() {
-    let _this = this;
     return {
       loading: 0,
       dialogVisible: true,
@@ -49,7 +57,7 @@ export default {
         ],
         operate: [
           { text: "保存", show: _this.showBtn, click: _this.save<%= Entity %> },
-          { text: "取消", show: _this.showBtn, click: () => _this.dialogVisible = false },
+          { text: "取消", show: _this.showBtn, click: () => { _this.dialogVisible = false } },
         ]
       };
     },
@@ -74,14 +82,14 @@ export default {
   watch: {
     mode: {
       handler: function(mode) {
-        if(this.mode == 'add') {
+        if(this.mode ==='add') {
           this.dialogTitle = "新建";
         }
-        if(this.mode == 'edit') {
+        if(this.mode ==='edit') {
           this.dialogTitle = "编辑";
           this.get<%= Entity %>Detail();
         }
-        if(this.mode == 'detail') {
+        if(this.mode ==='detail') {
           this.dialogTitle = "详情";
           this.get<%= Entity %>Detail();
           this.formDisabled = true;

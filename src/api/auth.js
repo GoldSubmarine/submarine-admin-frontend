@@ -11,7 +11,7 @@ export function login(data) {
 export function getInfo() {
   return request({
     url: '/auth/info',
-    method: 'get',
+    method: 'get'
   })
 }
 

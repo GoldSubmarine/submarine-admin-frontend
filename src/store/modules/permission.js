@@ -55,7 +55,6 @@ const actions = {
         accessedRoutes = asyncRoutes || []
       } else {
         accessedRoutes = filterAsyncRoutes(asyncRoutes, menus)
-
       }
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)

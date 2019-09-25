@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" v-loading="loading">
+  <div v-loading="loading" class="app-container">
     <x-table
       v-model="searchData"
       :config="tableConfig"
@@ -7,20 +7,19 @@
       :page.sync="page"
       :load="getDictionaryPage"
     />
-    <dictionaryForm :mode="mode" :id="propId" @refresh="getDictionaryPage" @close="closeDialog" v-if="dialogName == 'dictionaryForm'"></dictionaryForm>
+    <dictionaryForm v-if="dialogName == 'dictionaryForm'" :id="propId" :mode="mode" @refresh="getDictionaryPage" @close="closeDialog" />
   </div>
 </template>
 
 <script>
-import { getDictionaryPage, deleteDictionary } from "@/api/dictionary";
-import dictionaryForm from './dictionaryForm';
+import { getDictionaryPage, deleteDictionary } from '@/api/dictionary'
+import dictionaryForm from './dictionaryForm'
 
 export default {
   components: {
     dictionaryForm
   },
   data() {
-    let _this = this;
     return {
       loading: 0,
       tableData: [],
@@ -31,64 +30,63 @@ export default {
       },
       searchData: {},
       propId: '',
-      dialogName: '',
-    };
-  },
-  mounted() {
-    this.getDictionaryPage();
+      dialogName: ''
+    }
   },
   computed: {
     tableConfig() {
-      let _this = this;
+      const _this = this
       return {
         // index: false,
-        stripe: true,
         search: true,
         reset: true,
         stripe: false,
         highlightCurrentRow: true,
-        rowClick: node => _this.$emit("cellClick", node),
+        rowClick: node => _this.$emit('cellClick', node),
         btns: [
-          { text: "新增", click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
+          { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
         ],
         columns: [
-          { label: '字典名', name: "name", search: true, type: "text" },
-          { label: '备注', name: "remark", search: true, type: "text" },
+          { label: '字典名', name: 'name', search: true, type: 'text' },
+          { label: '备注', name: 'remark', search: true, type: 'text' }
         ],
         operate: [
-          { text: "编辑", show: true, click: data => _this.operate('edit', data) },
-          { text: "删除", show: true, click: _this.del },
+          { text: '编辑', show: true, click: data => _this.operate('edit', data) },
+          { text: '删除', show: true, click: _this.del }
         ]
-      };
+      }
     }
+  },
+  mounted() {
+    this.getDictionaryPage()
   },
   methods: {
     getDictionaryPage() {
-      this.loading++;
+      this.loading++
       getDictionaryPage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
-        this.tableData = res.list;
-        this.page.total = res.total;
-      }).catch(e => console.error(e)).finally(() => this.loading--);
+        this.tableData = res.list
+        this.page.total = res.total
+      }).catch(e => console.error(e)).finally(() => this.loading--)
     },
     operate(mode, data) {
-      if(mode != 'add') this.propId = data.id;
-      this.mode = mode;
-      this.dialogName = 'dictionaryForm';
+      if (mode !== 'add') this.propId = data.id
+      this.mode = mode
+      this.dialogName = 'dictionaryForm'
     },
     del(data) {
       this.delConfirm().then(() => {
-        this.loading++;
+        this.loading++
         deleteDictionary(data.id).then(res => {
-          this.$message.success("删除成功");
-          this.getDictionaryPage();
-        }).catch(e => console.log(e)).finally(() => this.loading--);
+          this.$message.success('删除成功')
+          this.getDictionaryPage()
+        }).catch(e => console.log(e)).finally(() => this.loading--)
       }).catch(e => console.log(e))
     },
     closeDialog() {
-      this.dialogName = '';
+      this.dialogName = ''
     }
   }
-};
+}
 </script>
 
 <style scoped>

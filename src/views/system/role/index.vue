@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" v-loading="loading">
+  <div v-loading="loading" class="app-container">
     <x-table
       v-model="searchData"
       :config="tableConfig"
@@ -7,24 +7,24 @@
       :page.sync="page"
       :load="getRolePage"
     />
-    <dForm :mode="mode" :id="propId" @refresh="getRolePage" @close="closeDialog" v-if="dialogName == 'dForm'"></dForm>
+    <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" @refresh="getRolePage" @close="closeDialog" />
 
     <el-row :gutter="40" style="margin-top: 20px;">
       <el-col :span="12">
-        <treeSelect mode="permission" :id="propTreeId"></treeSelect>
+        <treeSelect :id="propTreeId" mode="permission" />
       </el-col>
 
       <el-col :span="12">
-        <treeSelect mode="menu" :id="propTreeId"></treeSelect>
+        <treeSelect :id="propTreeId" mode="menu" />
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import { getRolePage, deleteRole } from "@/api/role";
-import dForm from './form';
-import treeSelect from './treeSelect';
+import { getRolePage, deleteRole } from '@/api/role'
+import dForm from './form'
+import treeSelect from './treeSelect'
 
 export default {
   components: {
@@ -32,7 +32,6 @@ export default {
     treeSelect
   },
   data() {
-    let _this = this;
     return {
       loading: 0,
       tableData: [],
@@ -43,16 +42,13 @@ export default {
       },
       searchData: {},
       propId: '',
-      propTreeId: "",
-      dialogName: '',
-    };
-  },
-  mounted() {
-    this.getRolePage();
+      propTreeId: '',
+      dialogName: ''
+    }
   },
   computed: {
     tableConfig() {
-      let _this = this;
+      const _this = this
       return {
         // index: false,
         search: true,
@@ -61,51 +57,54 @@ export default {
         highlightCurrentRow: true,
         currentChange: _this.currentChange,
         btns: [
-          { text: "新增", show: _this.checkPermission(['role', 'role.add']), click: () => _this.operate('add'), icon: "el-icon-circle-plus" }
+          { text: '新增', show: _this.checkPermission(['role', 'role.add']), click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
         ],
         columns: [
-          { label: '名称', name: "name", search: true, type: "text" },
-          { label: '编码', name: "code", search: true, type: "text" },
-          { label: '备注', name: "remark", },
+          { label: '名称', name: 'name', search: true, type: 'text' },
+          { label: '编码', name: 'code', search: true, type: 'text' },
+          { label: '备注', name: 'remark' }
         ],
         operate: [
-          { text: "编辑", show: _this.checkPermission(['role', 'role.edit']), click: data => _this.operate('edit', data) },
-          { text: "删除", show: _this.checkPermission(['role', 'role.del']), click: _this.del },
-          { text: "详情", show: _this.checkPermission(['role', 'role.find']), click: data => _this.operate('detail', data) },
+          { text: '编辑', show: _this.checkPermission(['role', 'role.edit']), click: data => _this.operate('edit', data) },
+          { text: '删除', show: _this.checkPermission(['role', 'role.del']), click: _this.del },
+          { text: '详情', show: _this.checkPermission(['role', 'role.find']), click: data => _this.operate('detail', data) }
         ]
-      };
+      }
     }
+  },
+  mounted() {
+    this.getRolePage()
   },
   methods: {
     getRolePage() {
-      this.loading++;
+      this.loading++
       getRolePage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
-        this.tableData = res.list;
-        this.page.total = res.total;
-      }).catch(e => console.error(e)).finally(() => this.loading--);
+        this.tableData = res.list
+        this.page.total = res.total
+      }).catch(e => console.error(e)).finally(() => this.loading--)
     },
     operate(mode, data) {
-      if(mode != 'add') this.propId = data.id;
-      this.mode = mode;
-      this.dialogName = 'dForm';
+      if (mode !== 'add') this.propId = data.id
+      this.mode = mode
+      this.dialogName = 'dForm'
     },
     currentChange(data) {
-      this.propTreeId = data ? data.id : null;
+      this.propTreeId = data ? data.id : null
     },
     del(data) {
       this.delConfirm().then(() => {
-        this.loading++;
+        this.loading++
         deleteRole(data.id).then(res => {
-          this.$message.success("删除成功");
-          this.getRolePage();
-        }).catch(e => console.log(e)).finally(() => this.loading--);
+          this.$message.success('删除成功')
+          this.getRolePage()
+        }).catch(e => console.log(e)).finally(() => this.loading--)
       }).catch(e => console.log(e))
     },
     closeDialog() {
-      this.dialogName = '';
+      this.dialogName = ''
     }
   }
-};
+}
 </script>
 
 <style scoped>

@@ -8,14 +8,14 @@ const systemRouter = {
   meta: {
     title: '系统设置',
     icon: 'system',
-    permission: ['system'],
+    permission: ['system']
   },
   children: [
     {
       path: 'permission',
       component: () => import('@/views/system/permission/index'),
       name: 'Permission',
-      meta: { title: '权限管理', icon: 'permission', permission: ['permission'], }
+      meta: { title: '权限管理', icon: 'permission', permission: ['permission'] }
     },
     {
       path: 'menu',
@@ -46,7 +46,7 @@ const systemRouter = {
       component: () => import('@/views/system/dictionary/index'),
       name: 'dictionary',
       meta: { title: '字典管理', icon: 'dictionary', permission: ['dictionary'] }
-    },
+    }
     // {
     //   path: 'drag-table',
     //   component: () => import('@/views/table/drag-table'),

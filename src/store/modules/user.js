@@ -9,7 +9,7 @@ const state = {
   avatar: '',
   roles: [],
   permissions: [],
-  menus: [],
+  menus: []
 }
 
 const mutations = {
@@ -35,23 +35,23 @@ const mutations = {
     state.menus = menus
   },
   RESET: (state) => {
-    for(let key in state) {
-      if(state[key] instanceof Array) {
-        state[key] = [];
-        continue;
+    for (const key in state) {
+      if (state[key] instanceof Array) {
+        state[key] = []
+        continue
       }
-      if(typeof state[key] === "string") {
-        state[key] = '';
-        continue;
+      if (typeof state[key] === 'string') {
+        state[key] = ''
+        continue
       }
-      if(typeof state[key] === 'number') {
-        state[key] = 0;
-        continue;
+      if (typeof state[key] === 'number') {
+        state[key] = 0
+        continue
       }
-      if(state[key] instanceof Object) {
-        state[key] = {};
-        continue;
-      };
+      if (state[key] instanceof Object) {
+        state[key] = {}
+        continue
+      }
     }
   }
 }
@@ -75,7 +75,6 @@ const actions = {
   getInfo({ commit }) {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
-
         if (!response) {
           reject('没有获取到用户信息，请重新登录')
         }

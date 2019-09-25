@@ -7,7 +7,7 @@
           <div slot="header" class="clearfix">
             <span>字典列表</span>
           </div>
-          <dictionaryIndex @cellClick="cellClick"></dictionaryIndex>
+          <dictionaryIndex @cellClick="cellClick" />
         </el-card>
       </el-col>
 
@@ -16,7 +16,7 @@
           <div slot="header" class="clearfix">
             <span>字典详情</span>
           </div>
-          <dictionaryItemIndex :dictionaryId="dictionaryId"></dictionaryItemIndex>
+          <dictionaryItemIndex :dictionary-id="dictionaryId" />
         </el-card>
       </el-col>
     </el-row>
@@ -25,27 +25,27 @@
 </template>
 
 <script>
-import dictionaryItemIndex from './dictionaryItemIndex';
-import dictionaryIndex from './dictionaryIndex';
+import dictionaryItemIndex from './dictionaryItemIndex'
+import dictionaryIndex from './dictionaryIndex'
 
 export default {
   components: {
     dictionaryIndex,
-    dictionaryItemIndex,
+    dictionaryItemIndex
   },
   data() {
     return {
-      dictionaryId: '',
-    };
+      dictionaryId: ''
+    }
   },
   computed: {
   },
   methods: {
     cellClick(data) {
-      this.dictionaryId = data.id;
+      this.dictionaryId = data.id
     }
   }
-};
+}
 </script>
 
 <style scoped>

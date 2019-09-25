@@ -6,7 +6,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-import systemRouter from '@/router/modules/system';
+import systemRouter from '@/router/modules/system'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -67,7 +67,7 @@ export const constantRoutes = [
       component: () => import('@/views/system/user/personalCenter'),
       meta: { title: '个人中心', icon: 'dashboard' }
     }]
-  },
+  }
   // {
   //   path: 'external-link',
   //   component: Layout,
@@ -78,7 +78,7 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
-];
+]
 
 /**
  * asyncRoutes

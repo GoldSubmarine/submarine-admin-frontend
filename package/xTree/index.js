@@ -1,7 +1,7 @@
-import xTree from './src/xTree';
+import xTree from './src/xTree'
 
 xTree.install = function(Vue) {
-  Vue.component(xTree.name, xTree);
-};
+  Vue.component(xTree.name, xTree)
+}
 
-export default xTree;
+export default xTree

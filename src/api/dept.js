@@ -29,7 +29,7 @@ export function getDeptDetail(id) {
   return request({
     url: '/dept/detail',
     method: 'get',
-    params: {id}
+    params: { id }
   })
 }
 

@@ -29,7 +29,7 @@ export function getRoleDetail(id) {
   return request({
     url: '/role/detail',
     method: 'get',
-    params: {id}
+    params: { id }
   })
 }
 

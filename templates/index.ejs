@@ -20,7 +20,6 @@ export default {
     dForm
   },
   data() {
-    let _this = this;
     return {
       loading: 0,
       tableData: [],
@@ -68,7 +67,7 @@ export default {
         operate: [
           { text: "编辑", show: true, click: data => _this.operate('edit', data) },
           { text: "删除", show: true, click: _this.del },
-          { text: "详情", show: true, click: data => _this.operate('detail', data) },
+          { text: "详情", show: true, click: data => { _this.operate('detail', data) } },
         ]
       };
     }
@@ -82,7 +81,7 @@ export default {
       }).catch(e => console.error(e)).finally(() => this.loading--);
     },
     operate(mode, data) {
-      if(mode != 'add') this.propId = data.id;
+      if(mode !== 'add') this.propId = data.id;
       this.mode = mode;
       this.dialogName = 'dForm';
     },

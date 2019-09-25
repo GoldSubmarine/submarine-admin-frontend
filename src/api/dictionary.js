@@ -29,7 +29,7 @@ export function getDictionaryDetail(id) {
   return request({
     url: '/dictionary/detail',
     method: 'get',
-    params: {id}
+    params: { id }
   })
 }
 
