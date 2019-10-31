@@ -37,22 +37,21 @@ export default {
     tableConfig() {
       const _this = this
       return {
-        // index: false,
-        stripe: true,
         search: true,
         reset: true,
-        btns: [
+        btn: [
           { text: '新增', show: _this.checkPermission(['user', 'user.add']), click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
         ],
-        columns: [
-          { label: '登录名', name: 'username', search: true, type: 'text' },
-          { label: '姓名', name: 'name', search: true, type: 'text' },
-          { label: '部门', name: 'deptName', search: true, type: 'text' },
-          { label: '手机号', name: 'phone', search: true, type: 'text' },
-          { label: '邮箱', name: 'email', search: true, type: 'text' },
+        column: [
+          { type: 'index', index: a => { console.log(a); return a * 2 } },
+          { label: '登录名', name: 'username', search: true, xType: 'input' },
+          { label: '姓名', name: 'name', search: true, xType: 'input' },
+          { label: '部门', name: 'deptName', search: true, xType: 'input' },
+          { label: '手机号', name: 'phone', search: true, xType: 'input' },
+          { label: '邮箱', name: 'email', search: true, xType: 'input' },
           { label: '性别', name: 'sex', dic: _this.importDic('sex') },
-          { label: '状态', name: 'status', dic: _this.importDic('all', 'userStatus'), search: true, type: 'select' },
-          { label: '地址', name: 'address', search: true, type: 'text' },
+          { label: '状态', name: 'status', dic: _this.importDic('all', 'userStatus'), search: true, xType: 'select' },
+          { label: '地址', name: 'address', search: true, xType: 'input' },
           { label: '备注', name: 'remark' }
         ],
         operate: [

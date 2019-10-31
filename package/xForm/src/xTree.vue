@@ -80,13 +80,8 @@ export default {
       }
       return defaultProps
     },
+    // 树转list
     options() {
-      if (this.formData) {
-        return this.listData.filter(item => this.formData.includes(item.id))
-      }
-      return null;
-    },
-    listData() {
       const arr = []
       function getList(source) {
         source.forEach(item => {
@@ -94,8 +89,11 @@ export default {
           if (item.children) getList(item.children)
         })
       }
-      getList(this.treeData)
-      return arr
+      if (this.formData) {
+        getList(this.treeData)
+        return arr.filter(item => this.formData.includes(item.id))
+      }
+      return []
     }
   },
   watch: {
@@ -104,7 +102,9 @@ export default {
       handler: function(val) {
         const data = this.config.multiple ? val : [val]
         if (val !== null && val !== undefined && val !== '' && data.length) {
-          this.$refs.tree.setCheckedKeys(data)
+          this.$nextTick().then(() => {
+            this.$refs.tree.setCheckedKeys(data)
+          })
         }
       },
       immediate: true
@@ -119,11 +119,9 @@ export default {
           this.treeData = tree.data
         }
       },
+      immediate: true,
       deep: true
     }
-  },
-  mounted() {
-
   },
   methods: {
     // 单选时

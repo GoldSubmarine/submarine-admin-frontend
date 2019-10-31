@@ -43,12 +43,12 @@ export default {
         stripe: false,
         highlightCurrentRow: true,
         rowClick: node => _this.$emit('cellClick', node),
-        btns: [
+        btn: [
           { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
         ],
-        columns: [
-          { label: '字典名', name: 'name', search: true, type: 'text' },
-          { label: '备注', name: 'remark', search: true, type: 'text' }
+        column: [
+          { label: '字典名', name: 'name', search: true, xType: 'input' },
+          { label: '备注', name: 'remark', search: true, xType: 'input' }
         ],
         operate: [
           { text: '编辑', show: true, click: data => _this.operate('edit', data) },

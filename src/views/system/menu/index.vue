@@ -31,19 +31,17 @@ export default {
     tableConfig() {
       const _this = this
       return {
-        index: false,
-        stripe: true,
         search: true,
         reset: true,
         rowKey: 'id',
         treeProps: { children: 'children', hasChildren: 'hasChildren' },
-        btns: [
+        btn: [
           { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
         ],
-        columns: [
-          { label: '名称', name: 'name', align: 'left', search: true, type: 'text' },
-          { label: '权限值', name: 'value', search: true, type: 'text' },
-          { label: '备注', name: 'remark', search: true, type: 'text' },
+        column: [
+          { label: '名称', name: 'name', align: 'left', search: true, xType: 'input' },
+          { label: '权限值', name: 'value', search: true, xType: 'input' },
+          { label: '备注', name: 'remark', search: true, xType: 'input' },
           { label: '创建时间', name: 'createTime' }
         ],
         operate: [

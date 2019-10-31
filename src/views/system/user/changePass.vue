@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-dialog v-loading="loading" :title="dialogTitle" :visible.sync="dialogVisible" width="540px" :close-on-click-modal="false" @closed="$emit('close')">
+    <el-dialog v-loading="loading" :title="dialogTitle" :visible.sync="dialogVisible" width="520px" :close-on-click-modal="false" @closed="$emit('close')">
       <x-form ref="xForm" v-model="formData" :config="formConfig" />
     </el-dialog>
   </div>
@@ -31,10 +31,10 @@ export default {
       return {
         disabled: _this.formDisabled,
         inline: false,
-        items: [
-          { type: 'text', showPassword: true, name: 'oldPassword', label: '旧密码', rules: _this.importRules('inputRequired') },
-          { type: 'text', showPassword: true, name: 'newPassword', label: '新密码', rules: _this.importRules('inputRequired') },
-          { type: 'text', showPassword: true, name: 'confirmPassword', label: '确认密码', rules: _this.importRules('inputRequired').concat([{ validator: _this.validatePass2, trigger: 'blur' }]) }
+        item: [
+          { xType: 'input', showPassword: true, name: 'oldPassword', label: '旧密码', rules: _this.importRules('inputRequired') },
+          { xType: 'input', showPassword: true, name: 'newPassword', label: '新密码', rules: _this.importRules('inputRequired') },
+          { xType: 'input', showPassword: true, name: 'confirmPassword', label: '确认密码', rules: _this.importRules('inputRequired').concat([{ validator: _this.validatePass2, trigger: 'blur' }]) }
         ],
         operate: [
           { text: '保存', show: _this.showBtn, click: _this.saveUser },

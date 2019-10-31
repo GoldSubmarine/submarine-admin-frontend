@@ -49,18 +49,16 @@ export default {
     tableConfig() {
       const _this = this
       return {
-        // index: false,
-        stripe: true,
         search: true,
         reset: true,
-        btns: [
+        btn: [
           { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
         ],
-        columns: [
-          { label: '字典标签', name: 'label', search: true, type: 'text' },
-          { label: '字典值', name: 'value', search: true, type: 'text' },
-          { label: '排序', name: 'sort', type: 'text' },
-          { label: '备注', name: 'remark', type: 'text' }
+        column: [
+          { label: '字典标签', name: 'label', search: true, xType: 'input' },
+          { label: '字典值', name: 'value', search: true, xType: 'input' },
+          { label: '排序', name: 'sort', xType: 'input' },
+          { label: '备注', name: 'remark', xType: 'input' }
         ],
         operate: [
           { text: '编辑', show: true, click: data => _this.operate('edit', data) },

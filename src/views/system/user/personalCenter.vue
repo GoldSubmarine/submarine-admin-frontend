@@ -41,16 +41,16 @@ export default {
       return {
         disabled: _this.formDisabled,
         inline: false,
-        items: [
-          { type: 'text', name: 'username', label: '登录名', disabled: true },
-          { type: 'text', name: 'name', label: '姓名', rules: _this.importRules('inputRequired') },
-          { type: 'text', name: 'deptName', label: '部门', disabled: true },
-          { type: 'text', name: 'phone', label: '手机号', rules: _this.importRules('inputRequired', 'phone') },
-          { type: 'text', name: 'email', label: '邮箱', rules: _this.importRules('email') },
-          { type: 'select', name: 'sex', label: '性别', dic: _this.importDic('sex'), rules: _this.importRules('selectRequired') },
-          // { type: "text", name: "avatar", label: '头像', rules: _this.importRules("inputRequired") },
-          { type: 'textarea', name: 'address', label: '地址' },
-          { type: 'text', name: 'createTime', label: '注册时间', disabled: true }
+        item: [
+          { xType: 'input', name: 'username', label: '登录名', disabled: true },
+          { xType: 'input', name: 'name', label: '姓名', rules: _this.importRules('inputRequired') },
+          { xType: 'input', name: 'deptName', label: '部门', disabled: true },
+          { xType: 'input', name: 'phone', label: '手机号', rules: _this.importRules('inputRequired', 'phone') },
+          { xType: 'input', name: 'email', label: '邮箱', rules: _this.importRules('email') },
+          { xType: 'select', name: 'sex', label: '性别', dic: _this.importDic('sex'), rules: _this.importRules('selectRequired') },
+          // { xType: "text", name: "avatar", label: '头像', rules: _this.importRules("inputRequired") },
+          { xType: 'textarea', name: 'address', label: '地址' },
+          { xType: 'input', name: 'createTime', label: '注册时间', disabled: true }
         ],
         operate: [
           { text: '更新信息', show: _this.showBtn, click: _this.saveUser }

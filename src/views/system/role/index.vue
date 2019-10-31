@@ -56,12 +56,12 @@ export default {
         stripe: false,
         highlightCurrentRow: true,
         currentChange: _this.currentChange,
-        btns: [
+        btn: [
           { text: '新增', show: _this.checkPermission(['role', 'role.add']), click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
         ],
-        columns: [
-          { label: '名称', name: 'name', search: true, type: 'text' },
-          { label: '编码', name: 'code', search: true, type: 'text' },
+        column: [
+          { label: '名称', name: 'name', search: true, xType: 'input' },
+          { label: '编码', name: 'code', search: true, xType: 'input' },
           { label: '备注', name: 'remark' }
         ],
         operate: [

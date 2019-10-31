@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-dialog v-loading="loading" :title="dialogTitle" :visible.sync="dialogVisible" width="540px" :close-on-click-modal="false" @closed="$emit('close')">
+    <el-dialog v-loading="loading" :title="dialogTitle" :visible.sync="dialogVisible" width="520px" :close-on-click-modal="false" @closed="$emit('close')">
       <x-form ref="xForm" v-model="formData" :config="formConfig" />
     </el-dialog>
   </div>
@@ -35,9 +35,9 @@ export default {
       return {
         disabled: _this.formDisabled,
         inline: false,
-        items: [
-          { type: 'text', name: 'name', label: '字典名', rules: _this.importRules('inputRequired') },
-          { type: 'text', name: 'remark', label: '备注' }
+        item: [
+          { xType: 'input', name: 'name', label: '字典名', rules: _this.importRules('inputRequired') },
+          { xType: 'input', name: 'remark', label: '备注' }
         ],
         operate: [
           { text: '保存', show: _this.showBtn, click: _this.saveDictionary },
