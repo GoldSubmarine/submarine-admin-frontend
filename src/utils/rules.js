@@ -28,9 +28,29 @@ export const integer = [
   { pattern: /^\d+$/, message: '必须为整数值', trigger: 'blur' }
 ]
 
+// 是否是整数(大于0)
+export const integerGtZero = [
+  { pattern: /^[1-9]\d*$/, message: '必须为大于 0 的整数', trigger: 'blur' }
+]
+
+// 是否是整数(大于等于0)
+export const integerGtEqZero = [
+  { pattern: /^\d+$/, message: '必须为大于等于 0 的整数', trigger: 'blur' }
+]
+
+// 是否是小数(大于0)
+export const floatGtZero = [
+  { pattern: /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/, message: '必须为大于 0 的数', trigger: 'blur' }
+]
+
+// 是否是小数(大于等于0)
+export const floatGtEqZero = [
+  { pattern: /^\d+(\.\d+)?$/, message: '必须为大于等于 0 的数', trigger: 'blur' }
+]
+
 // 是否是数字，包含小数
 export const number = [
-  { pattern: /^\d+\.?\d{0,}$/, message: '必须为数字值', trigger: 'blur' }
+  { pattern: /^\d+(\.\d+)?$/, message: '必须为数字值', trigger: 'blur' }
 ]
 
 // 是否是 ip

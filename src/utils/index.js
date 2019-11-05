@@ -2,6 +2,9 @@
  * Created by PanJiaChen on 16/11/18.
  */
 
+import * as ruleListAll from '../utils/rules'
+import * as selectListAll from '../utils/dic'
+
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
@@ -107,4 +110,61 @@ export function param2Obj(url) {
         .replace(/\+/g, ' ') +
       '"}'
   )
+}
+
+/**
+ * 导入数据字典
+ */
+export function importDic(...listName) {
+  let arr = []
+  listName.forEach(name => {
+    if (selectListAll[name]) {
+      arr = arr.concat(selectListAll[name])
+    } else {
+      console.log(`不存在数据字典${name}！！！`)
+    }
+  })
+  return arr
+}
+
+/**
+ * 从数据字典中获取到 value
+ */
+export function filterDic(listName, value) {
+  const dic = selectListAll[listName]
+  if (dic) {
+    for (let i = 0; i < dic.length; i++) {
+      if (dic[i].value === value) return dic[i].label
+    }
+  }
+  return ''
+}
+
+/**
+ * 导入校验规则
+ */
+export function importRules(...names) {
+  let result = []
+  names.forEach(name => {
+    result = result.concat(ruleListAll[name])
+  })
+  return result
+}
+
+/**
+ * 生成字符串长度的校验
+ */
+export function limitStrRule(min, max) {
+  return [
+    { min: min, max: max, message: `长度为 ${min} 到 ${max} 个字符`, trigger: 'blur' }
+  ]
+}
+
+/**
+ * 生成数字大小的校验
+ */
+export function limitNumRule(min, max) {
+  return [
+    { min: min, max: max, message: `数字在 ${min} 到 ${max} 之间`, trigger: 'blur' }
+  ]
 }
