@@ -1,13 +1,82 @@
 <template>
   <div class="app-container">
     <el-dialog v-loading="loading" :title="dialogTitle" :visible.sync="dialogVisible" width="520px" :close-on-click-modal="false" @closed="$emit('close')">
-      <x-form ref="xForm" :config="formConfig" v-model="formData" />
+      <x-form ref="xForm" v-model="formData" :config="formConfig" />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { get<%= Entity %>Detail, save<%= Entity %> } from '@/api/<%= entity %>';
+<%
+  var baseField = ['id', 'createBy', 'createTime', 'updateBy', 'updateTime', 'delFlag']
+
+  function transformJson(columnItem) {
+    if(!baseField.includes(columnItem.field) && columnItem.isFormShow) {
+      let item = {}
+      let tag = columnItem.formType.split(',')
+      item.xType = tag[0]
+      if(tag.length === 2) {
+        item.type = tag[1]
+      }
+      item.name = columnItem.field
+      item.label = columnItem.comment
+      item.rules = []
+      if(columnItem.isNotNull) {
+        item.rules.push("'inputRequired'")
+      }
+      if(columnItem.verifyType) {
+        item.rules.push(`'${columnItem.verifyType}'`)
+      }
+      if(item.rules.length) {
+        item.rules.join(" ,")
+        item.rules = `importRules(${item.rules})`
+      } else {
+        delete item.rules
+      }
+      if(columnItem.strLenRange) {
+        let limit = columnItem.strLenRange.split(',')
+        if(item.rules) {
+          item.rules += `.concat(limitStrRule(${limit[0]}, ${limit[1]}))`
+        } else {
+          item.rules += `limitStrRule(${limit[0]}, ${limit[1]})`
+        }
+      }
+      if(columnItem.numRange) {
+        let limit = columnItem.numRange.split(',')
+        if(item.rules) {
+          item.rules += `.concat(limitNumRule(${limit[0]}, ${limit[1]}))`
+        } else {
+          item.rules += `limitNumRule(${limit[0]}, ${limit[1]})`
+        }
+      }
+      return item
+    }
+    return null
+  }
+
+  function genJsonStr(fields) {
+    let result = []
+    fields.forEach(columnItem => {
+      let item = transformJson(columnItem)
+      if(item) {
+        let str = "{"
+        for(key in item) {
+          if(key === 'rules') {
+            str += ` ${key}: ${item[key]},`
+          } else {
+            str += ` ${key}: \'${item[key]}\',`
+          }
+        }
+        str += " }"
+        result.push(str)
+      }
+    })
+    return result.join(",\n\t\t\t\t\t")
+  }
+
+-%>
+import { get<%= Entity %>Detail, save<%= Entity %> } from '@/api/<%= entity %>'
+import { importDic, importRules, limitStrRule, limitNumRule } from '@/utils/index'
 export default {
   props: {
     mode: { // edit, detail, add
@@ -25,81 +94,64 @@ export default {
       dialogVisible: true,
       formData: {},
       formDisabled: false,
-      dialogTitle: "编辑",
+      dialogTitle: '编辑',
       showBtn: true
-    };
-  },
-  mounted() {
-
+    }
   },
   computed: {
     formConfig() {
-      let _this = this;
+      const _this = this
       return {
         disabled: _this.formDisabled,
         inline: false,
         item: [
-<%
-  function getType(str) {
-      if(str == 'varchar') return 'text';
-      if(str == 'text') return 'text';
-      if(str == 'bigint') return 'text';
-      if(str == 'datetime') return 'datetime';
-      if(str == 'int') return 'text';
-  }
--%>
-<% baseField = ['id', 'createBy', 'createTime', 'updateBy', 'updateTime', 'delFlag']; -%>
-<% fields.forEach(function(field){ -%>
-  <%_ if( !baseField.includes(field.field) ) { -%>
-          { type: "<%= getType(field.type) %>", name: "<%= field.field %>", label: '<%= field.comment %>', rules: _this.importRules("inputRequired") },
-  <%_ } -%>
-<% }); -%>
+          <%- genJsonStr(fields) %>
         ],
         operate: [
-          { text: "保存", show: _this.showBtn, click: _this.save<%= Entity %> },
-          { text: "取消", show: _this.showBtn, click: () => { _this.dialogVisible = false } },
+          { text: '保存', show: _this.showBtn, click: _this.save<%= Entity %> },
+          { text: '取消', show: _this.showBtn, click: () => { _this.dialogVisible = false } },
         ]
-      };
+      }
     },
   },
   methods: {
     get<%= Entity %>Detail() {
-      this.loading++;
+      this.loading++
       get<%= Entity %>Detail(this.id).then(res => {
-        this.formData = res;
-      }).catch(e => console.error(e)).finally(() => this.loading--);
+        this.formData = res
+      }).catch(e => console.error(e)).finally(() => this.loading--)
     },
     save<%= Entity %>() {
       this.$refs['xForm'].validate().then(() => {
-        this.loading++;
+        this.loading++
         save<%= Entity %>(this.formData).then(res => {
-          this.dialogVisible = false;
-          this.$emit("refresh");
-        }).catch(e => console.error(e)).finally(() => this.loading--);
-      }).catch(e => console.error(e));
+          this.dialogVisible = false
+          this.$emit('refresh')
+        }).catch(e => console.error(e)).finally(() => this.loading--)
+      }).catch(e => console.error(e))
     },
   },
   watch: {
     mode: {
       handler: function(mode) {
-        if(this.mode ==='add') {
-          this.dialogTitle = "新建";
+        if (this.mode === 'add') {
+          this.dialogTitle = '新建'
         }
-        if(this.mode ==='edit') {
-          this.dialogTitle = "编辑";
-          this.get<%= Entity %>Detail();
+        if (this.mode === 'edit') {
+          this.dialogTitle = '编辑'
+          this.get<%= Entity %>Detail()
         }
-        if(this.mode ==='detail') {
-          this.dialogTitle = "详情";
-          this.get<%= Entity %>Detail();
-          this.formDisabled = true;
-          this.showBtn = false;
+        if (this.mode === 'detail') {
+          this.dialogTitle = '详情'
+          this.get<%= Entity %>Detail()
+          this.formDisabled = true
+          this.showBtn = false
         }
       },
       immediate: true
     }
   }
-};
+}
 </script>
 
 <style scoped>

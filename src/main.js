@@ -19,7 +19,7 @@ import importRules from '@/mixin/importRules' // 全局加载校验
 import checkPermission from '@/mixin/permission' // 全局加载校验
 import commonMsg from '@/mixin/commonMsg' // 全局加载校验
 import Xcrud from '../package/index' // 全局加载数据字典
-import XcrudTheme from '../xcrud.theme' // 全局加载数据字典
+import XcrudConfig from '../xcrud.config.js' // 全局加载数据字典
 
 /**
  * If you don't want to use mock-server
@@ -39,7 +39,7 @@ Vue.use(importDic)
 Vue.use(importRules)
 Vue.use(checkPermission)
 Vue.use(commonMsg)
-Vue.use(Xcrud, XcrudTheme)
+Vue.use(Xcrud, XcrudConfig)
 
 Vue.config.productionTip = false
 

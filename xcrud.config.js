@@ -2,6 +2,9 @@ export default {
   input: {
     placeholder: '请输入'
   },
+  datePicker: {
+    valueFormat: 'yyyy-MM-dd HH:mm:ss'
+  },
   table: {
     stripe: true
   },

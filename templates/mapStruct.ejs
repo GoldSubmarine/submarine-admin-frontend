@@ -1,0 +1,11 @@
+package org.javahub.submarine.modules.<%= module %>.mapstruct;
+
+import org.javahub.submarine.common.base.BaseMapStruct;
+import org.javahub.submarine.modules.<%= module %>.dto.<%= Entity %>Dto;
+import org.javahub.submarine.modules.<%= module %>.entity.<%= Entity %>;
+import org.mapstruct.Mapper;
+
+@Mapper
+public interface <%= Entity %>MapStruct extends BaseMapStruct<<%= Entity %>Dto, <%= Entity %>> {
+
+}

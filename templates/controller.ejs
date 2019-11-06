@@ -1,0 +1,74 @@
+package org.javahub.submarine.modules.<%= module %>.controller;
+
+import org.javahub.submarine.common.dto.Result;
+import org.javahub.submarine.common.dto.XPage;
+import org.javahub.submarine.common.util.CommonUtil;
+import org.javahub.submarine.modules.<%= module %>.mapstruct.<%= Entity %>MapStruct;
+import org.javahub.submarine.modules.<%= module %>.dto.<%= Entity %>Dto;
+import org.javahub.submarine.modules.<%= module %>.entity.<%= Entity %>;
+import org.javahub.submarine.modules.<%= module %>.service.<%= Entity %>Service;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ * @menu <%= entityZh %>
+ */
+@RestController
+@RequestMapping("/<%= entity %>")
+public class <%= Entity %>Controller {
+
+    @Resource
+    private <%= Entity %>Service <%= entity %>Service;
+
+    /**
+     * 分页查询
+     */
+    @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.find')")
+    @GetMapping("/list/page")
+    public XPage<<%= Entity %>Dto> findListByPage(<%= Entity %>Dto <%= entity %>Dto, XPage xPage) {
+        XPage<<%= Entity %>> <%= entity %>Page = <%= entity %>Service.find<%= Entity %>List(<%= Entity %>Dto.toEntity(<%= entity %>Dto), xPage);
+        return <%= entity %>Page.toDto(<%= Entity %>MapStruct.class);
+    }
+
+    /**
+     * 查询
+     */
+    @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.find')")
+    @GetMapping("/list/all")
+    public List<<%= Entity %>Dto> findList(<%= Entity %>Dto <%= entity %>Dto) {
+        List<<%= Entity %>> <%= entity %>List = <%= entity %>Service.find<%= Entity %>List(<%= Entity %>Dto.toEntity(<%= entity %>Dto));
+        return CommonUtil.toDto(<%= entity %>List, <%= Entity %>MapStruct.class);
+    }
+
+    /**
+     * 详情
+     */
+    @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.find')")
+    @GetMapping("/detail")
+    public <%= Entity %>Dto getById(long id) {
+        <%= Entity %> <%= entity %> = <%= entity %>Service.get<%= Entity %>ById(id);
+        return <%= Entity %>Dto.toDto(<%= entity %>);
+    }
+
+    /**
+     * 保存
+     */
+    @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.add', '<%= entity %>.edit')")
+    @PostMapping("/save")
+    public void save(@Valid <%= Entity %>Dto <%= entity %>Dto) {
+        <%= entity %>Service.save<%= Entity %>(<%= Entity %>Dto.toEntity(<%= entity %>Dto));
+    }
+
+    /**
+     * 删除
+     */
+    @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.del')")
+    @DeleteMapping("/del")
+    public void delete(<%= Entity %>Dto <%= entity %>Dto) {
+        <%= entity %>Service.delete<%= Entity %>(<%= entity %>Dto.getId());
+    }
+}

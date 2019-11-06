@@ -1,0 +1,16 @@
+package org.javahub.submarine.modules.<%= module %>.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.javahub.submarine.common.dto.XPage;
+import org.javahub.submarine.modules.<%= module %>.entity.<%= Entity %>;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+public interface <%= Entity %>Mapper extends BaseMapper<<%= Entity %>> {
+
+    XPage<<%= Entity %>> findPage(XPage xPage, @Param("<%= entity %>") <%= Entity %> <%= entity %>);
+
+    List<<%= Entity %>> findList(@Param("<%= entity %>") <%= Entity %> <%= entity %>);
+
+}
