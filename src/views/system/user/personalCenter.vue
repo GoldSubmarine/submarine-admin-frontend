@@ -49,7 +49,7 @@ export default {
           { xType: 'input', name: 'email', label: '邮箱', rules: _this.importRules('email') },
           { xType: 'select', name: 'sex', label: '性别', dic: _this.importDic('sex'), rules: _this.importRules('selectRequired') },
           // { xType: "text", name: "avatar", label: '头像', rules: _this.importRules("inputRequired") },
-          { xType: 'textarea', name: 'address', label: '地址' },
+          { xType: 'input', type: 'textarea', name: 'address', label: '地址' },
           { xType: 'input', name: 'createTime', label: '注册时间', disabled: true }
         ],
         operate: [
