@@ -54,12 +54,6 @@ npm run lint
 npm run lint -- --fix
 ```
 
-## 权限
-
-实现了权限，菜单，机构，角色，用户等页面
-
-![rbac](./doc/images/rbac.jpg)
-
 ## 动态表单
 
 封装了 Element UI ，将表单抽象成 json 快速开发页面，极大的提高了效率
@@ -67,6 +61,30 @@ npm run lint -- --fix
 ## 代码生成
 
 使用 [xcrud-generator](https://github.com/GoldSubmarine/xcrud-generator) 无侵入的生成增删改查
+
+## 功能
+
+实现了权限，菜单，机构，角色，用户等页面
+
+## 前端预览
+
+<table>
+    <tr>
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/permission.png"/></td>
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/menu.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/dept.png"/></td>
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/role.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/user.png"/></td>
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/dictionary.png"/></td>
+    </tr>
+    <tr>   
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/personal.png"/></td>
+    </tr>
+</table>
 
 ## 浏览器支持
 
