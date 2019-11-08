@@ -250,7 +250,7 @@ const golbalConfig = {
         validateOnRuleChange: true,
         size: 'medium',
         disabled: false,
-        itemStyle: 'max-width: 300px;'
+        itemStyle: 'width: 200px;'
       },
       btn: {
         size: 'medium',

@@ -39,7 +39,7 @@ export default {
         item: [
           { xType: 'input', name: 'name', label: '名称', rules: _this.importRules('inputRequired') },
           { xType: 'input', name: 'code', label: '编码' },
-          { xType: 'select', type: 'tree', name: 'pid', tree: { data: _this.treeData, props: { label: 'name' }}, label: '父级' },
+          { xType: 'select', type: 'tree', name: 'pid', dic: { data: _this.treeData, label: 'name', value: 'id' }, label: '父级' },
           { xType: 'input', name: 'remark', label: '备注' }
         ],
         operate: [

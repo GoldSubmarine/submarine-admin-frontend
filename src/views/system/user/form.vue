@@ -44,7 +44,7 @@ export default {
         item: [
           { xType: 'input', name: 'username', label: '登录名', rules: _this.importRules('inputRequired') },
           { xType: 'input', name: 'name', label: '姓名', rules: _this.importRules('inputRequired') },
-          { xType: 'select', type: 'tree', name: 'deptId', label: '部门', tree: { data: _this.treeData, props: { label: 'name' }}, rules: _this.importRules('inputRequired') },
+          { xType: 'select', type: 'tree', name: 'deptId', label: '部门', dic: { data: _this.treeData, label: 'name', value: 'id' }, rules: _this.importRules('inputRequired') },
           { xType: 'select', name: 'roleIdList', label: '角色', multiple: true, dic: { data: _this.roleData, label: 'name', value: 'id' }, rules: _this.importRules('inputRequired') },
           { xType: 'input', name: 'phone', label: '手机号', rules: _this.importRules('inputRequired', 'phone') },
           { xType: 'input', name: 'email', label: '邮箱', rules: _this.importRules('email') },
@@ -53,7 +53,7 @@ export default {
           { xType: 'select', name: 'status', label: '状态', dic: _this.importDic('userStatus'), rules: _this.importRules('selectRequired') },
           { xType: 'input', name: 'address', label: '地址' },
           // { xType: "text", name: "password", label: '密码', },
-          { xType: 'input', name: 'remark', label: '备注' }
+          { xType: 'input', name: 'remark', label: "备注" }
         ],
         operate: [
           { text: '保存', show: _this.showBtn, click: _this.saveUser },

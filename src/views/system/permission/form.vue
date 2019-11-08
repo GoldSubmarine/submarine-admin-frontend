@@ -43,7 +43,7 @@ export default {
         item: [
           { xType: 'input', name: 'name', label: '名称', rules: _this.importRules('inputRequired') },
           { xType: 'input', name: 'value', label: '权限值' },
-          { xType: 'select', type: 'tree', name: 'pid', tree: { data: _this.treeData, props: { label: 'name' }}, label: '父级' }
+          { xType: 'select', type: 'tree', name: 'pid', dic: { data: _this.treeData, label: 'name', value: 'id' }, label: '父级' }
         ],
         operate: [
           { text: '保存', show: _this.showBtn, click: _this.savePermission },
