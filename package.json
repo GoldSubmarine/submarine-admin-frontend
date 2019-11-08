@@ -34,7 +34,8 @@
     "qs": "^6.8.0",
     "vue": "2.6.10",
     "vue-router": "3.0.6",
-    "vuex": "3.1.0"
+    "vuex": "3.1.0",
+    "xcrud": "^0.2.2"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",

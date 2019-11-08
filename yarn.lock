@@ -11280,6 +11280,11 @@ ws@^6.0.0, ws@^6.2.1:
   dependencies:
     async-limiter "~1.0.0"
 
+xcrud@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/xcrud/-/xcrud-0.2.2.tgz#29ee152d116681639e767b81a4687098c92cf369"
+  integrity sha512-rLbkDpjp61Vbl+cjJliVkLWHHCLjIVf9RkFfa/okDAoQOlmdG7fYQaLkG12TwoHPvxRaK4HmWRlPG5WZ8duQDQ==
+
 xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npm.taobao.org/xml-name-validator/download/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"

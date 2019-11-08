@@ -16,7 +16,7 @@ import '@/permission' // permission control
 
 import checkPermission from '@/mixin/permission' // 全局加载校验
 import commonMsg from '@/mixin/commonMsg' // 全局加载校验
-import Xcrud from '../package/index' // 全局加载数据字典
+import Xcrud from 'xcrud' // 增删改查的包
 import XcrudConfig from '../xcrud.config.js' // 全局加载数据字典
 
 /**
