@@ -10,6 +10,7 @@
 import { getUserDetail, saveUser } from '@/api/user'
 import { getDeptTree } from '@/api/dept'
 import { getRoleList } from '@/api/role'
+import { importDic, importRules } from '@/utils/index'
 export default {
   props: {
     mode: { // edit, detail, add
@@ -42,18 +43,18 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         item: [
-          { xType: 'input', name: 'username', label: '登录名', rules: _this.importRules('inputRequired') },
-          { xType: 'input', name: 'name', label: '姓名', rules: _this.importRules('inputRequired') },
-          { xType: 'select', type: 'tree', name: 'deptId', label: '部门', dic: { data: _this.treeData, label: 'name', value: 'id' }, rules: _this.importRules('inputRequired') },
-          { xType: 'select', name: 'roleIdList', label: '角色', multiple: true, dic: { data: _this.roleData, label: 'name', value: 'id' }, rules: _this.importRules('inputRequired') },
-          { xType: 'input', name: 'phone', label: '手机号', rules: _this.importRules('inputRequired', 'phone') },
-          { xType: 'input', name: 'email', label: '邮箱', rules: _this.importRules('email') },
-          { xType: 'select', name: 'sex', label: '性别', dic: _this.importDic('sex'), rules: _this.importRules('selectRequired') },
-          // { xType: "text", name: "avatar", label: '头像', rules: _this.importRules("inputRequired") },
-          { xType: 'select', name: 'status', label: '状态', dic: _this.importDic('userStatus'), rules: _this.importRules('selectRequired') },
+          { xType: 'input', name: 'username', label: '登录名', rules: importRules('inputRequired') },
+          { xType: 'input', name: 'name', label: '姓名', rules: importRules('inputRequired') },
+          { xType: 'select', type: 'tree', name: 'deptId', label: '部门', dic: { data: _this.treeData, label: 'name', value: 'id' }, rules: importRules('inputRequired') },
+          { xType: 'select', name: 'roleIdList', label: '角色', multiple: true, dic: { data: _this.roleData, label: 'name', value: 'id' }, rules: importRules('inputRequired') },
+          { xType: 'input', name: 'phone', label: '手机号', rules: importRules('inputRequired', 'phone') },
+          { xType: 'input', name: 'email', label: '邮箱', rules: importRules('email') },
+          { xType: 'select', name: 'sex', label: '性别', dic: importDic('sex'), rules: importRules('selectRequired') },
+          // { xType: "text", name: "avatar", label: '头像', rules: importRules("inputRequired") },
+          { xType: 'select', name: 'status', label: '状态', dic: importDic('userStatus'), rules: importRules('selectRequired') },
           { xType: 'input', name: 'address', label: '地址' },
           // { xType: "text", name: "password", label: '密码', },
-          { xType: 'input', name: 'remark', label: "备注" }
+          { xType: 'input', name: 'remark', label: '备注' }
         ],
         operate: [
           { text: '保存', show: _this.showBtn, click: _this.saveUser },

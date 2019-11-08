@@ -19,6 +19,7 @@
 import { getUserDetail, saveUser } from '@/api/user'
 import store from '@/store'
 import changePass from './changePass'
+import { importDic, importRules } from '@/utils/index'
 export default {
   components: {
     changePass
@@ -43,12 +44,12 @@ export default {
         inline: false,
         item: [
           { xType: 'input', name: 'username', label: '登录名', disabled: true },
-          { xType: 'input', name: 'name', label: '姓名', rules: _this.importRules('inputRequired') },
+          { xType: 'input', name: 'name', label: '姓名', rules: importRules('inputRequired') },
           { xType: 'input', name: 'deptName', label: '部门', disabled: true },
-          { xType: 'input', name: 'phone', label: '手机号', rules: _this.importRules('inputRequired', 'phone') },
-          { xType: 'input', name: 'email', label: '邮箱', rules: _this.importRules('email') },
-          { xType: 'select', name: 'sex', label: '性别', dic: _this.importDic('sex'), rules: _this.importRules('selectRequired') },
-          // { xType: "text", name: "avatar", label: '头像', rules: _this.importRules("inputRequired") },
+          { xType: 'input', name: 'phone', label: '手机号', rules: importRules('inputRequired', 'phone') },
+          { xType: 'input', name: 'email', label: '邮箱', rules: importRules('email') },
+          { xType: 'select', name: 'sex', label: '性别', dic: importDic('sex'), rules: importRules('selectRequired') },
+          // { xType: "text", name: "avatar", label: '头像', rules: importRules("inputRequired") },
           { xType: 'input', type: 'textarea', name: 'address', label: '地址' },
           { xType: 'input', name: 'createTime', label: '注册时间', disabled: true }
         ],

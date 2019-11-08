@@ -8,6 +8,7 @@
 
 <script>
 import { getUserDetail, changePass } from '@/api/user'
+import { importRules } from '@/utils/index'
 export default {
   props: {
     id: {
@@ -32,9 +33,9 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         item: [
-          { xType: 'input', showPassword: true, name: 'oldPassword', label: '旧密码', rules: _this.importRules('inputRequired') },
-          { xType: 'input', showPassword: true, name: 'newPassword', label: '新密码', rules: _this.importRules('inputRequired') },
-          { xType: 'input', showPassword: true, name: 'confirmPassword', label: '确认密码', rules: _this.importRules('inputRequired').concat([{ validator: _this.validatePass2, trigger: 'blur' }]) }
+          { xType: 'input', showPassword: true, name: 'oldPassword', label: '旧密码', rules: importRules('inputRequired') },
+          { xType: 'input', showPassword: true, name: 'newPassword', label: '新密码', rules: importRules('inputRequired') },
+          { xType: 'input', showPassword: true, name: 'confirmPassword', label: '确认密码', rules: importRules('inputRequired').concat([{ validator: _this.validatePass2, trigger: 'blur' }]) }
         ],
         operate: [
           { text: '保存', show: _this.showBtn, click: _this.saveUser },

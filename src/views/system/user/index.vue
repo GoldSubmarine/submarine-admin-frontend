@@ -14,6 +14,7 @@
 <script>
 import { getUserPage, deleteUser, resetPass } from '@/api/user'
 import dForm from './form'
+import { importDic } from '@/utils/index'
 
 export default {
   components: {
@@ -43,14 +44,14 @@ export default {
           { text: '新增', show: _this.checkPermission(['user', 'user.add']), click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
         ],
         column: [
-          { type: 'index', index: a => { console.log(a); return a * 2 } },
+          { type: 'index' },
           { label: '登录名', name: 'username', search: true, xType: 'input' },
           { label: '姓名', name: 'name', search: true, xType: 'input' },
           { label: '部门', name: 'deptName', search: true, xType: 'input' },
           { label: '手机号', name: 'phone', search: true, xType: 'input' },
           { label: '邮箱', name: 'email', search: true, xType: 'input' },
-          { label: '性别', name: 'sex', dic: _this.importDic('sex') },
-          { label: '状态', name: 'status', dic: _this.importDic('all', 'userStatus'), search: true, xType: 'select' },
+          { label: '性别', name: 'sex', dic: importDic('sex') },
+          { label: '状态', name: 'status', dic: importDic('all', 'userStatus'), search: true, xType: 'select' },
           { label: '地址', name: 'address', search: true, xType: 'input' },
           { label: '备注', name: 'remark' }
         ],

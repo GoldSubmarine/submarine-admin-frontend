@@ -8,6 +8,7 @@
 
 <script>
 import { getMenuDetail, saveMenu, getMenuTree } from '@/api/menu'
+import { importRules } from '@/utils/index'
 export default {
   props: {
     mode: { // edit, detail, add
@@ -37,9 +38,9 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         item: [
-          { xType: 'input', name: 'name', label: '名称', rules: _this.importRules('inputRequired') },
-          { xType: 'input', name: 'value', label: '权限值', rules: _this.importRules('inputRequired') },
-          { xType: 'select', type: 'tree', name: 'pid', dic: { data: _this.treeData, label: 'name', value: 'id'}, label: '父级' },
+          { xType: 'input', name: 'name', label: '名称', rules: importRules('inputRequired') },
+          { xType: 'input', name: 'value', label: '权限值', rules: importRules('inputRequired') },
+          { xType: 'select', type: 'tree', name: 'pid', dic: { data: _this.treeData, label: 'name', value: 'id' }, label: '父级' },
           { xType: 'input', name: 'remark', label: '备注' }
         ],
         operate: [

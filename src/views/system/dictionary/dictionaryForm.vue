@@ -8,6 +8,7 @@
 
 <script>
 import { getDictionaryDetail, saveDictionary } from '@/api/dictionary'
+import { importRules } from '@/utils/index'
 export default {
   props: {
     mode: { // edit, detail, add
@@ -36,7 +37,7 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         item: [
-          { xType: 'input', name: 'name', label: '字典名', rules: _this.importRules('inputRequired') },
+          { xType: 'input', name: 'name', label: '字典名', rules: importRules('inputRequired') },
           { xType: 'input', name: 'remark', label: '备注' }
         ],
         operate: [
