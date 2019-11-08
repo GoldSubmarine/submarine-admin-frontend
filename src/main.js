@@ -14,8 +14,6 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-import importDic from '@/mixin/importDic' // 全局加载数据字典
-import importRules from '@/mixin/importRules' // 全局加载校验
 import checkPermission from '@/mixin/permission' // 全局加载校验
 import commonMsg from '@/mixin/commonMsg' // 全局加载校验
 import Xcrud from '../package/index' // 全局加载数据字典
@@ -35,8 +33,6 @@ import XcrudConfig from '../xcrud.config.js' // 全局加载数据字典
 // }
 
 Vue.use(ElementUI)
-Vue.use(importDic)
-Vue.use(importRules)
 Vue.use(checkPermission)
 Vue.use(commonMsg)
 Vue.use(Xcrud, XcrudConfig)
