@@ -22,7 +22,9 @@ export default {
     return {
       loading: 0,
       tableData: [],
-      searchData: {},
+      searchData: {
+        type: 'button'
+      },
       propId: '',
       dialogName: '',
       mode: '',

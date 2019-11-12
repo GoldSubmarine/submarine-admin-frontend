@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getMenuDetail, saveMenu, getMenuTree } from '@/api/menu'
+import { getPermissionDetail, savePermission, getPermissionTree } from '@/api/permission'
 import { importRules } from '@/utils/index'
 export default {
   props: {
@@ -24,7 +24,9 @@ export default {
     return {
       loading: 0,
       dialogVisible: true,
-      formData: {},
+      formData: {
+        type: 'menu'
+      },
       formDisabled: false,
       dialogTitle: '编辑',
       showBtn: true,
@@ -76,20 +78,20 @@ export default {
   methods: {
     getMenuDetail() {
       this.loading++
-      getMenuDetail(this.id).then(res => {
+      getPermissionDetail(this.id).then(res => {
         this.formData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
     getMenuTree() {
       this.loading++
-      getMenuTree().then(res => {
+      getPermissionTree({ type: 'menu' }).then(res => {
         this.treeData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
     saveMenu() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++
-        saveMenu(this.formData).then(res => {
+        savePermission(this.formData).then(res => {
           this.dialogVisible = false
           this.$emit('refresh')
         }).catch(e => console.error(e)).finally(() => this.loading--)

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getMenuTree, deleteMenu } from '@/api/menu'
+import { getPermissionTree, deletePermission } from '@/api/permission'
 import dForm from './form'
 
 export default {
@@ -22,7 +22,9 @@ export default {
     return {
       loading: 0,
       tableData: [],
-      searchData: {},
+      searchData: {
+        type: 'menu'
+      },
       propId: '',
       dialogName: ''
     }
@@ -58,7 +60,7 @@ export default {
   methods: {
     getMenuTree() {
       this.loading++
-      getMenuTree(this.searchData).then(res => {
+      getPermissionTree(this.searchData).then(res => {
         this.tableData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
@@ -70,7 +72,7 @@ export default {
     del(data) {
       this.delConfirm().then(() => {
         this.loading++
-        deleteMenu(data.id).then(res => {
+        deletePermission(data.id).then(res => {
           this.$message.success('删除成功')
           this.getMenuTree()
         }).catch(e => console.log(e)).finally(() => this.loading--)

@@ -28,7 +28,9 @@ export default {
     return {
       loading: 0,
       dialogVisible: true,
-      formData: {},
+      formData: {
+        type: 'button'
+      },
       formDisabled: false,
       dialogTitle: '编辑',
       showBtn: true,
@@ -88,7 +90,7 @@ export default {
     },
     getPermissionTree() {
       this.loading++
-      getPermissionTree().then(res => {
+      getPermissionTree({ type: 'button' }).then(res => {
         this.treeData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },

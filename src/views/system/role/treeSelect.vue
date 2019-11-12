@@ -24,8 +24,7 @@
 
 <script>
 import { getPermissionTree } from '@/api/permission'
-import { getMenuTree } from '@/api/menu'
-import { getRoleDetail, saveRolePermission, saveRoleMenu } from '@/api/role'
+import { getRoleDetail, saveRolePermission } from '@/api/role'
 import { getLeafFromList } from '@/utils/tree'
 export default {
   props: {
@@ -77,13 +76,13 @@ export default {
     },
     getPermissionTree() {
       this.loading++
-      getPermissionTree().then(res => {
+      getPermissionTree({ type: 'button' }).then(res => {
         this.treeData = res
       }).catch(e => console.log(e)).finally(() => this.loading--)
     },
     getMenuTree() {
       this.loading++
-      getMenuTree().then(res => {
+      getPermissionTree({ type: 'menu' }).then(res => {
         this.treeData = res
       }).catch(e => console.log(e)).finally(() => this.loading--)
     },
@@ -94,12 +93,12 @@ export default {
         // 具体模块可以有code，但大的模块不能有code
         const nodeList = this.$refs.tree.getCheckedNodes()
         const idList = nodeList.filter(item => item.value).map(item => item.id)
-        promise = saveRolePermission(this.id, idList)
+        promise = saveRolePermission(this.id, 'button', idList)
       } else if (this.mode === 'menu') {
         // 保存选中节点和半开节点，设置时只设置叶子节点
         const nodeList = this.$refs.tree.getCheckedNodes(false, true)
         const idList = nodeList.filter(item => item.value).map(item => item.id)
-        promise = saveRoleMenu(this.id, idList)
+        promise = saveRolePermission(this.id, 'menu', idList)
       }
       promise.then(res => {
         this.$message.success('保存成功')
