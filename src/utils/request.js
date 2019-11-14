@@ -120,10 +120,8 @@ function removeBlankKeys(obj) {
 
 // 用于将转换提示的 msg 信息，或国际化
 function formatMsg(res) {
-  debugger
   if (res && res.msg && res.data instanceof Array) {
     res.msg = vsprintf(res.msg, res.data)
-    debugger
   }
 }
 
