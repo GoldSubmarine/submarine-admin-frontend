@@ -82,6 +82,7 @@ export default {
         this.loading++
         saveDictionary(this.formData).then(res => {
           this.dialogVisible = false
+          this.$message.success(res.msg)
           this.$emit('refresh')
         }).catch(e => console.error(e)).finally(() => this.loading--)
       }).catch(e => console.error(e))

@@ -101,7 +101,7 @@ export default {
         promise = saveRolePermission(this.id, 'menu', idList)
       }
       promise.then(res => {
-        this.$message.success('保存成功')
+        this.$message.success(res.msg)
       }).catch(e => console.log(e)).finally(() => this.loading--)
     }
   }

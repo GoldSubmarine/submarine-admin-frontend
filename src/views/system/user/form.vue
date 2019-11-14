@@ -114,7 +114,7 @@ export default {
         copy.roleIdList = copy.roleIdList.join(',')
         saveUser(copy).then(res => {
           if (this.mode === 'add') {
-            this.$alert(`初始化密码为：${res}，请及时保存`, '提示', {
+            this.$alert(`初始化密码为：${res.data}，请及时保存`, '提示', {
               confirmButtonText: '确定'
             })
           }

@@ -76,6 +76,7 @@ export default {
         const copy = JSON.parse(JSON.stringify(this.formData))
         copy.roleIdList = copy.roleIdList.join(',')
         saveUser(copy).then(res => {
+          this.$message.success(res.msg)
           this.$emit('refresh')
         }).catch(e => console.error(e)).finally(() => this.loading--)
       }).catch(e => console.error(e))

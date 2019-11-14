@@ -98,7 +98,7 @@ export default {
       this.delConfirm().then(() => {
         this.loading++
         deleteDictionaryItem(data.id).then(res => {
-          this.$message.success('删除成功')
+          this.$message.success(res.msg)
           this.getDictionaryItemPage()
         }).catch(e => console.log(e)).finally(() => this.loading--)
       }).catch(e => console.log(e))

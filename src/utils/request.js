@@ -3,6 +3,7 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken, setToken } from '@/utils/auth'
 import qs from 'qs'
+const vsprintf = require('sprintf-js').vsprintf
 
 // create an axios instance
 const service = axios.create({
@@ -54,11 +55,12 @@ service.interceptors.response.use(
       setToken(response.headers['x-token'])
     }
 
-    const res = response.data
+    const res = response.data ? response.data : {}
+    formatMsg(res)
 
     // if the custom code is not 20000, it is judged as an error.
     // 业务代码错误
-    if (res.code && res.code >= 400) {
+    if (res.code && res.code >= 50000) {
       Message({
         message: res.msg || '服务器错误',
         type: 'error',
@@ -71,7 +73,8 @@ service.interceptors.response.use(
     }
   },
   error => {
-    const res = error.response.data
+    const res = error.response.data ? error.response.data : {}
+    formatMsg(res)
     console.log('err' + error) // for debug
 
     // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
@@ -112,6 +115,15 @@ function removeBlankKeys(obj) {
     if (obj.hasOwnProperty(key) && (obj[key] === '' || obj[key] === undefined || obj[key] === null)) {
       delete obj[key]
     }
+  }
+}
+
+// 用于将转换提示的 msg 信息，或国际化
+function formatMsg(res) {
+  debugger
+  if (res && res.msg && res.data instanceof Array) {
+    res.msg = vsprintf(res.msg, res.data)
+    debugger
   }
 }
 
