@@ -143,31 +143,31 @@ module.exports = {
     // ==============backend==============
     {
       template: 'controller.ejs',
-      path: '<%= backRootPath %>/src/main/java/org/javahub/scaffold/modules/<%= module %>/controller/<%= Entity %>Controller.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/controller/<%= Entity %>Controller.java'
     },
     {
       template: 'service.ejs',
-      path: '<%= backRootPath %>/src/main/java/org/javahub/scaffold/modules/<%= module %>/service/<%= Entity %>Service.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/service/<%= Entity %>Service.java'
     },
     {
       template: 'mapper.ejs',
-      path: '<%= backRootPath %>/src/main/java/org/javahub/scaffold/modules/<%= module %>/mapper/<%= Entity %>Mapper.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/mapper/<%= Entity %>Mapper.java'
     },
     {
       template: 'entity.ejs',
-      path: '<%= backRootPath %>/src/main/java/org/javahub/scaffold/modules/<%= module %>/entity/<%= Entity %>.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/entity/<%= Entity %>.java'
     },
     {
       template: 'dto.ejs',
-      path: '<%= backRootPath %>/src/main/java/org/javahub/scaffold/modules/<%= module %>/dto/<%= Entity %>Dto.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/dto/<%= Entity %>Dto.java'
     },
     {
       template: 'xml.ejs',
-      path: '<%= backRootPath %>/src/main/java/org/javahub/scaffold/modules/<%= module %>/xml/<%= Entity %>Mapper.xml'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/xml/<%= Entity %>Mapper.xml'
     },
     {
       template: 'mapStruct.ejs',
-      path: '<%= backRootPath %>/src/main/java/org/javahub/scaffold/modules/<%= module %>/mapstruct/<%= Entity %>MapStruct.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/mapstruct/<%= Entity %>MapStruct.java'
     }
   ]
 }
