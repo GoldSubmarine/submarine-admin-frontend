@@ -79,7 +79,15 @@ const actions = {
           reject('没有获取到用户信息，请重新登录')
         }
 
-        const { id, username, avatar, roles, permissions, menus } = response
+        const { id, username, avatar, roles, permissionList } = response
+        const permissions = []
+        const menus = []
+        permissionList.forEach(item => {
+          if (item.type === 'button') permissions.push(item.value)
+          if (item.type === 'menu') menus.push(item.value)
+        })
+        response.permissions = permissions
+        response.menus = menus
         commit('SET_ID', id)
         commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
