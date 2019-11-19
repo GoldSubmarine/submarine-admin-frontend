@@ -73,25 +73,11 @@ service.interceptors.response.use(
     }
   },
   error => {
+    console.log('err' + error) // for debug
     const res = error.response.data ? error.response.data : {}
     formatMsg(res)
-    console.log('err' + error) // for debug
 
-    let msg
-    if (error.response.status === 404) {
-      msg = '接口不存在'
-    } else if (error.response.status === 403) {
-      msg = '无权访问'
-    } else if (error.response.status === 401) {
-      msg = '认证失败，请重新登录'
-    }
-    Message({
-      message: res.msg || msg || '服务器错误',
-      type: 'error',
-      duration: 5 * 1000
-    })
-
-    if (error.response.status === 401 && !error.config.url.startWith(process.env.VUE_APP_BASE_API + '/auth/info')) {
+    if (error.response.status === 401 && !error.config.url.startsWith(process.env.VUE_APP_BASE_API + '/auth/info')) {
       // to re-login
       MessageBox.confirm('当前登录已过期，请重新登录', '提示', {
         confirmButtonText: '重新登录',
@@ -101,6 +87,20 @@ service.interceptors.response.use(
         store.dispatch('user/resetToken').then(() => {
           location.reload()
         })
+      })
+    } else {
+      let msg
+      if (error.response.status === 404) {
+        msg = '接口不存在'
+      } else if (error.response.status === 403) {
+        msg = '无权访问'
+      } else if (error.response.status === 401) {
+        msg = '认证失败，请重新登录'
+      }
+      Message({
+        message: res.msg || msg || '服务器错误',
+        type: 'error',
+        duration: 5 * 1000
       })
     }
 
