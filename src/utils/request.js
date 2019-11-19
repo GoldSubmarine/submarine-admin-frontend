@@ -91,23 +91,17 @@ service.interceptors.response.use(
       duration: 5 * 1000
     })
 
-    if (error.response.status === 401) {
+    if (error.response.status === 401 && !error.config.url.startWith(process.env.VUE_APP_BASE_API + '/auth/info')) {
       // to re-login
-      if (error.config.url.startWith(process.env.VUE_APP_BASE_API + '/auth/info')) {
+      MessageBox.confirm('当前登录已过期，请重新登录', '提示', {
+        confirmButtonText: '重新登录',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
         store.dispatch('user/resetToken').then(() => {
           location.reload()
         })
-      } else {
-        MessageBox.confirm('当前登录已过期，请重新登录', '提示', {
-          confirmButtonText: '重新登录',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
-        })
-      }
+      })
     }
 
     return Promise.reject(error)
