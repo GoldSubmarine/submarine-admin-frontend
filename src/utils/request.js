@@ -91,11 +91,11 @@ service.interceptors.response.use(
       })
     } else {
       let msg
-      if (error.status === 404) {
+      if (error.response.status === 404) {
         msg = '接口不存在'
-      } else if (error.status === 403) {
+      } else if (error.response.status === 403) {
         msg = '无权访问'
-      } else if (error.status === 401) {
+      } else if (error.response.status === 401) {
         msg = '认证失败，请重新登录'
       }
       Message({
