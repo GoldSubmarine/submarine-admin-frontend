@@ -78,7 +78,7 @@ service.interceptors.response.use(
     formatMsg(res)
 
     if (error.response.status === 401) {
-      if (!error.config.url.startsWith(process.env.VUE_APP_BASE_API + '/auth/info')) {
+      if (!error.config.url.includes('/auth/info')) {
         // to re-login
         MessageBox.confirm('当前登录已过期，请重新登录', '提示', {
           confirmButtonText: '重新登录',
