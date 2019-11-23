@@ -5,7 +5,7 @@ import request from '@/utils/request'
  */
 export function getDictionaryItemPage(params) {
   return request({
-    url: '/dictionaryItem/list/page',
+    url: '/dictionary-item/list/page',
     method: 'get',
     params
   })
@@ -16,7 +16,7 @@ export function getDictionaryItemPage(params) {
  */
 export function getDictionaryItemList(params) {
   return request({
-    url: '/dictionaryItem/list/all',
+    url: '/dictionary-item/list/all',
     method: 'get',
     params
   })
@@ -27,7 +27,7 @@ export function getDictionaryItemList(params) {
  */
 export function getDictionaryItemDetail(id) {
   return request({
-    url: '/dictionaryItem/detail',
+    url: '/dictionary-item/detail',
     method: 'get',
     params: { id }
   })
@@ -38,7 +38,7 @@ export function getDictionaryItemDetail(id) {
  */
 export function saveDictionaryItem(data) {
   return request({
-    url: '/dictionaryItem/save',
+    url: '/dictionary-item/save',
     method: 'post',
     data
   })
@@ -49,7 +49,7 @@ export function saveDictionaryItem(data) {
  */
 export function deleteDictionaryItem(id) {
   return request({
-    url: '/dictionaryItem/del',
+    url: '/dictionary-item/del',
     method: 'delete',
     data: { id }
   })
