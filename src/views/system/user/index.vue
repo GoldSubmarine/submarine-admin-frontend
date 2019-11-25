@@ -8,19 +8,23 @@
       :load="getUserPage"
     />
     <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" @refresh="getUserPage" @close="closeDialog" />
+    <bindRole v-if="dialogName == 'bindRole'" :id="propId" @refresh="getUserPage" @close="closeDialog" />
   </div>
 </template>
 
 <script>
 import { getUserPage, deleteUser, resetPass } from '@/api/user'
 import dForm from './form'
+import bindRole from './bindRole'
 import { importDic } from '@/utils/index'
 
 export default {
   components: {
-    dForm
+    dForm,
+    bindRole
   },
   data() {
+    const _this = this
     return {
       loading: 0,
       tableData: [],
@@ -29,7 +33,9 @@ export default {
         pageSize: 10,
         total: 0
       },
-      searchData: {},
+      searchData: {
+        deptId: _this.$store.getters.user.deptId
+      },
       propId: '',
       dialogName: ''
     }
@@ -58,6 +64,7 @@ export default {
         operate: [
           { text: '编辑', show: _this.checkPermission(['user', 'user.edit']), click: data => _this.operate('edit', data) },
           { text: '删除', show: _this.checkPermission(['user', 'user.del']), click: _this.del },
+          { text: '绑定角色', show: _this.checkPermission(['user', 'user.edit']), click: data => _this.bindRole(data.id) },
           { text: '重置密码', show: _this.checkPermission(['user', 'user.reset']), click: _this.resetPass },
           { text: '详情', show: _this.checkPermission(['user', 'user.find']), click: data => _this.operate('detail', data) }
         ]
@@ -79,6 +86,10 @@ export default {
       if (mode !== 'add') this.propId = data.id
       this.mode = mode
       this.dialogName = 'dForm'
+    },
+    bindRole(id) {
+      this.propId = id
+      this.dialogName = 'bindRole'
     },
     del(data) {
       this.delConfirm().then(() => {

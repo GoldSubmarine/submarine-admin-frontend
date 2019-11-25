@@ -45,6 +45,17 @@ export function saveUser(data) {
 }
 
 /**
+ * 绑定角色
+ */
+export function bindRole(data) {
+  return request({
+    url: '/user/bind-role',
+    method: 'post',
+    data
+  })
+}
+
+/**
  * 删除
  */
 export function deleteUser(id) {

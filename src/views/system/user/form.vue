@@ -23,12 +23,15 @@ export default {
     }
   },
   data() {
+    const _this = this
     return {
       loading: 0,
       dialogVisible: true,
       formData: {
-        status: 'enable'
+        status: 'enable',
+        deptId: _this.$store.getters.user.deptId
       },
+      deptIdDisabled: true,
       formDisabled: false,
       dialogTitle: '编辑',
       showBtn: true,
@@ -45,8 +48,8 @@ export default {
         item: [
           { xType: 'input', name: 'username', label: '登录名', rules: importRules('inputRequired') },
           { xType: 'input', name: 'name', label: '姓名', rules: importRules('inputRequired') },
-          { xType: 'select', type: 'tree', name: 'deptId', label: '部门', dic: { data: _this.treeData, label: 'name', value: 'id' }, rules: importRules('inputRequired') },
-          { xType: 'select', name: 'roleIdList', label: '角色', multiple: true, dic: { data: _this.roleData, label: 'name', value: 'id' }, rules: importRules('inputRequired') },
+          { xType: 'select', type: 'tree', disabled: _this.deptIdDisabled, name: 'deptId', label: '部门', dic: { data: _this.treeData, label: 'name', value: 'id' }, rules: importRules('inputRequired') },
+          // { xType: 'select', name: 'roleIdList', label: '角色', multiple: true, dic: { data: _this.roleData, label: 'name', value: 'id' }, rules: importRules('inputRequired') },
           { xType: 'input', name: 'phone', label: '手机号', rules: importRules('inputRequired', 'phone') },
           { xType: 'input', name: 'email', label: '邮箱', rules: importRules('email') },
           { xType: 'select', name: 'sex', label: '性别', dic: importDic('sex'), rules: importRules('selectRequired') },
@@ -84,6 +87,10 @@ export default {
     }
   },
   mounted() {
+    if (this.$store.getters.user.isAdmin || this.$store.getters.user.isSuperAdmin) {
+      this.deptIdDisabled = false
+      this.formData.deptId = ''
+    }
     this.getDeptTree()
     this.getRoleList()
   },
@@ -91,7 +98,7 @@ export default {
     getUserDetail() {
       this.loading++
       getUserDetail(this.id).then(res => {
-        res.roleIdList = res.roleIdList.split(',')
+        // res.roleIdList = res.roleIdList.split(',')
         this.formData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
@@ -110,9 +117,9 @@ export default {
     saveUser() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++
-        const copy = JSON.parse(JSON.stringify(this.formData))
-        copy.roleIdList = copy.roleIdList.join(',')
-        saveUser(copy).then(res => {
+        // const copy = JSON.parse(JSON.stringify(this.formData))
+        // copy.roleIdList = copy.roleIdList.join(',')
+        saveUser(this.formData).then(res => {
           if (this.mode === 'add') {
             this.$alert(`初始化密码为：${res.data}，请及时保存`, '提示', {
               confirmButtonText: '确定'

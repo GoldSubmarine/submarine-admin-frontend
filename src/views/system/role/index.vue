@@ -25,6 +25,7 @@
 import { getRolePage, deleteRole } from '@/api/role'
 import dForm from './form'
 import treeSelect from './treeSelect'
+import { importDic } from '@/utils/index'
 
 export default {
   components: {
@@ -62,6 +63,7 @@ export default {
         column: [
           { label: '名称', name: 'name', search: true, xType: 'input' },
           { label: '编码', name: 'code', search: true, xType: 'input' },
+          { xType: 'select', name: 'orgAdminDisplay', label: '机构管理员是否可见', dic: importDic('displayType') },
           { label: '备注', name: 'remark' }
         ],
         operate: [

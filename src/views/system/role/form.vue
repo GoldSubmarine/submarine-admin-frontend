@@ -8,7 +8,7 @@
 
 <script>
 import { getRoleDetail, saveRole } from '@/api/role'
-import { importRules } from '@/utils/index'
+import { importRules, importDic } from '@/utils/index'
 export default {
   props: {
     mode: { // edit, detail, add
@@ -24,7 +24,9 @@ export default {
     return {
       loading: 0,
       dialogVisible: true,
-      formData: {},
+      formData: {
+        orgAdminDisplay: 'visible'
+      },
       formDisabled: false,
       dialogTitle: '编辑',
       showBtn: true
@@ -39,6 +41,7 @@ export default {
         item: [
           { xType: 'input', name: 'name', label: '名称（中文）', rules: importRules('inputRequired') },
           { xType: 'input', name: 'code', label: '编码' },
+          { xType: 'select', name: 'orgAdminDisplay', label: '机构管理员是否可见', dic: importDic('displayType'), rules: importRules('selectRequired') },
           { xType: 'input', name: 'remark', label: '备注' }
         ],
         operate: [

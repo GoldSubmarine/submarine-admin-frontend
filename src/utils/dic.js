@@ -34,3 +34,9 @@ export const credentialType = [
   { label: '港澳台通行证', value: 'HMTpasses' },
   { label: '其他', value: 'other' }
 ]
+
+// 机构管理员是否可见
+export const displayType = [
+  { label: '可见', value: 'visible' },
+  { label: '隐藏', value: 'hidden' }
+]

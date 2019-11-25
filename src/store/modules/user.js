@@ -4,17 +4,23 @@ import { resetRouter } from '@/router'
 
 const state = {
   id: '',
+  deptId: '',
   token: getToken(),
   name: '',
   avatar: '',
   roles: [],
   permissions: [],
-  menus: []
+  menus: [],
+  isSuperAdmin: false,
+  isAdmin: false
 }
 
 const mutations = {
   SET_ID: (state, id) => {
     state.id = id
+  },
+  SET_DEPTID: (state, deptId) => {
+    state.deptId = deptId
   },
   SET_TOKEN: (state, token) => {
     state.token = token
@@ -33,6 +39,12 @@ const mutations = {
   },
   SET_MENUS: (state, menus) => {
     state.menus = menus
+  },
+  SET_IS_SUPER_ADMIN: (state, isSuperAdmin) => {
+    state.isSuperAdmin = isSuperAdmin
+  },
+  SET_IS_ADMIN: (state, isAdmin) => {
+    state.isAdmin = isAdmin
   },
   RESET: (state) => {
     for (const key in state) {
@@ -79,7 +91,7 @@ const actions = {
           reject('没有获取到用户信息，请重新登录')
         }
 
-        const { id, username, avatar, roles, permissionList } = response
+        const { id, deptId, superAdmin, admin, username, avatar, roles, permissionList } = response
         const permissions = []
         const menus = []
         permissionList.forEach(item => {
@@ -89,6 +101,9 @@ const actions = {
         response.permissions = permissions
         response.menus = menus
         commit('SET_ID', id)
+        commit('SET_DEPTID', deptId)
+        commit('SET_IS_SUPER_ADMIN', superAdmin)
+        commit('SET_IS_ADMIN', admin)
         commit('SET_NAME', username)
         commit('SET_AVATAR', avatar)
         commit('SET_ROLES', roles)
