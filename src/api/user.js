@@ -3,11 +3,15 @@ import request from '@/utils/request'
 /**
  * 分页获取
  */
-export function getUserPage(params) {
+export function getUserPage(params, pageNum, pageSize) {
   return request({
     url: '/user/list/page',
     method: 'get',
-    params
+    params: {
+      ...params,
+      pageNum,
+      pageSize
+    }
   })
 }
 

@@ -3,11 +3,15 @@ import request from '@/utils/request'
 /**
  * 分页获取
  */
-export function getRolePage(params) {
+export function getRolePage(params, pageNum, pageSize) {
   return request({
     url: '/role/list/page',
     method: 'get',
-    params
+    params: {
+      ...params,
+      pageNum,
+      pageSize
+    }
   })
 }
 
@@ -47,12 +51,12 @@ export function saveRole(data) {
 /**
  * 权限保存
  */
-export function saveRolePermission(id, type, permissionList) {
+export function saveRolePermission(roleId, type, permissionList) {
   return request({
     url: '/role/permission/save',
     method: 'post',
     data: {
-      id,
+      roleId,
       type,
       permissionList
     }

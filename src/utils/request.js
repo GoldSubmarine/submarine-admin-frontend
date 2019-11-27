@@ -2,7 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken, setToken } from '@/utils/auth'
-import qs from 'qs'
+// import qs from 'qs'
 const vsprintf = require('sprintf-js').vsprintf
 
 // create an axios instance
@@ -23,11 +23,11 @@ service.interceptors.request.use(
       // please modify it according to the actual situation
       config.headers['Authorization'] = 'bearer ' + getToken()
     }
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     config.url = config.url + '?_timestamp=' + Date.now()
     removeBlankKeys(config.data)
     removeBlankKeys(config.params)
-    config.data = qs.stringify(config.data, { allowDots: true, indices: false })
+    // config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    // config.data = qs.stringify(config.data, { allowDots: true, indices: false })
     return config
   },
   error => {

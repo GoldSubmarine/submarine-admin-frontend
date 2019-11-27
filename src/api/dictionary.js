@@ -3,11 +3,15 @@ import request from '@/utils/request'
 /**
  * 分页获取
  */
-export function getDictionaryPage(params) {
+export function getDictionaryPage(params, pageNum, pageSize) {
   return request({
     url: '/dictionary/list/page',
     method: 'get',
-    params
+    params: {
+      ...params,
+      pageNum,
+      pageSize
+    }
   })
 }
 

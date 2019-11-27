@@ -50,7 +50,7 @@ export default {
     getUserDetail() {
       this.loading++
       getUserDetail(this.id).then(res => {
-        res.roleIdList = res.roleIdList.split(',')
+        res.roleIds = res.roleIds.split(',')
         this.formData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },

@@ -3,11 +3,15 @@ import request from '@/utils/request'
 /**
  * 分页获取部门
  */
-export function getDeptPage(params) {
+export function getDeptPage(params, pageNum, pageSize) {
   return request({
     url: '/dept/list/page',
     method: 'get',
-    params
+    params: {
+      ...params,
+      pageNum,
+      pageSize
+    }
   })
 }
 

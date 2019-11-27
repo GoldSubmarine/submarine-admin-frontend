@@ -3,11 +3,15 @@ import request from '@/utils/request'
 /**
  * 分页获取权限
  */
-export function getPermissionPage(params) {
+export function getPermissionPage(params, pageNum, pageSize) {
   return request({
     url: '/permission/list/page',
     method: 'get',
-    params
+    params: {
+      ...params,
+      pageNum,
+      pageSize
+    }
   })
 }
 

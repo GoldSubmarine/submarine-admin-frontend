@@ -66,7 +66,7 @@ export default {
     getUserDetail() {
       this.loading++
       getUserDetail(store.getters.userId).then(res => {
-        res.roleIdList = res.roleIdList.split(',')
+        res.roleIds = res.roleIds.split(',')
         this.formData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
@@ -74,7 +74,7 @@ export default {
       this.$refs['xForm'].validate().then(() => {
         this.loading++
         const copy = JSON.parse(JSON.stringify(this.formData))
-        copy.roleIdList = copy.roleIdList.join(',')
+        copy.roleIds = copy.roleIds.join(',')
         saveUser(copy).then(res => {
           this.$message.success(res.msg)
           this.$emit('refresh')
