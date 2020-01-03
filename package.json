@@ -39,7 +39,7 @@
     "xcrud": "^0.2.2"
   },
   "devDependencies": {
-    "@babel/core": "7.0.0",
+    "@babel/core": "7.7.7",
     "@babel/register": "7.0.0",
     "@vue/cli-plugin-babel": "4.1.2",
     "@vue/cli-plugin-eslint": "^3.9.1",
