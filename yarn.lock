@@ -11740,9 +11740,9 @@ ws@^7.0.0:
   integrity sha512-sucePNSafamSKoOqoNfBd8V0StlkzJKL2ZAhGQinCfNQ+oacw+Pk7lcdAElecBF2VkLNZRiIb5Oi1Q5lVUVt2A==
 
 xcrud@^0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/xcrud/-/xcrud-0.2.2.tgz#29ee152d116681639e767b81a4687098c92cf369"
-  integrity sha512-rLbkDpjp61Vbl+cjJliVkLWHHCLjIVf9RkFfa/okDAoQOlmdG7fYQaLkG12TwoHPvxRaK4HmWRlPG5WZ8duQDQ==
+  version "0.2.11"
+  resolved "https://registry.yarnpkg.com/xcrud/-/xcrud-0.2.11.tgz#7c0beb62a5bf916b20d9399aa1171b72b9557c19"
+  integrity sha512-QHuz2n7Mo4gUuTMqk//mXR3JIlVc5nYW41JELQQ634LW9mEG1vrhoIN5nAT5Bw9LYROZ270wR63TNGOYRgYg+A==
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
