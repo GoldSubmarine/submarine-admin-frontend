@@ -1,8 +1,9 @@
 package com.htnova.<%= module %>.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.htnova.common.dto.XPage;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.htnova.<%= module %>.entity.<%= Entity %>;
+import com.htnova.<%= module %>.dto.<%= Entity %>Dto;
 import com.htnova.<%= module %>.mapper.<%= Entity %>Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +18,13 @@ public class <%= Entity %>Service extends ServiceImpl<<%= Entity %>Mapper, <%= E
     private <%= Entity %>Mapper <%= entity %>Mapper;
 
     @Transactional(readOnly = true)
-    public XPage<<%= Entity %>> find<%= Entity %>List(<%= Entity %> <%= entity %>, XPage xPage) {
-        XPage<<%= Entity %>> <%= entity %>XPage = <%= entity %>Mapper.findPage(xPage, <%= entity %>);
-        return <%= entity %>XPage;
+    public IPage<<%= Entity %>> find<%= Entity %>List(<%= Entity %>Dto <%= entity %>Dto, IPage<Void> xPage) {
+        return <%= entity %>Mapper.findPage(xPage, <%= entity %>Dto);
     }
 
     @Transactional(readOnly = true)
-    public List<<%= Entity %>> find<%= Entity %>List(<%= Entity %> <%= entity %>) {
-        return <%= entity %>Mapper.findList(<%= entity %>);
+    public List<<%= Entity %>> find<%= Entity %>List(<%= Entity %>Dto <%= entity %>Dto) {
+        return <%= entity %>Mapper.findList(<%= entity %>Dto);
     }
 
     @Transactional

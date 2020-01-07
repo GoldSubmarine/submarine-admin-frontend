@@ -19,10 +19,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @SuperBuilder
 @TableName("<%= StrUtil.camelToUnderscore(tableName) %>")
 public class <%= Entity %> extends BaseEntity {
-<%
+<%_
     var baseField = ['id', 'remark', 'createBy', 'createTime', 'updateBy', 'updateTime', 'delFlag'];
     function getType(str) {
         if(str == 'varchar') return 'String';
+        if(str == 'char') return 'String';
         if(str == 'text') return 'String';
         if(str == 'bigint') return 'Long';
         if(str == 'double') return 'Double';

@@ -62,12 +62,12 @@
         let str = "{"
         for(key in item) {
           if(key === 'rules') {
-            str += ` ${key}: ${item[key]},`
+            str += `\n\t\t\t\t\t\t${key}: ${item[key]},`
           } else {
-            str += ` ${key}: \'${item[key]}\',`
+            str += `\n\t\t\t\t\t\t${key}: \'${item[key]}\',`
           }
         }
-        str += " }"
+        str += "\n\t\t\t\t\t}"
         result.push(str)
       }
     })
@@ -108,8 +108,16 @@ export default {
           <%- genJsonStr(fields) %>
         ],
         operate: [
-          { text: '保存', show: _this.showBtn, click: _this.save<%= Entity %> },
-          { text: '取消', show: _this.showBtn, click: () => { _this.dialogVisible = false } },
+          {
+            text: '保存',
+            show: _this.showBtn,
+            click: _this.save<%= Entity %>
+          },
+          {
+            text: '取消',
+            show: _this.showBtn,
+            click: () => { _this.dialogVisible = false }
+          }
         ]
       }
     },

@@ -1,9 +1,10 @@
 package com.htnova.<%= module %>.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.htnova.common.constant.ResultStatus;
 import com.htnova.common.dto.Result;
 import com.htnova.common.dto.XPage;
-import com.htnova.common.util.CommonUtil;
+import com.htnova.common.converter.DtoConverter;
 import com.htnova.<%= module %>.mapstruct.<%= Entity %>MapStruct;
 import com.htnova.<%= module %>.dto.<%= Entity %>Dto;
 import com.htnova.<%= module %>.entity.<%= Entity %>;
@@ -19,7 +20,7 @@ import java.util.List;
  * @menu <%= entityZh %>
  */
 @RestController
-@RequestMapping("/<%= entity %>")
+@RequestMapping("/<%= StrUtil.camelToKebab(entity) %>")
 public class <%= Entity %>Controller {
 
     @Resource
@@ -30,9 +31,9 @@ public class <%= Entity %>Controller {
      */
     @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.find')")
     @GetMapping("/list/page")
-    public XPage<<%= Entity %>Dto> findListByPage(<%= Entity %>Dto <%= entity %>Dto, XPage xPage) {
-        XPage<<%= Entity %>> <%= entity %>Page = <%= entity %>Service.find<%= Entity %>List(<%= Entity %>Dto.toEntity(<%= entity %>Dto), xPage);
-        return <%= entity %>Page.toDto(<%= Entity %>MapStruct.class);
+    public XPage<<%= Entity %>Dto> findListByPage(<%= Entity %>Dto <%= entity %>Dto, XPage<Void> xPage) {
+        IPage<<%= Entity %>> <%= entity %>Page = <%= entity %>Service.find<%= Entity %>List(<%= entity %>Dto, xPage);
+        return DtoConverter.toDto(<%= entity %>Page, <%= Entity %>MapStruct.class);
     }
 
     /**
@@ -41,8 +42,8 @@ public class <%= Entity %>Controller {
     @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.find')")
     @GetMapping("/list/all")
     public List<<%= Entity %>Dto> findList(<%= Entity %>Dto <%= entity %>Dto) {
-        List<<%= Entity %>> <%= entity %>List = <%= entity %>Service.find<%= Entity %>List(<%= Entity %>Dto.toEntity(<%= entity %>Dto));
-        return CommonUtil.toDto(<%= entity %>List, <%= Entity %>MapStruct.class);
+        List<<%= Entity %>> <%= entity %>List = <%= entity %>Service.find<%= Entity %>List(<%= entity %>Dto);
+        return DtoConverter.toDto(<%= entity %>List, <%= Entity %>MapStruct.class);
     }
 
     /**
@@ -52,7 +53,7 @@ public class <%= Entity %>Controller {
     @GetMapping("/detail")
     public <%= Entity %>Dto getById(long id) {
         <%= Entity %> <%= entity %> = <%= entity %>Service.get<%= Entity %>ById(id);
-        return <%= Entity %>Dto.toDto(<%= entity %>);
+        return DtoConverter.toDto(<%= entity %>, <%= Entity %>MapStruct.class);
     }
 
     /**
@@ -61,7 +62,7 @@ public class <%= Entity %>Controller {
     @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.add', '<%= entity %>.edit')")
     @PostMapping("/save")
     public Result<Void> save(@Valid <%= Entity %>Dto <%= entity %>Dto) {
-        <%= entity %>Service.save<%= Entity %>(<%= Entity %>Dto.toEntity(<%= entity %>Dto));
+        <%= entity %>Service.save<%= Entity %>(DtoConverter.toEntity(<%= entity %>Dto, <%= Entity %>MapStruct.class));
         return Result.build(ResultStatus.SAVE_SUCCESS);
     }
 

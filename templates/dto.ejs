@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
 @Data
 @Builder
 public class <%= Entity %>Dto extends BaseEntity {
-<%
+<%_
     var baseField = ['id', 'remark', 'createBy', 'createTime', 'updateBy', 'updateTime', 'delFlag'];
     function getType(str) {
         if(str == 'varchar') return 'String';
@@ -65,15 +65,5 @@ public class <%= Entity %>Dto extends BaseEntity {
     }
 -%>
     <%- genStr(fields) %>
-
-    public static <%= Entity %> toEntity(<%= Entity %>Dto <%= entity %>Dto) {
-        <%= Entity %>MapStruct mapStruct = Mappers.getMapper( <%= Entity %>MapStruct.class );
-        return mapStruct.toEntity(<%= entity %>Dto);
-    }
-
-    public static <%= Entity %>Dto toDto(<%= Entity %> <%= entity %>) {
-        <%= Entity %>MapStruct mapStruct = Mappers.getMapper( <%= Entity %>MapStruct.class );
-        return mapStruct.toDto(<%= entity %>);
-    }
 
 }

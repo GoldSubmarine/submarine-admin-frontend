@@ -1,11 +1,12 @@
 import request from '@/utils/request'
 
+<%_ var entityKebab = StrUtil.camelToKebab(entity) -%>
 /**
  * 分页获取
  */
 export function get<%= Entity %>Page(params) {
   return request({
-    url: '/<%= entity %>/list/page',
+    url: '/<%= entityKebab %>/list/page',
     method: 'get',
     params
   })
@@ -16,7 +17,7 @@ export function get<%= Entity %>Page(params) {
  */
 export function get<%= Entity %>List(params) {
   return request({
-    url: '/<%= entity %>/list/all',
+    url: '/<%= entityKebab %>/list/all',
     method: 'get',
     params
   })
@@ -27,7 +28,7 @@ export function get<%= Entity %>List(params) {
  */
 export function get<%= Entity %>Detail(id) {
   return request({
-    url: '/<%= entity %>/detail',
+    url: '/<%= entityKebab %>/detail',
     method: 'get',
     params: { id }
   })
@@ -38,7 +39,7 @@ export function get<%= Entity %>Detail(id) {
  */
 export function save<%= Entity %>(data) {
   return request({
-    url: '/<%= entity %>/save',
+    url: '/<%= entityKebab %>/save',
     method: 'post',
     data
   })
@@ -49,7 +50,7 @@ export function save<%= Entity %>(data) {
  */
 export function delete<%= Entity %>(id) {
   return request({
-    url: '/<%= entity %>/del',
+    url: '/<%= entityKebab %>/del',
     method: 'delete',
     data: { id }
   })
