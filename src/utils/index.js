@@ -168,3 +168,35 @@ export function limitNumRule(min, max) {
     { min: min, max: max, message: `数字在 ${min} 到 ${max} 之间`, trigger: 'blur' }
   ]
 }
+
+/**
+ * 导出表格的数据整理
+ * @param {Array} columnConfig 必须有name,label，如果有dic或formatter会自动转换，show如果是false则不会导出
+ * @param {Array} rawListData
+ */
+export function generateExcelData(columnConfig, rawListData) {
+  const result = {
+    header: [],
+    data: []
+  }
+  // 填充头部
+  columnConfig.forEach(column => {
+    if (column.show !== false) {
+      result.header.push(column.label)
+    }
+  })
+  // 填充数据
+  rawListData.forEach(rawData => {
+    const row = []
+    columnConfig.forEach(column => {
+      let value = rawData[column.name]
+      if (column.dic) value = filterDic(column.dic, value)
+      if (column.formatter) value = column.formatter(rawData)
+      if (column.show !== false) {
+        row.push(value)
+      }
+    })
+    result.data.push(row)
+  })
+  return result
+}
