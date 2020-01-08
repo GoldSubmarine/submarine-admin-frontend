@@ -6,7 +6,7 @@ Vue.use(Router)
 /* Layout */
 import Layout from '@/layout'
 
-import systemRouter from '@/router/modules/system'
+import systemManageRouter from '@/router/modules/systemManage'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -87,7 +87,7 @@ export const constantRoutes = [
 export const asyncRoutes = [
   // ===========引入router模块 start===========
 
-  systemRouter,
+  systemManageRouter,
 
   // ===========引入router模块 end=============
 
