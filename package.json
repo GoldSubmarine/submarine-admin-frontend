@@ -27,7 +27,6 @@
     "axios": "0.19.0",
     "element-ui": "2.11.0",
     "js-cookie": "2.2.1",
-    "lint-staged": "^9.4.2",
     "normalize.css": "8.0.1",
     "nprogress": "0.2.0",
     "path-to-regexp": "6.1.0",
@@ -39,6 +38,7 @@
     "xcrud": "^0.2.2"
   },
   "devDependencies": {
+    "lint-staged": "^9.4.2",
     "@babel/core": "7.7.7",
     "@babel/register": "7.7.7",
     "@vue/cli-plugin-babel": "4.1.2",
