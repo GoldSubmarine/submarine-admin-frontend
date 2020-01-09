@@ -5,10 +5,13 @@ export default {
   datePicker: {
     valueFormat: 'yyyy-MM-dd HH:mm:ss'
   },
-  table: {
-    stripe: true
-  },
   xtable: {
+    table: {
+      stripe: true
+    },
+    column: {
+      showOverflowTooltip: true
+    },
     operate: {
       btn: {
         show: true,

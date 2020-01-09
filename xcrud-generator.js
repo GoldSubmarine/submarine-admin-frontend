@@ -8,7 +8,8 @@ module.exports = {
   mixin: {
     frontRootPath: '.',
     backRootPath: 'C:/Users/vinson/Desktop/project/java/submarine-admin-backend',
-    module: 'system',
+    module: 'system.tool',
+    modulePath: 'system/tool',
     entity: '',
     Entity: '',
     entityZh: ''
@@ -130,11 +131,11 @@ module.exports = {
     // ==============frontend==============
     {
       template: 'form.ejs',
-      path: '<%= frontRootPath %>/src/views/<%= module %>/<%= entity %>/form.vue'
+      path: '<%= frontRootPath %>/src/views/<%= modulePath %>/<%= entity %>/form.vue'
     },
     {
       template: 'index.ejs',
-      path: '<%= frontRootPath %>/src/views/<%= module %>/<%= entity %>/index.vue'
+      path: '<%= frontRootPath %>/src/views/<%= modulePath %>/<%= entity %>/index.vue'
     },
     {
       template: 'api.ejs',
@@ -143,31 +144,31 @@ module.exports = {
     // ==============backend==============
     {
       template: 'controller.ejs',
-      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/controller/<%= Entity %>Controller.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= modulePath %>/controller/<%= Entity %>Controller.java'
     },
     {
       template: 'service.ejs',
-      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/service/<%= Entity %>Service.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= modulePath %>/service/<%= Entity %>Service.java'
     },
     {
       template: 'mapper.ejs',
-      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/mapper/<%= Entity %>Mapper.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= modulePath %>/mapper/<%= Entity %>Mapper.java'
     },
     {
       template: 'entity.ejs',
-      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/entity/<%= Entity %>.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= modulePath %>/entity/<%= Entity %>.java'
     },
     {
       template: 'dto.ejs',
-      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/dto/<%= Entity %>Dto.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= modulePath %>/dto/<%= Entity %>Dto.java'
     },
     {
       template: 'xml.ejs',
-      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/xml/<%= Entity %>Mapper.xml'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= modulePath %>/xml/<%= Entity %>Mapper.xml'
     },
     {
       template: 'mapStruct.ejs',
-      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= module %>/mapstruct/<%= Entity %>MapStruct.java'
+      path: '<%= backRootPath %>/src/main/java/com/htnova/<%= modulePath %>/mapstruct/<%= Entity %>MapStruct.java'
     }
   ]
 }

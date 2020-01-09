@@ -61,7 +61,7 @@ public class <%= Entity %>Controller {
      */
     @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.add', '<%= entity %>.edit')")
     @PostMapping("/save")
-    public Result<Void> save(@Valid <%= Entity %>Dto <%= entity %>Dto) {
+    public Result<Void> save(@Valid @RequestBody <%= Entity %>Dto <%= entity %>Dto) {
         <%= entity %>Service.save<%= Entity %>(DtoConverter.toEntity(<%= entity %>Dto, <%= Entity %>MapStruct.class));
         return Result.build(ResultStatus.SAVE_SUCCESS);
     }
@@ -71,7 +71,7 @@ public class <%= Entity %>Controller {
      */
     @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.del')")
     @DeleteMapping("/del")
-    public Result<Void> delete(<%= Entity %>Dto <%= entity %>Dto) {
+    public Result<Void> delete(@RequestBody <%= Entity %>Dto <%= entity %>Dto) {
         <%= entity %>Service.delete<%= Entity %>(<%= entity %>Dto.getId());
         return Result.build(ResultStatus.DELETE_SUCCESS);
     }

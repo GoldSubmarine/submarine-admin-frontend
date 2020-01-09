@@ -5,7 +5,7 @@
     function genSqlFields(fields) {
         let result = "";
         fields.forEach(field => {
-            result += `\n\t\ta.${StrUtil.camelToUnderscore(field.field)},`
+            result += `\n\t\ta.${StrUtil.camelToUnderscore(field.field)} as ${field.field},`
         })
         result = result.slice(0, -1)
         return result;
@@ -14,24 +14,26 @@
     function genSqlSearch(fields) {
         let result = "";
         fields.forEach(field => {
-            let initialUpperField = StrUtil.initialUpperCase(field.field)
-            let underscoreField = StrUtil.camelToUnderscore(field.field)
-            if(/(varchar|char|text)/.test(field.type)) {
-              result += `\n\t\t<if test="${ entity }Dto.${ field.field } != null and ${ entity }Dto.${ field.field } != ''">`
-            } else {
-              result += `\n\t\t<if test="${ entity }Dto.${ field.field } != null">`
+            if(field.field !== 'delFlag') {
+                let initialUpperField = StrUtil.initialUpperCase(field.field)
+                let underscoreField = StrUtil.camelToUnderscore(field.field)
+                if(/(varchar|char|text)/.test(field.type)) {
+                  result += `\n\t\t<if test="${ entity }Dto.${ field.field } != null and ${ entity }Dto.${ field.field } != ''">`
+                } else {
+                  result += `\n\t\t<if test="${ entity }Dto.${ field.field } != null">`
+                }
+                if(field.sqlType === 'BETWEEN') {
+                    result += `\n\t\t\tAND a.${ underscoreField } = #{${ entity }Dto.${ field.field }}`
+                    result += `\n\t\t</if>`
+                    result += `\n\t\t<if test="${ entity }Dto.begin${ initialUpperField } != null and ${ entity }Dto.end${ initialUpperField } != null">`
+                    result += `\n\t\t\tAND a.${ underscoreField } BETWEEN #{${ entity }Dto.begin${ initialUpperField }} AND #{${ entity }Dto.end${ initialUpperField }}`
+                } else if(field.sqlType === 'LIKE') {
+                    result += `\n\t\t\tAND a.${ underscoreField } ${field.sqlType} concat('%', #{${ entity }Dto.${ field.field }}, '%')`
+                } else {
+                    result += `\n\t\t\tAND a.${ underscoreField } ${field.sqlType} #{${ entity }Dto.${ field.field }}`
+                }
+                result += "\n\t\t</if>"
             }
-            if(field.sqlType === 'BETWEEN') {
-                result += `\n\t\t\tAND a.${ underscoreField } = #{${ entity }Dto.${ field.field }}`
-                result += `\n\t\t</if>`
-                result += `\n\t\t<if test="${ entity }Dto.begin${ initialUpperField } != null and ${ entity }Dto.end${ initialUpperField } != null">`
-                result += `\n\t\t\tAND a.${ underscoreField } BETWEEN #{${ entity }Dto.begin${ initialUpperField }} AND #{${ entity }Dto.end${ initialUpperField }}`
-            } else if(field.sqlType === 'LIKE') {
-                result += `\n\t\t\tAND a.${ underscoreField } ${field.sqlType} concat('%', #{${ entity }Dto.${ field.field }}, '%')`
-            } else {
-                result += `\n\t\t\tAND a.${ underscoreField } ${field.sqlType} #{${ entity }Dto.${ field.field }}`
-            }
-            result += "\n\t\t</if>"
         })
         return result;
     }

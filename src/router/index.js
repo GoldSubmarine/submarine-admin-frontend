@@ -7,6 +7,7 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 import systemManageRouter from '@/router/modules/systemManage'
+import systemToolRouter from '@/router/modules/systemTool'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -64,7 +65,7 @@ export const constantRoutes = [
     children: [{
       path: '',
       name: 'personalCenter',
-      component: () => import('@/views/system/user/personalCenter'),
+      component: () => import('@/views/system/manage/user/personalCenter'),
       meta: { title: '个人中心', icon: 'dashboard' }
     }]
   }
@@ -88,6 +89,7 @@ export const asyncRoutes = [
   // ===========引入router模块 start===========
 
   systemManageRouter,
+  systemToolRouter,
 
   // ===========引入router模块 end=============
 

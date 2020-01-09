@@ -40,3 +40,10 @@ export const displayType = [
   { label: '可见', value: 'visible' },
   { label: '隐藏', value: 'hidden' }
 ]
+
+// 文件存储方式
+export const fileStoreType = [
+  { label: '本地', value: 'local' },
+  { label: 'OSS', value: 'OSS' }
+]
+
