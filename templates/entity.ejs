@@ -21,15 +21,21 @@ import com.baomidou.mybatisplus.annotation.TableName;
 public class <%= Entity %> extends BaseEntity {
 <%_
     var baseField = ['id', 'remark', 'createBy', 'createTime', 'updateBy', 'updateTime', 'delFlag'];
-    function getType(str) {
-        if(str == 'varchar') return 'String';
-        if(str == 'char') return 'String';
-        if(str == 'text') return 'String';
-        if(str == 'bigint') return 'Long';
-        if(str == 'double') return 'Double';
-        if(str == 'decimal') return 'BigDecimal';
-        if(str == 'datetime') return 'Date';
-        if(str == 'int') return 'Integer';
+    var dicList = []
+    function getType(field) {
+        if(field.dicType) {
+          dicList.push(StrUtil.initialUpperCase(field.dicType))
+          return StrUtil.initialUpperCase(field.dicType)
+        }
+        var sqlType = field.type;
+        if(sqlType == 'varchar') return 'String';
+        if(sqlType == 'char') return 'String';
+        if(sqlType == 'text') return 'String';
+        if(sqlType == 'bigint') return 'Long';
+        if(sqlType == 'double') return 'Double';
+        if(sqlType == 'decimal') return 'BigDecimal';
+        if(sqlType == 'datetime') return 'Date';
+        if(sqlType == 'int') return 'Integer';
     }
     function genStr(fields) {
         let result = "";
@@ -40,13 +46,13 @@ public class <%= Entity %> extends BaseEntity {
                     result += `\n\t* ${field.comment}`
                     result += `\n\t*/`
                 }
-                result += `\n\tprivate ${getType(field.type)} ${field.field};`
+                result += `\n\tprivate ${getType(field)} ${field.field};`
 
                 if(field.sqlType === 'BETWEEN') {
                     result += `\n\n\t@TableField(exist=false)`
-                    result += `\n\tprivate ${getType(field.type)} begin${ StrUtil.initialUpperCase(field.field) };`
+                    result += `\n\tprivate ${getType(field)} begin${ StrUtil.initialUpperCase(field.field) };`
                     result += `\n\n\t@TableField(exist=false)`
-                    result += `\n\tprivate ${getType(field.type)} end${ StrUtil.initialUpperCase(field.field) };`
+                    result += `\n\tprivate ${getType(field)} end${ StrUtil.initialUpperCase(field.field) };`
                 }
             }
         })
@@ -55,4 +61,8 @@ public class <%= Entity %> extends BaseEntity {
 -%>
     <%= genStr(fields) %>
 
+    <% dicList.forEach(dic => { %>
+    public enum <%= dic %> {}
+
+    <% }) %>
 }

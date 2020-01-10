@@ -27,6 +27,9 @@
         if(tag.length === 2) {
           item.type = tag[1]
         }
+        if(item.xType === 'select' && columnItem.dicType) {
+          item.dic = `importDic('all', '${StrUtil.initialLowerCase(columnItem.dicType)}')`
+        }
       }
       return item
     }
@@ -40,7 +43,11 @@
       if(item) {
         let str = "{"
         for(key in item) {
-          str += `\n\t\t\t\t\t\t${key}: \'${item[key]}\',`
+          if(key === 'rules' || key === 'dic') {
+            str += `\n\t\t\t\t\t\t${key}: ${item[key]},`
+          } else {
+            str += `\n\t\t\t\t\t\t${key}: \'${item[key]}\',`
+          }
         }
         str += "\n\t\t\t\t\t}"
         result.push(str)
@@ -51,6 +58,7 @@
 -%>
 import { get<%= Entity %>Page, delete<%= Entity %> } from '@/api/<%= entity %>'
 import dForm from './form'
+import { importDic } from '../../../../utils'
 
 export default {
   components: {

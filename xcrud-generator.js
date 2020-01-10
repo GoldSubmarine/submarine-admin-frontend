@@ -66,13 +66,13 @@ module.exports = {
         { label: 'checkbox 多选框', value: 'checkbox' }
       ]
     },
-    // {
-    //   title: '字典类型',
-    //   name: 'dicType',
-    //   default: '',
-    //   type: 'select',
-    //   options: selectListAll
-    // },
+    {
+      title: '字典类型',
+      name: 'dicType',
+      default: '',
+      type: 'input',
+      placeholder: '输入字典，驼峰'
+    },
     {
       title: 'sql',
       name: 'sqlType',

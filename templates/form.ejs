@@ -18,6 +18,9 @@
       if(tag.length === 2) {
         item.type = tag[1]
       }
+      if(item.xType === 'select' && columnItem.dicType) {
+        item.dic = `importDic('${columnItem.dicType}')`
+      }
       item.name = columnItem.field
       item.label = columnItem.comment
       item.rules = []
@@ -61,7 +64,7 @@
       if(item) {
         let str = "{"
         for(key in item) {
-          if(key === 'rules') {
+          if(key === 'rules' || key === 'dic') {
             str += `\n\t\t\t\t\t\t${key}: ${item[key]},`
           } else {
             str += `\n\t\t\t\t\t\t${key}: \'${item[key]}\',`

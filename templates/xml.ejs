@@ -17,7 +17,7 @@
             if(field.field !== 'delFlag') {
                 let initialUpperField = StrUtil.initialUpperCase(field.field)
                 let underscoreField = StrUtil.camelToUnderscore(field.field)
-                if(/(varchar|char|text)/.test(field.type)) {
+                if(/(varchar|char|text)/.test(field.type) && !/select/.test(field.formType)) {
                   result += `\n\t\t<if test="${ entity }Dto.${ field.field } != null and ${ entity }Dto.${ field.field } != ''">`
                 } else {
                   result += `\n\t\t<if test="${ entity }Dto.${ field.field } != null">`
