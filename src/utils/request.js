@@ -111,7 +111,7 @@ service.interceptors.response.use(
 function removeBlankKeys(obj) {
   if (!obj) return undefined
   for (const key in obj) {
-    if (obj.hasOwnProperty(key) && (obj[key] === '' || obj[key] === undefined || obj[key] === null)) {
+    if (Object.prototype.hasOwnProperty.call(obj, key) && (obj[key] === '' || obj[key] === undefined || obj[key] === null)) {
       delete obj[key]
     }
   }
