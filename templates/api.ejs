@@ -4,11 +4,15 @@ import request from '@/utils/request'
 /**
  * 分页获取
  */
-export function get<%= Entity %>Page(params) {
+export function get<%= Entity %>Page(params, pageNum, pageSize) {
   return request({
     url: '/<%= entityKebab %>/list/page',
     method: 'get',
-    params
+    params: {
+      ...params,
+      pageNum,
+      pageSize
+    }
   })
 }
 
