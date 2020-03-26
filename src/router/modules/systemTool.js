@@ -16,6 +16,12 @@ const systemToolRouter = {
       component: () => import('@/views/system/tool/fileStore/index'),
       name: 'FileStore',
       meta: { title: '存储管理', icon: 'permission', permission: ['fileStore'] }
+    },
+    {
+      path: 'monitor-sql',
+      component: () => import('@/views/system/tool/monitorSql/index'),
+      name: 'monitorSql',
+      meta: { title: 'SQL监控', icon: 'permission', permission: ['fileStore'] }
     }
   ]
 }
