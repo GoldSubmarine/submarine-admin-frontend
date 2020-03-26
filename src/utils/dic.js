@@ -15,6 +15,11 @@ export const sex = [
   { label: '女', value: 'female' }
 ]
 
+export const permissionType = [
+  { label: '菜单', value: 'menu' },
+  { label: '按钮', value: 'button' }
+]
+
 // 部门状态
 export const deptStatus = [
   { label: '正常', value: 'enable' },

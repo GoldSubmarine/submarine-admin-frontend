@@ -7,7 +7,8 @@ export default {
   },
   xtable: {
     table: {
-      stripe: true
+      stripe: true,
+      border: true
     },
     column: {
       showOverflowTooltip: true

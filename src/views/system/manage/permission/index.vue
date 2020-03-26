@@ -13,6 +13,7 @@
 <script>
 import { deletePermission, getPermissionTree } from '@/api/permission'
 import dForm from './form'
+import { importDic } from '../../../../utils'
 
 export default {
   components: {
@@ -22,9 +23,7 @@ export default {
     return {
       loading: 0,
       tableData: [],
-      searchData: {
-        type: 'button'
-      },
+      searchData: {},
       propId: '',
       dialogName: '',
       mode: '',
@@ -45,6 +44,7 @@ export default {
         ],
         column: [
           { label: '名称', name: 'name', search: true, xType: 'input', align: 'left' },
+          { label: '类型', name: 'type', search: true, xType: 'select', dic: importDic('permissionType') },
           { label: '权限值', name: 'value', search: true, xType: 'input' },
           { label: '备注', name: 'remark', search: true, xType: 'input' },
           { label: '创建时间', name: 'createTime' }

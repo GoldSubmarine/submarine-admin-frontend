@@ -8,7 +8,7 @@ const systemManageRouter = {
   meta: {
     title: '系统设置',
     icon: 'system',
-    permission: ['system']
+    permission: ['systemManage']
   },
   children: [
     {
@@ -16,12 +16,6 @@ const systemManageRouter = {
       component: () => import('@/views/system/manage/permission/index'),
       name: 'Permission',
       meta: { title: '权限管理', icon: 'permission', permission: ['permission'] }
-    },
-    {
-      path: 'menu',
-      component: () => import('@/views/system/manage/menu/index'),
-      name: 'menu',
-      meta: { title: '菜单管理', icon: 'menu', permission: ['menu'] }
     },
     {
       path: 'dept',

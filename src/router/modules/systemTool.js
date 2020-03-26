@@ -8,14 +8,14 @@ const systemToolRouter = {
   meta: {
     title: '系统工具',
     icon: 'system',
-    permission: ['system']
+    permission: ['systemTool']
   },
   children: [
     {
       path: 'file-store',
       component: () => import('@/views/system/tool/fileStore/index'),
       name: 'FileStore',
-      meta: { title: '存储管理', icon: 'permission' }
+      meta: { title: '存储管理', icon: 'permission', permission: ['fileStore'] }
     }
   ]
 }

@@ -1,23 +1,21 @@
 <template>
   <div v-loading="loading" class="app-container">
-    <x-table
-      v-model="searchData"
-      :config="tableConfig"
-      :data="tableData"
-      :page.sync="page"
-      :load="getRolePage"
-    />
-    <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" @refresh="getRolePage" @close="closeDialog" />
-
-    <el-row :gutter="40" style="margin-top: 20px;">
-      <el-col :span="12">
+    <el-row :gutter="20">
+      <el-col :span="16">
+        <x-table
+          v-model="searchData"
+          :config="tableConfig"
+          :data="tableData"
+          :page.sync="page"
+          :load="getRolePage"
+        />
+      </el-col>
+      <el-col :span="8">
         <treeSelect :id="propTreeId" mode="permission" />
       </el-col>
-
-      <el-col :span="12">
-        <treeSelect :id="propTreeId" mode="menu" />
-      </el-col>
     </el-row>
+
+    <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" @refresh="getRolePage" @close="closeDialog" />
   </div>
 </template>
 

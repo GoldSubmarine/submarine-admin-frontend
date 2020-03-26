@@ -1,17 +1,30 @@
 <template>
   <div class="app-container">
-    <el-dialog v-loading="loading" :title="dialogTitle" :visible.sync="dialogVisible" width="520px" :close-on-click-modal="false" @closed="$emit('close')">
+    <el-dialog
+      v-loading="loading"
+      :title="dialogTitle"
+      :visible.sync="dialogVisible"
+      width="520px"
+      :close-on-click-modal="false"
+      @closed="$emit('close')"
+    >
       <x-form ref="xForm" v-model="formData" :config="formConfig" />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getPermissionDetail, savePermission, saveModulePermission, getPermissionTree } from '@/api/permission'
-import { importRules } from '@/utils/index'
+import {
+  getPermissionDetail,
+  savePermission,
+  saveModulePermission,
+  getPermissionTree
+} from '@/api/permission'
+import { importRules, importDic } from '@/utils/index'
 export default {
   props: {
-    mode: { // edit, detail, add
+    mode: {
+      // edit, detail, add
       type: String,
       required: true
     },
@@ -28,9 +41,7 @@ export default {
     return {
       loading: 0,
       dialogVisible: true,
-      formData: {
-        type: 'button'
-      },
+      formData: {},
       formDisabled: false,
       dialogTitle: '编辑',
       showBtn: true,
@@ -44,13 +55,46 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         item: [
-          { xType: 'input', name: 'name', label: '名称', rules: importRules('inputRequired') },
-          { xType: 'input', name: 'value', label: '权限值' },
-          { xType: 'select', type: 'tree', name: 'pid', dic: { data: _this.treeData, label: 'name', value: 'id' }, label: '父级' }
+          {
+            xType: 'select',
+            label: '类型',
+            name: 'type',
+            dic: importDic('permissionType'),
+            rules: importRules('selectRequired'),
+            disabled: _this.isModule
+          },
+          {
+            xType: 'input',
+            name: 'name',
+            label: '名称',
+            rules: importRules('inputRequired')
+          },
+          {
+            xType: 'input',
+            name: 'value',
+            label: '权限值'
+          },
+          {
+            xType: 'select',
+            type: 'tree',
+            name: 'pid',
+            dic: { data: _this.treeData, label: 'name', value: 'id' },
+            label: '父级'
+          }
         ],
         operate: [
-          { text: '保存', show: _this.showBtn, click: _this.savePermission },
-          { text: '取消', show: _this.showBtn, click: () => { _this.dialogVisible = false } }
+          {
+            text: '保存',
+            show: _this.showBtn,
+            click: _this.savePermission
+          },
+          {
+            text: '取消',
+            show: _this.showBtn,
+            click: () => {
+              _this.dialogVisible = false
+            }
+          }
         ]
       }
     }
@@ -80,35 +124,50 @@ export default {
   },
   mounted() {
     this.getPermissionTree()
+    if (this.isModule) {
+      this.formData.type = 'menu'
+    }
   },
   methods: {
     getPermissionDetail() {
       this.loading++
-      getPermissionDetail(this.id).then(res => {
-        this.formData = res
-      }).catch(e => console.error(e)).finally(() => this.loading--)
+      getPermissionDetail(this.id)
+        .then(res => {
+          this.formData = res
+        })
+        .catch(e => console.error(e))
+        .finally(() => this.loading--)
     },
     getPermissionTree() {
       this.loading++
-      getPermissionTree({ type: 'button' }).then(res => {
-        this.treeData = res
-      }).catch(e => console.error(e)).finally(() => this.loading--)
+      getPermissionTree({ type: 'menu' })
+        .then(res => {
+          this.treeData = res
+        })
+        .catch(e => console.error(e))
+        .finally(() => this.loading--)
     },
     savePermission() {
-      this.$refs['xForm'].validate().then(() => {
-        this.loading++
-        let promise
-        if (this.isModule) {
-          promise = saveModulePermission(this.formData)
-        } else {
-          promise = savePermission(this.formData)
-        }
-        promise.then(res => {
-          this.dialogVisible = false
-          this.$message.success(res.msg)
-          this.$emit('refresh')
-        }).catch(e => console.error(e)).finally(() => this.loading--)
-      }).catch(e => console.error(e))
+      this.$refs['xForm']
+        .validate()
+        .then(() => {
+          this.loading++
+          let promise
+          if (this.isModule) {
+            promise = saveModulePermission(this.formData)
+          } else {
+            promise = savePermission(this.formData)
+          }
+          promise
+            .then(res => {
+              this.dialogVisible = false
+              this.$message.success(res.msg)
+              this.$emit('refresh')
+            })
+            .catch(e => console.error(e))
+            .finally(() => this.loading--)
+        })
+        .catch(e => console.error(e))
     }
   }
 }
