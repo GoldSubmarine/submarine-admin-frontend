@@ -1,14 +1,13 @@
 <template>
   <div class="app-container">
     <el-dialog
-      v-loading="loading"
       :title="dialogTitle"
       :visible.sync="dialogVisible"
       width="520px"
       :close-on-click-modal="false"
       @closed="$emit('close')"
     >
-      <x-form ref="xForm" v-model="formData" :config="formConfig" />
+      <x-form ref="xForm" v-model="formData" v-loading="loading" :config="formConfig" />
     </el-dialog>
   </div>
 </template>

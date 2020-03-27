@@ -5,7 +5,7 @@
     function genSqlFields(fields) {
         let result = "";
         fields.forEach(field => {
-            result += `\n\t\ta.${StrUtil.camelToUnderscore(field.field)} as ${field.field},`
+            result += `\n\t\ta.${StrUtil.camelToUnderscore(field.field)} as \`${field.field}\`,`
         })
         result = result.slice(0, -1)
         return result;

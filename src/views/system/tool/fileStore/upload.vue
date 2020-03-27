@@ -1,7 +1,8 @@
 <template>
   <div class="app-container">
-    <el-dialog v-loading="loading" title="上传文件" :visible.sync="dialogVisible" width="400px" :close-on-click-modal="false" @closed="$emit('close')">
+    <el-dialog title="上传文件" :visible.sync="dialogVisible" width="400px" :close-on-click-modal="false" @closed="$emit('close')">
       <el-upload
+        v-loading="loading"
         class="upload-demo"
         drag
         multiple
