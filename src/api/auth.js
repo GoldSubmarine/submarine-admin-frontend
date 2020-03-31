@@ -1,10 +1,14 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function login(data) {
   return request({
     url: '/auth/login',
     method: 'post',
-    data
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    data: qs.stringify(data)
   })
 }
 

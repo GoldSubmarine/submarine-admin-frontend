@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
-import { getToken, setToken } from '@/utils/auth'
+// import { getToken, setToken } from '@/utils/auth'
 // import qs from 'qs'
 const vsprintf = require('sprintf-js').vsprintf
 
@@ -17,12 +17,12 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
 
-    if (store.getters.token) {
-      // let each request carry token
-      // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
-      config.headers['Authorization'] = 'bearer ' + getToken()
-    }
+    // if (store.getters.token) {
+    // let each request carry token
+    // ['X-Token'] is a custom headers key
+    // please modify it according to the actual situation
+    //   config.headers['Authorization'] = 'bearer ' + getToken()
+    // }
     config.url = config.url + '?_timestamp=' + Date.now()
     removeBlankKeys(config.data)
     removeBlankKeys(config.params)
@@ -51,9 +51,9 @@ service.interceptors.response.use(
    */
   response => {
     // 更新token
-    if (response.headers['x-token']) {
-      setToken(response.headers['x-token'])
-    }
+    // if (response.headers['x-token']) {
+    //   setToken(response.headers['x-token'])
+    // }
 
     const res = response.data ? response.data : {}
     formatMsg(res)
