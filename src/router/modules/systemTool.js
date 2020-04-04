@@ -18,6 +18,12 @@ const systemToolRouter = {
       meta: { title: '存储管理', icon: 'permission', permission: ['fileStore'] }
     },
     {
+      path: 'quartz-job',
+      component: () => import('@/views/system/tool/quartzJob/index'),
+      name: 'quartzJob',
+      meta: { title: '定时任务', icon: 'permission', permission: ['quartzJob'] }
+    },
+    {
       path: 'monitor-sql',
       component: () => import('@/views/system/tool/monitorSql/index'),
       name: 'monitorSql',

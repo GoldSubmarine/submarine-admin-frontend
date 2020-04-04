@@ -52,3 +52,9 @@ export const fileStoreType = [
   { label: 'OSS', value: 'OSS' }
 ]
 
+// 定时任务状态
+export const QuartzJobStatusType = [
+  { label: '启用', value: 'enable' },
+  { label: '停用', value: 'disable' }
+]
+
