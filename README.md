@@ -64,24 +64,35 @@ npm run lint -- --fix
 
 ## 功能
 
-实现了权限，菜单，机构，角色，用户等页面
+- 权限管理
+- 机构管理
+- 角色管理
+- 用户管理
+- 字典管理
+- 存储管理
+- 定时任务
+- SQL监控
 
 ## 前端预览
 
 <table>
     <tr>
         <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/permission.png"/></td>
-        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/menu.png"/></td>
-    </tr>
-    <tr>
         <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/dept.png"/></td>
-        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/role.png"/></td>
     </tr>
     <tr>
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/role.png"/></td>
         <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/user.png"/></td>
+    </tr>
+    <tr>
         <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/dictionary.png"/></td>
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/fileStore.png"/></td>
     </tr>
     <tr>   
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/schedule.png"/></td>
+        <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/monitorSql.png"/></td>
+    </tr>
+    <tr>
         <td><img src="https://raw.githubusercontent.com/GoldSubmarine/submarine-admin-frontend/master/doc/images/personal.png"/></td>
     </tr>
 </table>

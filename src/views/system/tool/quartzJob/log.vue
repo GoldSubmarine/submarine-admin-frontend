@@ -1,8 +1,9 @@
 <template>
-  <div v-loading="loading" class="app-container">
+  <div class="app-container">
     <el-dialog title="日志" :visible.sync="dialogVisible" width="1220px" :close-on-click-modal="false" @closed="$emit('close')">
       <x-table
         v-model="searchData"
+        v-loading="loading"
         :config="tableConfig"
         :data="tableData"
         :page.sync="page"
