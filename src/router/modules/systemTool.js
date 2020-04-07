@@ -7,7 +7,7 @@ const systemToolRouter = {
   name: 'SystemTool',
   meta: {
     title: '系统工具',
-    icon: 'system',
+    icon: 'systemTool',
     permission: ['systemTool']
   },
   children: [
@@ -15,19 +15,19 @@ const systemToolRouter = {
       path: 'file-store',
       component: () => import('@/views/system/tool/fileStore/index'),
       name: 'FileStore',
-      meta: { title: '存储管理', icon: 'permission', permission: ['fileStore'] }
+      meta: { title: '存储管理', icon: 'fileStore', permission: ['fileStore'] }
     },
     {
       path: 'quartz-job',
       component: () => import('@/views/system/tool/quartzJob/index'),
       name: 'quartzJob',
-      meta: { title: '定时任务', icon: 'permission', permission: ['quartzJob'] }
+      meta: { title: '定时任务', icon: 'schedule', permission: ['quartzJob'] }
     },
     {
       path: 'monitor-sql',
       component: () => import('@/views/system/tool/monitorSql/index'),
       name: 'monitorSql',
-      meta: { title: 'SQL监控', icon: 'permission', permission: ['fileStore'] }
+      meta: { title: 'SQL监控', icon: 'monitorSql', permission: ['fileStore'] }
     }
   ]
 }
