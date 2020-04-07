@@ -58,3 +58,9 @@ export const QuartzJobStatusType = [
   { label: '停用', value: 'disable' }
 ]
 
+// 定时任务状态
+export const QuartzLogStatusType = [
+  { label: '成功', value: 'success' },
+  { label: '失败', value: 'fail' }
+]
+

@@ -80,3 +80,18 @@ export function changeQuartzJobStatus(id, status) {
     data: { id, status }
   })
 }
+
+/**
+ * 查询日志
+ */
+export function findLogByPage(params, pageNum, pageSize) {
+  return request({
+    url: '/quartz-job/log/page',
+    method: 'get',
+    params: {
+      ...params,
+      pageNum,
+      pageSize
+    }
+  })
+}

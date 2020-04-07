@@ -23,6 +23,7 @@ service.interceptors.request.use(
     // please modify it according to the actual situation
     //   config.headers['Authorization'] = 'bearer ' + getToken()
     // }
+    config.headers['X-Requested-With'] = 'XMLHttpRequest'
     config.url = config.url + '?_timestamp=' + Date.now()
     removeBlankKeys(config.data)
     removeBlankKeys(config.params)

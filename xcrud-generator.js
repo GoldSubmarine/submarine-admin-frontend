@@ -39,7 +39,7 @@ module.exports = {
     {
       title: '非空',
       name: 'isNotNull',
-      default: true,
+      default: false,
       type: 'checkbox',
       width: '80'
     },

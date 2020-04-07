@@ -6,19 +6,26 @@
       :data="tableData"
       :page.sync="page"
       :load="getQuartzJobPage"
-    />
+    >
+      <template #status="scope">
+        <el-tag :type="scope.row.status==='enable' ? 'success' : 'warning'">{{ filterDic('QuartzJobStatusType', scope.row.status) }}</el-tag>
+      </template>
+    </x-table>
     <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" @refresh="getQuartzJobPage" @close="closeDialog" />
+    <log v-if="dialogName == 'log'" @close="closeDialog" />
   </div>
 </template>
 
 <script>
 import { getQuartzJobPage, deleteQuartzJob, changeQuartzJobStatus, runQuartzJob } from '@/api/quartzJob'
 import dForm from './form'
-import { importDic } from '../../../../utils'
+import log from './log'
+import { importDic, filterDic } from '../../../../utils'
 
 export default {
   components: {
-    dForm
+    dForm,
+    log
   },
   data() {
     return {
@@ -42,7 +49,8 @@ export default {
         search: true,
         reset: true,
         btn: [
-          { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
+          { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' },
+          { text: '日志', click: () => { _this.dialogName = 'log' }, icon: 'el-icon-document', type: 'info' }
         ],
         column: [
           {
@@ -76,6 +84,7 @@ export default {
             label: '状态',
             search: 'true',
             xType: 'select',
+            slot: true,
             dic: importDic('all', 'QuartzJobStatusType')
           },
           {
@@ -117,6 +126,7 @@ export default {
     this.getQuartzJobPage()
   },
   methods: {
+    filterDic: filterDic,
     getQuartzJobPage() {
       this.loading++
       getQuartzJobPage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
