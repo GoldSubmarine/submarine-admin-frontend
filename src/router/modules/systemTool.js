@@ -28,6 +28,12 @@ const systemToolRouter = {
       component: () => import('@/views/system/tool/monitorSql/index'),
       name: 'monitorSql',
       meta: { title: 'SQL监控', icon: 'monitorSql', permission: ['fileStore'] }
+    },
+    {
+      path: 'redis',
+      component: () => import('@/views/system/tool/redis/index'),
+      name: 'redis',
+      meta: { title: 'redis', icon: 'monitorSql', permission: ['fileStore'] }
     }
   ]
 }
