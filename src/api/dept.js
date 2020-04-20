@@ -31,9 +31,8 @@ export function getDeptList(params) {
  */
 export function getDeptDetail(id) {
   return request({
-    url: '/dept/detail',
-    method: 'get',
-    params: { id }
+    url: '/dept/detail/' + id,
+    method: 'get'
   })
 }
 
@@ -64,8 +63,7 @@ export function saveDept(data) {
  */
 export function deleteDept(id) {
   return request({
-    url: '/dept/del',
-    method: 'delete',
-    data: { id }
+    url: '/dept/del/' + id,
+    method: 'delete'
   })
 }

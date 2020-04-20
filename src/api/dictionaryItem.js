@@ -31,9 +31,8 @@ export function getDictionaryItemList(params) {
  */
 export function getDictionaryItemDetail(id) {
   return request({
-    url: '/dictionary-item/detail',
-    method: 'get',
-    params: { id }
+    url: '/dictionary-item/detail/' + id,
+    method: 'get'
   })
 }
 
@@ -53,8 +52,7 @@ export function saveDictionaryItem(data) {
  */
 export function deleteDictionaryItem(id) {
   return request({
-    url: '/dictionary-item/del',
-    method: 'delete',
-    data: { id }
+    url: '/dictionary-item/del/' + id,
+    method: 'delete'
   })
 }

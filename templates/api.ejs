@@ -32,9 +32,8 @@ export function get<%= Entity %>List(params) {
  */
 export function get<%= Entity %>Detail(id) {
   return request({
-    url: '/<%= entityKebab %>/detail',
-    method: 'get',
-    params: { id }
+    url: '/<%= entityKebab %>/detail/' + id,
+    method: 'get'
   })
 }
 
@@ -54,8 +53,7 @@ export function save<%= Entity %>(data) {
  */
 export function delete<%= Entity %>(id) {
   return request({
-    url: '/<%= entityKebab %>/del',
-    method: 'delete',
-    data: { id }
+    url: '/<%= entityKebab %>/del/' + id,
+    method: 'delete'
   })
 }

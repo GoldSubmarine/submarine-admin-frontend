@@ -31,9 +31,8 @@ export function getUserList(params) {
  */
 export function getUserDetail(id) {
   return request({
-    url: '/user/detail',
-    method: 'get',
-    params: { id }
+    url: '/user/detail/' + id,
+    method: 'get'
   })
 }
 
@@ -64,9 +63,8 @@ export function bindRole(data) {
  */
 export function deleteUser(id) {
   return request({
-    url: '/user/del',
-    method: 'delete',
-    data: { id }
+    url: '/user/del/' + id,
+    method: 'delete'
   })
 }
 

@@ -31,9 +31,8 @@ export function getQuartzJobList(params) {
  */
 export function getQuartzJobDetail(id) {
   return request({
-    url: '/quartz-job/detail',
-    method: 'get',
-    params: { id }
+    url: '/quartz-job/detail/' + id,
+    method: 'get'
   })
 }
 
@@ -53,9 +52,8 @@ export function saveQuartzJob(data) {
  */
 export function deleteQuartzJob(id) {
   return request({
-    url: '/quartz-job/del',
-    method: 'delete',
-    data: { id }
+    url: '/quartz-job/del/' + id,
+    method: 'delete'
   })
 }
 

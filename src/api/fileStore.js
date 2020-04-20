@@ -31,9 +31,8 @@ export function getFileStoreList(params) {
  */
 export function getFileStoreDetail(id) {
   return request({
-    url: '/file/detail',
-    method: 'get',
-    params: { id }
+    url: '/file/detail/' + id,
+    method: 'get'
   })
 }
 
@@ -53,9 +52,8 @@ export function saveFileStore(data) {
  */
 export function deleteFileStore(id) {
   return request({
-    url: '/file/del',
-    method: 'delete',
-    data: { id }
+    url: '/file/del/' + id,
+    method: 'delete'
   })
 }
 

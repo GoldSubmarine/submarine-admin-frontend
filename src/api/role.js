@@ -31,9 +31,8 @@ export function getRoleList(params) {
  */
 export function getRoleDetail(id) {
   return request({
-    url: '/role/detail',
-    method: 'get',
-    params: { id }
+    url: '/role/detail/' + id,
+    method: 'get'
   })
 }
 
@@ -68,8 +67,7 @@ export function saveRolePermission(roleId, type, permissionList) {
  */
 export function deleteRole(id) {
   return request({
-    url: '/role/del',
-    method: 'delete',
-    data: { id }
+    url: '/role/del/' + id,
+    method: 'delete'
   })
 }

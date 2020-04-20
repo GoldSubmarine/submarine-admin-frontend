@@ -31,9 +31,8 @@ export function getPermissionList(params) {
  */
 export function getPermissionDetail(id) {
   return request({
-    url: '/permission/detail',
-    method: 'get',
-    params: { id }
+    url: '/permission/detail/' + id,
+    method: 'get'
   })
 }
 
@@ -75,8 +74,7 @@ export function saveModulePermission(data) {
  */
 export function deletePermission(id) {
   return request({
-    url: '/permission/del',
-    method: 'delete',
-    data: { id }
+    url: '/permission/del/' + id,
+    method: 'delete'
   })
 }
