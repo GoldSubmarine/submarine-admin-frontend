@@ -7,7 +7,7 @@ module.exports = {
   },
   mixin: {
     frontRootPath: '.',
-    backRootPath: 'C:/Users/vinson/Desktop/project/java/submarine-admin-backend',
+    backRootPath: 'K:/github/submarine-admin-backend',
     module: 'system.tool',
     modulePath: 'system/tool',
     entity: '',

@@ -34,6 +34,12 @@ const systemToolRouter = {
       component: () => import('@/views/system/tool/redis/index'),
       name: 'redis',
       meta: { title: 'redis', icon: 'monitorSql', permission: ['fileStore'] }
+    },
+    {
+      path: 'location',
+      component: () => import('@/views/system/tool/location/index'),
+      name: 'location',
+      meta: { title: '省市区', icon: 'monitorSql' }
     }
   ]
 }

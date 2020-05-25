@@ -32,7 +32,7 @@ public class <%= Entity %>Service extends ServiceImpl<<%= Entity %>Mapper, <%= E
         super.saveOrUpdate(<%= entity %>);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public <%= Entity %> get<%= Entity %>ById(long id) {
         return <%= entity %>Mapper.selectById(id);
     }

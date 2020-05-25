@@ -32,7 +32,7 @@ public class <%= Entity %>Controller {
     @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.find')")
     @GetMapping("/list/page")
     public XPage<<%= Entity %>Dto> findListByPage(<%= Entity %>Dto <%= entity %>Dto, XPage<Void> xPage) {
-        IPage<<%= Entity %>> <%= entity %>Page = <%= entity %>Service.find<%= Entity %>List(<%= entity %>Dto, xPage);
+        IPage<<%= Entity %>> <%= entity %>Page = <%= entity %>Service.find<%= Entity %>List(<%= entity %>Dto, XPage.toIPage(xPage));
         return DtoConverter.toDto(<%= entity %>Page, <%= Entity %>MapStruct.class);
     }
 
@@ -72,7 +72,7 @@ public class <%= Entity %>Controller {
     @PreAuthorize("hasAnyAuthority('<%= entity %>', '<%= entity %>.del')")
     @DeleteMapping("/del/{id}")
     public Result<Void> delete(@PathVariable long id) {
-        <%= entity %>Service.delete<%= Entity %>(<%= entity %>Dto.getId());
+        <%= entity %>Service.delete<%= Entity %>(id);
         return Result.build(ResultStatus.DELETE_SUCCESS);
     }
 }
