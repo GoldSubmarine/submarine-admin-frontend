@@ -78,7 +78,7 @@ export default {
     getUserPage() {
       this.loading++
       getUserPage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
-        this.tableData = res.records
+        this.tableData = res.data
         this.page.total = res.total
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
