@@ -29,17 +29,17 @@ const systemToolRouter = {
       name: 'monitorSql',
       meta: { title: 'SQL监控', icon: 'monitorSql', permission: ['fileStore'] }
     },
-    {
-      path: 'redis',
-      component: () => import('@/views/system/tool/redis/index'),
-      name: 'redis',
-      meta: { title: 'redis', icon: 'monitorSql', permission: ['fileStore'] }
-    },
+    // {
+    //   path: 'redis',
+    //   component: () => import('@/views/system/tool/redis/index'),
+    //   name: 'redis',
+    //   meta: { title: 'redis', icon: 'redis', permission: ['fileStore'] }
+    // },
     {
       path: 'location',
       component: () => import('@/views/system/tool/location/index'),
       name: 'location',
-      meta: { title: '省市区', icon: 'monitorSql' }
+      meta: { title: '省市区', icon: 'location', permission: ['location'] }
     }
   ]
 }
