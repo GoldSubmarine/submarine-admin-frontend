@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { getUserDetail, saveUser } from '@/api/user'
+import { getUserDetail, saveUser } from '@/api/userCenter'
 import store from '@/store'
 import changePass from './changePass'
 import { importDic, importRules } from '@/utils/index'

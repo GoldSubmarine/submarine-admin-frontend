@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { getUserDetail, changePass } from '@/api/user'
+import { getUserDetail, changePass } from '@/api/userCenter'
 import { importRules } from '@/utils/index'
 export default {
   props: {
