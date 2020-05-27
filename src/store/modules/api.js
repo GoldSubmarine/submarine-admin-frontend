@@ -7,7 +7,7 @@ const api = {
     // socket
     socketApi: socketUrl,
     // 文件上传
-    fileUploadApi: baseUrl + '/api/localStorage',
+    fileUploadApi: baseUrl + '/file/upload',
     // baseUrl，
     baseApi: baseUrl
   }
