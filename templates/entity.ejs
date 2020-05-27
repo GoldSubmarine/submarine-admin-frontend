@@ -9,7 +9,7 @@ import com.htnova.<%= module %>.dto.<%= Entity %>Dto;
 import com.htnova.<%= module %>.mapstruct.<%= Entity %>MapStruct;
 import org.mapstruct.factory.Mappers;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -34,7 +34,7 @@ public class <%= Entity %> extends BaseEntity {
         if(sqlType == 'bigint') return 'Long';
         if(sqlType == 'double') return 'Double';
         if(sqlType == 'decimal') return 'BigDecimal';
-        if(sqlType == 'datetime') return 'Date';
+        if(sqlType == 'datetime') return 'LocalDateTime';
         if(sqlType == 'int') return 'Integer';
     }
     function genStr(fields) {

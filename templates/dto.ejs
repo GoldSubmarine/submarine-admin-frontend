@@ -9,7 +9,7 @@ import com.htnova.<%= module %>.entity.<%= Entity %>;
 import com.htnova.<%= module %>.mapstruct.<%= Entity %>MapStruct;
 import org.mapstruct.factory.Mappers;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -32,7 +32,7 @@ public class <%= Entity %>Dto extends BaseDto {
         if(field.type == 'bigint') return 'Long';
         if(field.type == 'double') return 'Double';
         if(field.type == 'decimal') return 'BigDecimal';
-        if(field.type == 'datetime') return 'Date';
+        if(field.type == 'datetime') return 'LocalDateTime';
         if(field.type == 'int') return 'Integer';
     }
     function genStr(fields) {
