@@ -1,0 +1,9 @@
+# 防止不设置 core.autocrlf 导致混合 crlf 和 lf 提交的情况.建议执行下列 3 行命令
+# git config --global core.autocrlf input
+# git config --global core.safecrlf true
+# git config --global core.eol lf
+
+* text eol=lf
+*.jar binary
+*.png binary
+*.jpg binary
