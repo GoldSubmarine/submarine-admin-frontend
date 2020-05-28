@@ -46,7 +46,7 @@ export default {
         item: [
           { xType: 'input', name: 'label', label: '字典标签', rules: importRules('inputRequired') },
           { xType: 'input', name: 'value', label: '字典值', rules: importRules('inputRequired') },
-          { xType: 'input', name: 'sort', label: '排序', rules: importRules('inputRequired') },
+          { xType: 'input', name: 'sort', label: '排序' },
           { xType: 'input', name: 'remark', label: '备注' }
         ],
         operate: [
