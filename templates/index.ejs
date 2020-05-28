@@ -28,7 +28,7 @@
           item.type = tag[1]
         }
         if(item.xType === 'select' && columnItem.dicType) {
-          item.dic = `importDic('all', '${StrUtil.initialLowerCase(columnItem.dicType)}')`
+          item.dic = `importDic('all', '${columnItem.dicType}')`
         }
       }
       return item
