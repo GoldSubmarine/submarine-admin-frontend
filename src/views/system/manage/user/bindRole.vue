@@ -38,7 +38,7 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         item: [
-          { xType: 'select', name: 'roleIds', label: '角色', multiple: true, dic: { data: _this.roleData, label: 'name', value: 'id' }, rules: importRules('inputRequired') }
+          { xType: 'select', name: 'roleIdList', label: '角色', multiple: true, dic: { data: _this.roleData, label: 'name', value: 'id' }, rules: importRules('inputRequired') }
         ],
         operate: [
           { text: '保存', show: _this.showBtn, click: _this.bindRole },
@@ -55,7 +55,7 @@ export default {
     getUserDetail() {
       this.loading++
       getUserDetail(this.id).then(res => {
-        res.roleIds = res.roleIds.split(',')
+        res.roleIdList = res.roleIds.split(',')
         this.formData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
@@ -68,7 +68,7 @@ export default {
     bindRole() {
       this.$refs['xForm'].validate().then(() => {
         this.loading++
-        bindRole({ id: this.id, roleIds: this.formData.roleIds }).then(res => {
+        bindRole({ id: this.id, roleIdList: this.formData.roleIdList }).then(res => {
           this.$message.success(res.msg)
           this.dialogVisible = false
           this.$emit('refresh')
