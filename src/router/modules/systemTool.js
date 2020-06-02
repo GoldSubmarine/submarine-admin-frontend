@@ -40,6 +40,12 @@ const systemToolRouter = {
       component: () => import('@/views/system/tool/location/index'),
       name: 'location',
       meta: { title: '省市区', icon: 'location', permission: ['location'] }
+    },
+    {
+      path: 'activiti',
+      component: () => import('@/views/system/tool/activiti/index'),
+      name: 'activiti',
+      meta: { title: '流程设计', icon: 'bpmn', permission: ['location'] }
     }
   ]
 }
