@@ -17,6 +17,7 @@
         <el-button class="new" icon="el-icon-circle-plus" @click="newDiagram" />
         <el-button icon="el-icon-download" @click="downloadBpmn" />
         <el-button icon="el-icon-picture" @click="downloadSvg" />
+        <el-button icon="el-icon-success" @click="deploy" />
         <a ref="downloadLink" hidden />
       </div>
     </div>
@@ -41,6 +42,8 @@ import camundaExtensionModule from 'camunda-bpmn-moddle/lib'
 
 // 汉化
 import customTranslate from './translate'
+
+import { deployActiviti } from '@/api/activiti'
 
 export default {
   data() {
@@ -107,32 +110,7 @@ export default {
         const { xml } = await this.bpmnModeler.saveXML({ format: true })
         // 获取文件名
         const name = `${this.getFilename(xml)}.svg`
-
-        // 从建模器画布中提取svg图形标签
-        let context = ''
-        const djsGroupAll = this.$refs.canvas.querySelectorAll('.djs-group')
-        for (const item of djsGroupAll) {
-          context += item.innerHTML
-        }
-        // 获取svg的基本数据，长宽高
-        const viewport = this.$refs.canvas
-          .querySelector('.viewport')
-          .getBBox()
-
-        // 将标签和数据拼接成一个完整正常的svg图形
-        const svg = `
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              width="${viewport.width}"
-              height="${viewport.height}"
-              viewBox="${viewport.x} ${viewport.y} ${viewport.width} ${viewport.height}"
-              version="1.1"
-              >
-              ${context}
-            </svg>
-          `
-        // 将文件名以及数据交给下载方法
+        const { svg } = await this.bpmnModeler.saveSVG({ format: true })
         this.download({ name: name, data: svg })
       } catch (err) {
         console.log('error rendering', err)
@@ -211,6 +189,23 @@ export default {
         await this.bpmnModeler.importXML(bpmn)
       } catch (err) {
         console.log('打开模型出错,请确认该模型符合Bpmn2.0规范', err.message, err.warnings)
+      }
+    },
+    async deploy() {
+      try {
+        const { xml } = await this.bpmnModeler.saveXML({ format: true })
+        const result = {
+          name: this.getFilename(xml),
+          xml: xml
+          // category: category,
+          // key: key
+        }
+        this.loading++
+        deployActiviti(result).then(res => {
+          this.$message.success(res.msg)
+        }).catch(e => console.log(e)).finally(_ => this.loading--)
+      } catch (err) {
+        console.log('error rendering', err)
       }
     }
   }

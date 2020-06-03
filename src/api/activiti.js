@@ -26,6 +26,17 @@ export function getActivitiDetail(id) {
 }
 
 /**
+ * 部署
+ */
+export function deployActiviti(data) {
+  return request({
+    url: '/activiti/deploy',
+    method: 'post',
+    data
+  })
+}
+
+/**
  * 删除
  */
 export function deleteActiviti(id) {
