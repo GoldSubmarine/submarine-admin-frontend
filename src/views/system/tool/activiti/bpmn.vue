@@ -106,9 +106,7 @@ export default {
       try {
         const { xml } = await this.bpmnModeler.saveXML({ format: true })
         // 获取文件名
-        const name = `${this.getFilename(xml)}.bpmn`
-        // 将文件名以及数据交给下载方法
-        this.download({ name: name, data: xml })
+        const name = `${this.getFilename(xml)}.svg`
 
         // 从建模器画布中提取svg图形标签
         let context = ''
