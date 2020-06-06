@@ -8,6 +8,7 @@ import Layout from '@/layout'
 
 import systemManageRouter from '@/router/modules/systemManage'
 import systemToolRouter from '@/router/modules/systemTool'
+import systemActivitiRouter from '@/router/modules/systemActiviti'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -90,6 +91,7 @@ export const asyncRoutes = [
 
   systemManageRouter,
   systemToolRouter,
+  systemActivitiRouter,
 
   // ===========引入router模块 end=============
 

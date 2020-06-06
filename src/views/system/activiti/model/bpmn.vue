@@ -17,7 +17,7 @@
         <el-button class="new" icon="el-icon-circle-plus" @click="newDiagram" />
         <el-button icon="el-icon-download" @click="downloadBpmn" />
         <el-button icon="el-icon-picture" @click="downloadSvg" />
-        <el-button icon="el-icon-success" @click="deploy" />
+        <el-button @click="save"><svg-icon icon-class="save" /></el-button>
         <a ref="downloadLink" hidden />
       </div>
     </div>
@@ -43,7 +43,8 @@ import camundaExtensionModule from 'camunda-bpmn-moddle/lib'
 // 汉化
 import customTranslate from './translate'
 
-import { deployActiviti } from '@/api/activiti'
+import { saveActModel } from '@/api/actModel'
+import initBpmnTemplate from './init.bpmn.js'
 
 export default {
   data() {
@@ -51,40 +52,7 @@ export default {
       dialogVisible: true,
       bpmnModeler: null,
       canvas: null,
-      bpmnTemplate: `
-          <?xml version="1.0" encoding="UTF-8"?>
-          <definitions
-              xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-              xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC"
-              xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
-              xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-              xmlns:activiti="http://activiti.org/bpmn"
-              id="m1577635100724"
-              name=""
-              targetNamespace="http://www.activiti.org/testm1577635100724"
-            >
-            <process id="process" processType="None" isClosed="false" isExecutable="true">
-              <extensionElements>
-                <camunda:properties>
-                  <camunda:property name="a" value="1" />
-                </camunda:properties>
-              </extensionElements>
-              <startEvent id="_2" name="start" />
-            </process>
-            <bpmndi:BPMNDiagram id="BPMNDiagram_leave">
-              <bpmndi:BPMNPlane id="BPMNPlane_leave" bpmnElement="leave">
-                <bpmndi:BPMNShape id="BPMNShape__2" bpmnElement="_2">
-                  <omgdc:Bounds x="144" y="368" width="32" height="32" />
-                  <bpmndi:BPMNLabel>
-                    <omgdc:Bounds x="149" y="400" width="23" height="14" />
-                  </bpmndi:BPMNLabel>
-                </bpmndi:BPMNShape>
-              </bpmndi:BPMNPlane>
-            </bpmndi:BPMNDiagram>
-          </definitions>
-      `
+      bpmnTemplate: initBpmnTemplate
     }
   },
   mounted() {
@@ -191,7 +159,7 @@ export default {
         console.log('打开模型出错,请确认该模型符合Bpmn2.0规范', err.message, err.warnings)
       }
     },
-    async deploy() {
+    async save() {
       try {
         const { xml } = await this.bpmnModeler.saveXML({ format: true })
         const result = {
@@ -201,7 +169,7 @@ export default {
           // key: key
         }
         this.loading++
-        deployActiviti(result).then(res => {
+        saveActModel(result).then(res => {
           this.$message.success(res.msg)
         }).catch(e => console.log(e)).finally(_ => this.loading--)
       } catch (err) {

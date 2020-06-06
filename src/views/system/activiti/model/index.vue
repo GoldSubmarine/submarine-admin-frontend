@@ -5,14 +5,14 @@
       :config="tableConfig"
       :data="tableData"
       :page.sync="page"
-      :load="getActivitiPage"
+      :load="getActModelPage"
     />
-    <bpmn v-if="dialogName == 'bpmn'" @refresh="getActivitiPage" @close="closeDialog" />
+    <bpmn v-if="dialogName == 'bpmn'" @refresh="getActModelPage" @close="closeDialog" />
   </div>
 </template>
 
 <script>
-import { getActivitiPage, deleteActiviti } from '@/api/activiti'
+import { getActModelPage, deleteActModel } from '@/api/actModel'
 import bpmn from './bpmn'
 // import { importDic } from '@/utils'
 
@@ -84,12 +84,12 @@ export default {
     }
   },
   mounted() {
-    this.getActivitiPage()
+    this.getActModelPage()
   },
   methods: {
-    getActivitiPage() {
+    getActModelPage() {
       this.loading++
-      getActivitiPage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
+      getActModelPage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
         this.tableData = res.data
         this.page.total = res.total
       }).catch(e => console.error(e)).finally(() => this.loading--)
@@ -102,9 +102,9 @@ export default {
     del(data) {
       this.delConfirm().then(() => {
         this.loading++
-        deleteActiviti(data.id).then(res => {
+        deleteActModel(data.id).then(res => {
           this.$message.success(res.msg)
-          this.getActivitiPage()
+          this.getActModelPage()
         }).catch(e => console.log(e)).finally(() => this.loading--)
       }).catch(e => console.log(e))
     },
