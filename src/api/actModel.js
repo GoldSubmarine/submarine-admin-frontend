@@ -26,6 +26,17 @@ export function getActModelDetail(id) {
 }
 
 /**
+ * 保存model
+ */
+export function saveActModelXML(data) {
+  return request({
+    url: '/act/model/save/xml',
+    method: 'post',
+    data
+  })
+}
+
+/**
  * 保存
  */
 export function saveActModel(data) {

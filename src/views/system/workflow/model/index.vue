@@ -7,18 +7,21 @@
       :page.sync="page"
       :load="getActModelPage"
     />
-    <bpmn v-if="dialogName == 'bpmn'" @refresh="getActModelPage" @close="closeDialog" />
+    <bpmn v-if="dialogName === 'bpmn'" :id="propId" @refresh="getActModelPage" @close="closeDialog" />
+    <dForm v-if="dialogName === 'dForm'" :id="propId" :mode="mode" @refresh="getActModelPage" @close="closeDialog" />
   </div>
 </template>
 
 <script>
 import { getActModelPage, deleteActModel } from '@/api/actModel'
 import bpmn from './bpmn'
+import dForm from './form'
 // import { importDic } from '@/utils'
 
 export default {
   components: {
-    bpmn
+    bpmn,
+    dForm
   },
   data() {
     return {
@@ -31,6 +34,7 @@ export default {
       },
       searchData: {},
       propId: '',
+      mode: '',
       dialogName: ''
     }
   },
@@ -42,7 +46,7 @@ export default {
         search: true,
         reset: true,
         btn: [
-          { text: '新增', click: () => { _this.dialogName = 'bpmn' }, icon: 'el-icon-circle-plus' }
+          { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
         ],
         column: [
           {
@@ -53,19 +57,25 @@ export default {
           },
           {
             name: 'category',
-            label: '类别',
+            label: '分类',
             search: 'true',
             xType: 'input'
           },
           {
             name: 'key',
-            label: 'key',
+            label: '编码',
             search: 'true',
             xType: 'input'
           },
           {
-            name: 'deploymentTime',
-            label: '发布时间'
+            name: 'version',
+            label: '版本',
+            search: 'true',
+            xType: 'input'
+          },
+          {
+            name: 'createTime',
+            label: '创建时间'
           }
         ],
         operate: [
@@ -73,6 +83,11 @@ export default {
             text: '编辑',
             show: _this.checkPermission(['fileStore', 'fileStore.edit']),
             click: data => _this.operate('edit', data)
+          },
+          {
+            text: '设计模型',
+            show: _this.checkPermission(['fileStore', 'fileStore.edit']),
+            click: data => { _this.propId = data.id; _this.dialogName = 'bpmn' }
           },
           {
             text: '删除',
@@ -97,7 +112,7 @@ export default {
     operate(mode, data) {
       if (mode !== 'add') this.propId = data.id
       this.mode = mode
-      this.dialogName = 'bpmn'
+      this.dialogName = 'dForm'
     },
     del(data) {
       this.delConfirm().then(() => {
@@ -110,6 +125,7 @@ export default {
     },
     closeDialog() {
       this.dialogName = ''
+      this.propId = ''
     }
   }
 }

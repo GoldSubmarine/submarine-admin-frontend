@@ -43,10 +43,16 @@ import camundaExtensionModule from 'camunda-bpmn-moddle/lib'
 // 汉化
 import customTranslate from './translate'
 
-import { saveActModel } from '@/api/actModel'
+import { getActModelDetail, saveActModelXML } from '@/api/actModel'
 import initBpmnTemplate from './init.bpmn.js'
 
 export default {
+  props: {
+    id: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       dialogVisible: true,
@@ -56,17 +62,20 @@ export default {
     }
   },
   mounted() {
-    this.$nextTick().then(() => this.init())
+    this.loading++
+    getActModelDetail(this.id).then(res => {
+      this.$nextTick().then(() => this.init(res.editorSourceValue ?? initBpmnTemplate))
+    }).catch(e => console.log(e)).finally(() => this.loading--)
   },
   methods: {
     newDiagram() {
-      this.createNewDiagram(this.bpmnTemplate)
+      this.createNewDiagram(initBpmnTemplate)
     },
     async downloadBpmn() {
       try {
         const { xml } = await this.bpmnModeler.saveXML({ format: true })
         // 获取文件名
-        const name = `${this.getFilename(xml)}.bpmn`
+        const name = `${this.getNodeAttr(xml, 'bpmn2:process', 'name')}.bpmn`
         // 将文件名以及数据交给下载方法
         this.download({ name: name, data: xml })
       } catch (err) {
@@ -77,7 +86,7 @@ export default {
       try {
         const { xml } = await this.bpmnModeler.saveXML({ format: true })
         // 获取文件名
-        const name = `${this.getFilename(xml)}.svg`
+        const name = `${this.getNodeAttr(xml, 'bpmn2:process', 'name')}.svg`
         const { svg } = await this.bpmnModeler.saveSVG({ format: true })
         this.download({ name: name, data: svg })
       } catch (err) {
@@ -94,12 +103,13 @@ export default {
       }
       return false
     },
-    getFilename(xml) {
-      const start = xml.indexOf('process')
-      let filename = xml.substr(start, xml.indexOf('>'))
-      filename = filename.substr(filename.indexOf('id') + 4)
-      filename = filename.substr(0, filename.indexOf('"'))
-      return filename
+    getNodeAttr(xml, nodeTag, attr) {
+      const start = xml.indexOf(nodeTag)
+      let attrValue = xml.substr(start, xml.indexOf('>', start))
+      console.log(attrValue)
+      attrValue = attrValue.substr(attrValue.indexOf(attr) + attr.length + 2)
+      attrValue = attrValue.substr(0, attrValue.indexOf('"'))
+      return attrValue
     },
     download({ name = 'diagram.bpmn', data }) {
       // 这里就获取到了之前设置的隐藏链接
@@ -117,7 +127,7 @@ export default {
         downloadLink.click()
       }
     },
-    async init() {
+    async init(tpl) {
       // 获取画布 element
       this.canvas = this.$refs.canvas
 
@@ -149,27 +159,27 @@ export default {
         }
       })
 
-      await this.createNewDiagram(this.bpmnTemplate)
+      await this.createNewDiagram(tpl)
     },
     async createNewDiagram(bpmn) {
       // 将字符串转换成图显示出来;
       try {
         await this.bpmnModeler.importXML(bpmn)
       } catch (err) {
-        console.log('打开模型出错,请确认该模型符合Bpmn2.0规范', err.message, err.warnings)
+        this.$message.error('打开模型出错,请确认该模型符合Bpmn2.0规范')
       }
     },
     async save() {
       try {
         const { xml } = await this.bpmnModeler.saveXML({ format: true })
-        const result = {
-          name: this.getFilename(xml),
-          xml: xml
-          // category: category,
-          // key: key
-        }
+        // const result = {
+        //   name: this.getNodeAttr(xml, 'bpmn2:process', 'name'),
+        //   editorSourceValue: xml,
+        //   category: this.getNodeAttr(xml, 'bpmn2:categoryValue', 'value'),
+        //   key: this.getNodeAttr(xml, 'bpmn2:process', 'id')
+        // }
         this.loading++
-        saveActModel(result).then(res => {
+        saveActModelXML({ id: this.id, editorSourceValue: xml }).then(res => {
           this.$message.success(res.msg)
         }).catch(e => console.log(e)).finally(_ => this.loading--)
       } catch (err) {
