@@ -5,7 +5,7 @@ import request from '@/utils/request'
  */
 export function getActModelPage(params, pageNum, pageSize) {
   return request({
-    url: '/act/model/list/page',
+    url: '/workflow/model/list/page',
     method: 'get',
     params: {
       ...params,
@@ -20,19 +20,8 @@ export function getActModelPage(params, pageNum, pageSize) {
  */
 export function getActModelDetail(id) {
   return request({
-    url: '/act/model/detail/' + id,
+    url: '/workflow/model/detail/' + id,
     method: 'get'
-  })
-}
-
-/**
- * 保存model
- */
-export function saveActModelXML(data) {
-  return request({
-    url: '/act/model/save/xml',
-    method: 'post',
-    data
   })
 }
 
@@ -41,7 +30,7 @@ export function saveActModelXML(data) {
  */
 export function saveActModel(data) {
   return request({
-    url: '/act/model/save',
+    url: '/workflow/model/save',
     method: 'post',
     data
   })
@@ -52,7 +41,7 @@ export function saveActModel(data) {
  */
 export function deployActModel(id) {
   return request({
-    url: '/act/model/deploy/' + id,
+    url: '/workflow/model/deploy/' + id,
     method: 'post'
   })
 }
@@ -62,7 +51,7 @@ export function deployActModel(id) {
  */
 export function deleteActModel(id) {
   return request({
-    url: '/act/model/del/' + id,
+    url: '/workflow/model/del/' + id,
     method: 'delete'
   })
 }

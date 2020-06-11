@@ -64,3 +64,9 @@ export const QuartzLogStatusType = [
   { label: '失败', value: 'fail' }
 ]
 
+// 流程状态
+export const ProcessSuspensionState = [
+  { label: '激活', value: 'active' },
+  { label: '挂起', value: 'suspended' }
+]
+

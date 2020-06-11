@@ -94,12 +94,12 @@ export default {
         operate: [
           {
             text: '编辑',
-            show: _this.checkPermission(['<%= entity %>', '<%= entity %>.edit']),
+            show: _this.checkPermission(['<%= entity %>.edit']),
             click: data => _this.operate('edit', data)
           },
           {
             text: '删除',
-            show: _this.checkPermission(['<%= entity %>', '<%= entity %>.del']),
+            show: _this.checkPermission(['<%= entity %>.del']),
             click: _this.del
           },
           {

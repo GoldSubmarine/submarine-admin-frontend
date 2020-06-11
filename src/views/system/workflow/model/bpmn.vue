@@ -1,27 +1,39 @@
 <!-- 参考：https://github.com/winily/bpmn-demo -->
 <template>
-  <el-dialog title="流程设计" :visible.sync="dialogVisible" fullscreen :close-on-click-modal="false" @closed="$emit('close')">
-    <div style="position: relative;">
-      <!-- 创建一个canvas画布 npmn-js是通过canvas实现绘图的，并设置ref让vue获取到element -->
-      <div class="bpmn-container">
-        <div ref="canvas" class="bpmn-canvas" />
-        <!-- 工具栏显示的地方 -->
-        <div id="js-properties-panel" class="bpmn-js-properties-panel" />
-      </div>
+  <div>
+    <el-dialog title="流程设计" :visible.sync="dialogVisible" fullscreen :close-on-click-modal="false" @closed="$emit('close')">
+      <div style="position: relative;">
+        <!-- 创建一个canvas画布 npmn-js是通过canvas实现绘图的，并设置ref让vue获取到element -->
+        <div class="bpmn-container">
+          <div ref="canvas" class="bpmn-canvas" />
+          <!-- 工具栏显示的地方 -->
+          <div>
+            流程分类：<el-select v-model="category" placeholder="请选择分类">
+              <el-option
+                v-for="item in $store.getters.dic.processCategory"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+            <div id="js-properties-panel" class="bpmn-js-properties-panel" />
+          </div>
+        </div>
 
-      <!-- 把操作按钮写在这里面 -->
-      <div class="action">
-        <el-upload action class="upload-demo" :before-upload="openBpmn">
-          <el-button icon="el-icon-folder-opened" />
-        </el-upload>
-        <el-button class="new" icon="el-icon-circle-plus" @click="newDiagram" />
-        <el-button icon="el-icon-download" @click="downloadBpmn" />
-        <el-button icon="el-icon-picture" @click="downloadSvg" />
-        <el-button @click="save"><svg-icon icon-class="save" /></el-button>
-        <a ref="downloadLink" hidden />
+        <!-- 把操作按钮写在这里面 -->
+        <div class="action">
+          <el-upload action class="upload-demo" :before-upload="openBpmn">
+            <el-button icon="el-icon-folder-opened" />
+          </el-upload>
+          <el-button class="new" icon="el-icon-circle-plus" @click="newDiagram" />
+          <el-button icon="el-icon-download" @click="downloadBpmn" />
+          <el-button icon="el-icon-picture" @click="downloadSvg" />
+          <el-button @click="save"><svg-icon icon-class="save" /></el-button>
+          <a ref="downloadLink" hidden />
+        </div>
       </div>
-    </div>
-  </el-dialog>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -43,7 +55,7 @@ import camundaExtensionModule from 'camunda-bpmn-moddle/lib'
 // 汉化
 import customTranslate from './translate'
 
-import { getActModelDetail, saveActModelXML } from '@/api/actModel'
+import { getActModelDetail, saveActModel } from '@/api/actModel'
 import initBpmnTemplate from './init.bpmn.js'
 
 export default {
@@ -56,16 +68,21 @@ export default {
   data() {
     return {
       dialogVisible: true,
+      category: '',
       bpmnModeler: null,
-      canvas: null,
-      bpmnTemplate: initBpmnTemplate
+      canvas: null
     }
   },
   mounted() {
     this.loading++
-    getActModelDetail(this.id).then(res => {
-      this.$nextTick().then(() => this.init(res.editorSourceValue ?? initBpmnTemplate))
-    }).catch(e => console.log(e)).finally(() => this.loading--)
+    if (this.id) {
+      getActModelDetail(this.id).then(res => {
+        this.category = res.category
+        this.$nextTick().then(() => this.init(res.editorSourceValue ?? initBpmnTemplate))
+      }).catch(e => console.log(e)).finally(() => this.loading--)
+    } else {
+      this.$nextTick().then(() => this.init(initBpmnTemplate))
+    }
   },
   methods: {
     newDiagram() {
@@ -106,7 +123,6 @@ export default {
     getNodeAttr(xml, nodeTag, attr) {
       const start = xml.indexOf(nodeTag)
       let attrValue = xml.substr(start, xml.indexOf('>', start))
-      console.log(attrValue)
       attrValue = attrValue.substr(attrValue.indexOf(attr) + attr.length + 2)
       attrValue = attrValue.substr(0, attrValue.indexOf('"'))
       return attrValue
@@ -172,15 +188,21 @@ export default {
     async save() {
       try {
         const { xml } = await this.bpmnModeler.saveXML({ format: true })
-        // const result = {
-        //   name: this.getNodeAttr(xml, 'bpmn2:process', 'name'),
-        //   editorSourceValue: xml,
-        //   category: this.getNodeAttr(xml, 'bpmn2:categoryValue', 'value'),
-        //   key: this.getNodeAttr(xml, 'bpmn2:process', 'id')
-        // }
+        const { svg } = await this.bpmnModeler.saveSVG({ format: true })
+        // xml = xml.replace(/[\r\n]/g, '')
+        // svg = svg.replace(/[\r\n]/g, '')
+        const result = {
+          id: this.id,
+          name: this.getNodeAttr(xml, 'bpmn2:process', 'name'),
+          editorSourceValue: xml,
+          editorSourceExtraValue: svg,
+          category: this.category,
+          key: this.getNodeAttr(xml, 'bpmn2:process', 'id')
+        }
         this.loading++
-        saveActModelXML({ id: this.id, editorSourceValue: xml }).then(res => {
+        saveActModel(result).then(res => {
           this.$message.success(res.msg)
+          this.$emit('refresh')
         }).catch(e => console.log(e)).finally(_ => this.loading--)
       } catch (err) {
         console.log('error rendering', err)
@@ -203,8 +225,9 @@ export default {
 }
 
 .bpmn-js-properties-panel {
+  margin-top: 20px;
   width: 320px;
-  height: inherit;
+  height: calc(100vh - 164px);;
   overflow-y: auto;
 }
 

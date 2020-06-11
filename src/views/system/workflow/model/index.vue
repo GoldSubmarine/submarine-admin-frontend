@@ -8,20 +8,18 @@
       :load="getActModelPage"
     />
     <bpmn v-if="dialogName === 'bpmn'" :id="propId" @refresh="getActModelPage" @close="closeDialog" />
-    <dForm v-if="dialogName === 'dForm'" :id="propId" :mode="mode" @refresh="getActModelPage" @close="closeDialog" />
   </div>
 </template>
 
 <script>
-import { getActModelPage, deleteActModel } from '@/api/actModel'
+import { getActModelPage, deleteActModel, deployActModel } from '@/api/actModel'
 import bpmn from './bpmn'
-import dForm from './form'
+import { importDic } from '../../../../utils'
 // import { importDic } from '@/utils'
 
 export default {
   components: {
-    bpmn,
-    dForm
+    bpmn
   },
   data() {
     return {
@@ -32,7 +30,9 @@ export default {
         pageSize: 10,
         total: 0
       },
-      searchData: {},
+      searchData: {
+        lastVersion: true
+      },
       propId: '',
       mode: '',
       dialogName: ''
@@ -46,9 +46,20 @@ export default {
         search: true,
         reset: true,
         btn: [
-          { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
+          { text: '新增', show: _this.checkPermission(['actModel.add']), click: () => { _this.propId = ''; _this.dialogName = 'bpmn' }, icon: 'el-icon-circle-plus' }
         ],
         column: [
+          {
+            name: 'lastVersion',
+            label: '版本',
+            show: false,
+            search: 'true',
+            xType: 'radio',
+            dic: [
+              { label: '全部', value: false },
+              { label: '最新', value: true }
+            ]
+          },
           {
             name: 'name',
             label: '流程名称',
@@ -59,7 +70,8 @@ export default {
             name: 'category',
             label: '分类',
             search: 'true',
-            xType: 'input'
+            xType: 'select',
+            dic: importDic('all').concat(_this.$store.getters.dic.processCategory)
           },
           {
             name: 'key',
@@ -80,18 +92,18 @@ export default {
         ],
         operate: [
           {
-            text: '编辑',
-            show: _this.checkPermission(['fileStore', 'fileStore.edit']),
-            click: data => _this.operate('edit', data)
+            text: '部署',
+            show: _this.checkPermission(['actModel.edit']),
+            click: data => _this.deployActModel(data.id)
           },
           {
             text: '设计模型',
-            show: _this.checkPermission(['fileStore', 'fileStore.edit']),
+            show: _this.checkPermission(['actModel.edit']),
             click: data => { _this.propId = data.id; _this.dialogName = 'bpmn' }
           },
           {
             text: '删除',
-            show: _this.checkPermission(['fileStore', 'fileStore.del']),
+            show: _this.checkPermission(['actModel.del']),
             click: _this.del
           }
         ]
@@ -109,10 +121,11 @@ export default {
         this.page.total = res.total
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
-    operate(mode, data) {
-      if (mode !== 'add') this.propId = data.id
-      this.mode = mode
-      this.dialogName = 'dForm'
+    deployActModel(id) {
+      this.loading++
+      deployActModel(id).then(res => {
+        this.$message.success(res.msg)
+      }).catch(e => console.log(e)).finally(() => this.loading--)
     },
     del(data) {
       this.delConfirm().then(() => {
