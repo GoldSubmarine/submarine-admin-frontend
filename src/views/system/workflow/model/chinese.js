@@ -109,7 +109,7 @@ export default {
   'already rendered {element}': '{element} 已被渲染',
   'failed to import {element}': '导入{element}失败',
   // 属性面板的参数
-  'Id': '标识',
+  'Id': '编号',
   'Name': '名称',
   'General': '常规',
   'Details': '详情',
@@ -199,8 +199,41 @@ export default {
   'Candidate Groups': '候选组',
   'Due Date': '到期时间',
   'Follow Up Date': '跟踪日期',
+  'Specify more than one group as a comma separated list.': '多个用户使用逗号隔开',
   'Priority': '优先级',
-  'The follow up date as an EL expression (e.g. ${someDate} or an ISO date (e.g. 2015-06-26T09:54:00)': '跟踪日期必须符合EL表达式，如： ${someDate} ,或者一个ISO标准日期，如：2015-06-26T09:54:00',
-  'The due date as an EL expression (e.g. ${someDate} or an ISO date (e.g. 2015-06-26T09:54:00)': '跟踪日期必须符合EL表达式，如： ${someDate} ,或者一个ISO标准日期，如：2015-06-26T09:54:00',
-  'Variables': '变量'
+  // eslint-disable-next-line no-template-curly-in-string
+  'The follow up date as an EL expression (e.g. ${someDate} or an ISO date (e.g. 2015-06-26T09:54:00)':
+    '跟踪日期必须符合EL表达式，如： ${someDate} ,或者一个ISO标准日期，如：2015-06-26T09:54:00',
+  // eslint-disable-next-line no-template-curly-in-string
+  'The due date as an EL expression (e.g. ${someDate} or an ISO date (e.g. 2015-06-26T09:54:00)':
+    '跟踪日期必须符合EL表达式，如： ${someDate} ,或者一个ISO标准日期，如：2015-06-26T09:54:00',
+  'Variables': '变量',
+  'Candidate Starter Users': '选择启动候选人',
+  'Candidate Starter Configuration': '候选人启动器配置',
+  'Candidate Starter Groups': '候选人启动组',
+  'This maps to the process definition key.': '编号将映射到流程主键.',
+
+  'save': '保存',
+  'Tools': '工具',
+  'FlowGateway': '流程网关',
+  'ProcessControl': '流程节点',
+  'Create StartEvent': '开始节点',
+  'Create EndEvent': '结束节点',
+  'Create ExclusiveGateway': '互斥网关',
+  'Create ParallelGateway': '并行网关',
+  'Create Task': '任务节点',
+  'Create UserTask': '用户任务节点',
+  'Condition Type': '条件类型',
+
+  // 左侧工具箱补充汉化项 热水2020.1.12
+  'Create Group': '创建组',
+  'Create DataObjectReference': '创建数据对象引用',
+  'Create DataStoreReference': '创建数据存储引用',
+
+  // 节点添加Pad 补充汉化 热水2020.1.12
+  'Append EndEvent': '追加结束事件节点',
+  'Append Gateway': '追加网关节点',
+  'Append UserTask': '追加用户任务节点',
+  'Append Intermediate/Boundary Event': '追加中间或边界事件',
+  'Append TextAnnotation': '追加文本批注' // 此句要有效，必须在CustomContexPadProvide给此节点增加一个translate('Append TextAnnotation')
 }

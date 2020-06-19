@@ -70,3 +70,10 @@ export const ProcessSuspensionState = [
   { label: '挂起', value: 'suspended' }
 ]
 
+// 我的申请状态
+export const ApplyStatus = [
+  { label: '进行中', value: 'process' },
+  { label: '已完成', value: 'done' },
+  { label: '已作废', value: 'abandon' }
+]
+
