@@ -11,6 +11,7 @@
         <el-tag :type="scope.row.suspended ? 'danger' : 'success'">{{ scope.row.suspended ? '已挂起' : '进行中' }}</el-tag>
       </template>
     </x-table>
+    <flowLeave v-if="dialogName == 'flowLeave'" :process-instance-id="processInstanceId" :process-definition-id="processDefinitionId" :end-activity-id="endActivityId" mode="approve" @refresh="getTodoPage" @close="closeDialog" />
   </div>
 </template>
 
@@ -18,11 +19,16 @@
 import { getTodoPage } from '@/api/actTask'
 import { importDic } from '@/utils'
 
+// 业务弹窗
+import flowLeave from '../flowLeave/form'
+
 export default {
+  components: { flowLeave },
   data() {
     return {
       loading: 0,
       tableData: [],
+      dialogName: '',
       page: {
         pageNum: 1,
         pageSize: 10,
@@ -31,7 +37,8 @@ export default {
       searchData: {
         lastVersion: true
       },
-      propId: ''
+      processInstanceId: '',
+      endActivityId: ''
     }
   },
   computed: {
@@ -77,7 +84,7 @@ export default {
           {
             text: '办理',
             show: _this.checkPermission(['actProcess.del']),
-            click: _this.del
+            click: _this.showInstance
           }
         ]
       }
@@ -93,6 +100,16 @@ export default {
         this.tableData = res.data
         this.page.total = res.total
       }).catch(e => console.error(e)).finally(() => this.loading--)
+    },
+    showInstance(data) {
+      console.log(data)
+      this.processInstanceId = data.processInstanceId
+      this.processDefinitionId = data.processDefinitionId
+      this.endActivityId = data.taskDefinitionKey
+      this.dialogName = 'flowLeave'
+    },
+    closeDialog() {
+      this.dialogName = ''
     }
   }
 }

@@ -2,20 +2,27 @@
   <div class="app-container">
     <el-dialog fullscreen :title="dialogTitle + '（请假申请）'" :visible.sync="dialogVisible" width="520px" :close-on-click-modal="false" @closed="$emit('close')">
       <x-form ref="xForm" v-model="formData" v-loading="loading" :config="formConfig" />
+      <historyTimeline v-if="mode === 'approve'" :process-definition-id="processDefinitionId" :end-activity-id="endActivityId" />
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getLeaveFlowDetail, saveLeaveFlow } from '@/api/leaveFlow'
+import { getFlowLeaveDetailByProcessInstanceId, saveFlowLeave } from '@/api/flowLeave'
 import { importRules } from '@/utils/index'
+import historyTimeline from '../components/historyTimeline'
 export default {
+  components: { historyTimeline },
   props: {
     mode: { // add, approve
       type: String,
       required: true
     },
-    id: {
+    processInstanceId: {
+      type: String,
+      default: null
+    },
+    endActivityId: {
       type: String,
       default: null
     },
@@ -74,7 +81,7 @@ export default {
           {
             text: '保存',
             show: _this.showBtn,
-            click: _this.saveLeaveFlow
+            click: _this.saveFlowLeave
           },
           {
             text: '取消',
@@ -93,26 +100,33 @@ export default {
         }
         if (this.mode === 'approve') {
           this.dialogTitle = '核准'
-          this.getLeaveFlowDetail()
+          this.getFlowLeaveDetailByProcessInstanceId()
         }
       },
       immediate: true
     }
   },
+  mounted() {
+    if (this.processInstanceId) {
+      this.getFlowLeaveDetailByProcessInstanceId()
+    }
+  },
   methods: {
-    getLeaveFlowDetail() {
+    getFlowLeaveDetailByProcessInstanceId() {
       this.loading++
-      getLeaveFlowDetail(this.id).then(res => {
+      getFlowLeaveDetailByProcessInstanceId(this.processInstanceId).then(res => {
+        res.beginTime = [res.beginTime, res.endTime]
+        delete res.endTime
         this.formData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
-    saveLeaveFlow() {
+    saveFlowLeave() {
       this.$refs['xForm'].validate().then(() => {
         const copy = JSON.parse(JSON.stringify(this.formData))
         copy.endTime = copy.beginTime[1]
         copy.beginTime = copy.beginTime[0]
         this.loading++
-        saveLeaveFlow(copy).then(res => {
+        saveFlowLeave(copy).then(res => {
           this.$message.success(res.msg)
           this.dialogVisible = false
           this.$emit('refresh')

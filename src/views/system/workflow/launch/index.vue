@@ -5,14 +5,14 @@
         {{ launch.name }}
       </div>
     </el-card>
-    <leaveForm v-if="dialogName == 'leaveForm'" :id="propId" :mode="mode" :process-definition-id="processDefinitionId" @close="closeDialog" />
+    <leaveForm v-if="dialogName == 'leaveForm'" :mode="mode" :process-definition-id="processDefinitionId" @close="closeDialog" />
   </div>
 </template>
 
 <script>
 import { getActProcessList } from '@/api/actProcess'
 import { getFormKey } from '@/api/actTask'
-import leaveForm from '../leaveFlow/form'
+import leaveForm from '../flowLeave/form'
 export default {
   components: { leaveForm },
   data() {

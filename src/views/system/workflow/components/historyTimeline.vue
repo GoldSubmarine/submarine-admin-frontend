@@ -20,6 +20,16 @@
 <script>
 import { getHistoryOperate } from '@/api/actTask'
 export default {
+  props: {
+    processDefinitionId: {
+      type: String,
+      required: true
+    },
+    endActivityId: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       loading: 0,
@@ -32,7 +42,7 @@ export default {
   methods: {
     getHistoryOperate() {
       this.loading++
-      getHistoryOperate().then(res => {
+      getHistoryOperate(this.processDefinitionId, this.endActivityId).then(res => {
         this.historyOperateList = res
       }).catch(e => console.log(e)).finally(() => this.loading--)
     }

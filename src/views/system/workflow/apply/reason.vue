@@ -8,7 +8,7 @@
 
 <script>
 import { deleteApply } from '@/api/actTask'
-import { importRules } from '../../../../utils'
+import { importRules } from '@/utils'
 export default {
   props: {
     id: {

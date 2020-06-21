@@ -5,14 +5,14 @@
       :config="tableConfig"
       :data="tableData"
       :page.sync="page"
-      :load="getLeaveFlowPage"
+      :load="getFlowLeavePage"
     />
-    <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" @refresh="getLeaveFlowPage" @close="closeDialog" />
+    <dForm v-if="dialogName == 'dForm'" :process-instance-id="propId" :mode="mode" @refresh="getFlowLeavePage" @close="closeDialog" />
   </div>
 </template>
 
 <script>
-import { getLeaveFlowPage, deleteLeaveFlow } from '@/api/leaveFlow'
+import { getFlowLeavePage, deleteFlowLeave } from '@/api/flowLeave'
 import dForm from './form'
 // import { importDic } from '@/utils'
 
@@ -92,12 +92,12 @@ export default {
     }
   },
   mounted() {
-    this.getLeaveFlowPage()
+    this.getFlowLeavePage()
   },
   methods: {
-    getLeaveFlowPage() {
+    getFlowLeavePage() {
       this.loading++
-      getLeaveFlowPage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
+      getFlowLeavePage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
         this.tableData = res.data
         this.page.total = res.total
       }).catch(e => console.error(e)).finally(() => this.loading--)
@@ -110,9 +110,9 @@ export default {
     del(data) {
       this.delConfirm().then(() => {
         this.loading++
-        deleteLeaveFlow(data.id).then(res => {
+        deleteFlowLeave(data.id).then(res => {
           this.$message.success(res.msg)
-          this.getLeaveFlowPage()
+          this.getFlowLeavePage()
         }).catch(e => console.log(e)).finally(() => this.loading--)
       }).catch(e => console.log(e))
     },
