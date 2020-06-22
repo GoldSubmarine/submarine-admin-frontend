@@ -1,10 +1,11 @@
 <template>
   <div class="block">
     <el-timeline>
-      <el-timeline-item v-for="(operate,index) in historyOperateList" :key="index" timestamp="2018/4/12" placement="top">
+      <el-timeline-item v-for="(operate,index) in historyOperateList" :key="index" :timestamp="operate.endTime" placement="top">
         <el-card>
-          <h4>核准人：{{ operate.assignee }}</h4>
-          <p>审批意见：{{ operate.comment }}</p>
+          <h4>{{ operate.activityType === 'startEvent' ? '发起人' : '核准人' }}：{{ operate.assigneeName }}</h4>
+          <p v-if="operate.activityType !== 'startEvent'">审批意见：{{ operate.comment }}</p>
+          <p>耗时：{{ (operate.durationInMillis/1000/60/60).toFixed(2) }} 小时</p>
         </el-card>
       </el-timeline-item>
       <!-- <el-timeline-item timestamp="2018/4/2" placement="top">
@@ -21,11 +22,11 @@
 import { getHistoryOperate } from '@/api/actTask'
 export default {
   props: {
-    processDefinitionId: {
+    processInstanceId: {
       type: String,
       required: true
     },
-    endActivityId: {
+    taskDefinitionKey: {
       type: String,
       default: null
     }
@@ -42,7 +43,7 @@ export default {
   methods: {
     getHistoryOperate() {
       this.loading++
-      getHistoryOperate(this.processDefinitionId, this.endActivityId).then(res => {
+      getHistoryOperate(this.processInstanceId, this.taskDefinitionKey).then(res => {
         this.historyOperateList = res
       }).catch(e => console.log(e)).finally(() => this.loading--)
     }
@@ -50,6 +51,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scope>
 
 </style>

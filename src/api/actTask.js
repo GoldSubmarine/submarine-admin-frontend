@@ -47,10 +47,10 @@ export function deleteApply(processInstanceId, deleteReason) {
 /**
  * 获取历史操作记录
  */
-export function getHistoryOperate(processDefinitionId, endActivityId) {
+export function getHistoryOperate(processInstanceId, activityId) {
   return request({
     url: '/workflow/task/history/operate',
     method: 'get',
-    params: { processDefinitionId, endActivityId }
+    params: { processInstanceId, activityId }
   })
 }

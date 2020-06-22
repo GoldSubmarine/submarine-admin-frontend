@@ -30,6 +30,7 @@
     "camunda-bpmn-moddle": "^4.4.0",
     "element-ui": "2.13.2",
     "file-saver": "^2.0.2",
+    "html2canvas": "^1.0.0-rc.5",
     "js-cookie": "2.2.1",
     "normalize.css": "8.0.1",
     "nprogress": "0.2.0",

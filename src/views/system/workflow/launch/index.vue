@@ -39,7 +39,7 @@ export default {
       this.loading++
       getFormKey(procDefId).then(res => {
         if (res === 'leave') {
-          console.log(procDefId)
+          this.mode = 'add'
           this.processDefinitionId = procDefId
           this.dialogName = 'leaveForm'
         }

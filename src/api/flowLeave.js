@@ -58,6 +58,17 @@ export function saveFlowLeave(data) {
 }
 
 /**
+ * 审批完成
+ */
+export function approveFlowLeave(data) {
+  return request({
+    url: '/flow-leave/approve',
+    method: 'post',
+    data
+  })
+}
+
+/**
  * 删除
  */
 export function deleteFlowLeave(id) {

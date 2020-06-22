@@ -11,7 +11,7 @@
         <el-tag :type="scope.row.suspended ? 'danger' : 'success'">{{ scope.row.suspended ? '已挂起' : '进行中' }}</el-tag>
       </template>
     </x-table>
-    <flowLeave v-if="dialogName == 'flowLeave'" :process-instance-id="processInstanceId" :process-definition-id="processDefinitionId" :end-activity-id="endActivityId" mode="approve" @refresh="getTodoPage" @close="closeDialog" />
+    <flowLeave v-if="dialogName == 'flowLeave'" :process-instance-id="processInstanceId" :task-definition-key="taskDefinitionKey" :process-definition-id="processDefinitionId" :task-id="taskId" mode="approve" @refresh="getTodoPage" @close="closeDialog" />
   </div>
 </template>
 
@@ -37,8 +37,9 @@ export default {
       searchData: {
         lastVersion: true
       },
+      taskDefinitionKey: '',
       processInstanceId: '',
-      endActivityId: ''
+      taskId: ''
     }
   },
   computed: {
@@ -105,7 +106,8 @@ export default {
       console.log(data)
       this.processInstanceId = data.processInstanceId
       this.processDefinitionId = data.processDefinitionId
-      this.endActivityId = data.taskDefinitionKey
+      this.taskDefinitionKey = data.taskDefinitionKey
+      this.taskId = data.id
       this.dialogName = 'flowLeave'
     },
     closeDialog() {
@@ -124,5 +126,8 @@ export default {
   text-align: center;
   max-height: 400px;
   overflow-y: auto;
+}
+.approve-box-card {
+  padding-top: 20px;
 }
 </style>
