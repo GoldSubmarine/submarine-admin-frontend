@@ -11,24 +11,23 @@
         <el-tag :type="scope.row.suspended ? 'danger' : 'success'">{{ scope.row.suspended ? '已挂起' : '进行中' }}</el-tag>
       </template>
     </x-table>
-    <flowLeave v-if="dialogName == 'flowLeave'" :process-instance-id="processInstanceId" :task-definition-key="taskDefinitionKey" :process-definition-id="processDefinitionId" :task-id="taskId" mode="approve" @refresh="getTodoPage" @close="closeDialog" />
+    <formLoader v-if="dialogName == 'formLoader'" :form-key="formKey" :process-instance-id="processInstanceId" :task-definition-key="taskDefinitionKey" :process-definition-id="processDefinitionId" :task-id="taskId" mode="approve" @refresh="getTodoPage" @close="closeDialog" />
   </div>
 </template>
 
 <script>
-import { getTodoPage } from '@/api/actTask'
+import { getTodoPage, getFormKey } from '@/api/actTask'
 import { importDic } from '@/utils'
-
-// 业务弹窗
-import flowLeave from '../flowLeave/form'
+import formLoader from '../components/formLoader'
 
 export default {
-  components: { flowLeave },
+  components: { formLoader },
   data() {
     return {
       loading: 0,
       tableData: [],
       dialogName: '',
+      formKey: '',
       page: {
         pageNum: 1,
         pageSize: 10,
@@ -103,12 +102,14 @@ export default {
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
     showInstance(data) {
-      console.log(data)
       this.processInstanceId = data.processInstanceId
       this.processDefinitionId = data.processDefinitionId
       this.taskDefinitionKey = data.taskDefinitionKey
       this.taskId = data.id
-      this.dialogName = 'flowLeave'
+      getFormKey(this.processDefinitionId, this.taskDefinitionKey).then(res => {
+        this.formKey = res
+        this.dialogName = 'formLoader'
+      })
     },
     closeDialog() {
       this.dialogName = ''
@@ -118,15 +119,6 @@ export default {
 </script>
 
 <style>
-.resource-class .el-message-box__content{
-  max-height: 400px;
-  overflow-y: auto;
-}
-.resource-middle-class .el-message-box__content{
-  text-align: center;
-  max-height: 400px;
-  overflow-y: auto;
-}
 .approve-box-card {
   padding-top: 20px;
 }

@@ -87,6 +87,7 @@ export default {
   },
   mounted() {
     this.getApplyPage()
+    console.log(this)
   },
   methods: {
     filterDic: filterDic,

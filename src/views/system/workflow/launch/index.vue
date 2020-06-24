@@ -5,16 +5,17 @@
         {{ launch.name }}
       </div>
     </el-card>
-    <leaveForm v-if="dialogName == 'leaveForm'" :mode="mode" :process-definition-id="processDefinitionId" @close="closeDialog" />
+    <formLoader v-if="dialogName == 'formLoader'" :form-key="formKey" :mode="mode" :process-definition-id="processDefinitionId" @close="closeDialog" />
   </div>
 </template>
 
 <script>
 import { getActProcessList } from '@/api/actProcess'
 import { getFormKey } from '@/api/actTask'
-import leaveForm from '../flowLeave/form'
+import formLoader from '../components/formLoader'
+
 export default {
-  components: { leaveForm },
+  components: { formLoader },
   data() {
     return {
       loading: 0,
@@ -22,7 +23,8 @@ export default {
       dialogName: '',
       propId: '',
       mode: '',
-      processDefinitionId: ''
+      processDefinitionId: '',
+      formKey: ''
     }
   },
   mounted() {
@@ -38,11 +40,10 @@ export default {
     getFormKey(procDefId) {
       this.loading++
       getFormKey(procDefId).then(res => {
-        if (res === 'leave') {
-          this.mode = 'add'
-          this.processDefinitionId = procDefId
-          this.dialogName = 'leaveForm'
-        }
+        this.mode = 'add'
+        this.processDefinitionId = procDefId
+        this.formKey = res
+        this.dialogName = 'formLoader'
       }).catch(e => console.log(e)).finally(() => this.loading--)
     },
     closeDialog() {
