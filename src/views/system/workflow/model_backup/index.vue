@@ -7,19 +7,19 @@
       :page.sync="page"
       :load="getActModelPage"
     />
-    <moduler v-if="dialogName === 'moduler'" :id="propId" @refresh="getActModelPage" @close="closeDialog" />
+    <bpmn v-if="dialogName === 'bpmn'" :id="propId" @refresh="getActModelPage" @close="closeDialog" />
   </div>
 </template>
 
 <script>
 import { getActModelPage, deleteActModel, deployActModel } from '@/api/actModel'
-import moduler from './moduler'
+import bpmn from './bpmn'
 import { importDic } from '../../../../utils'
 // import { importDic } from '@/utils'
 
 export default {
   components: {
-    moduler
+    bpmn
   },
   data() {
     return {
@@ -46,12 +46,7 @@ export default {
         search: true,
         reset: true,
         btn: [
-          {
-            text: '新增',
-            show: _this.checkPermission(['actModel.add']),
-            click: () => { _this.propId = ''; _this.dialogName = 'moduler' },
-            icon: 'el-icon-circle-plus'
-          }
+          { text: '新增', show: _this.checkPermission(['actModel.add']), click: () => { _this.propId = ''; _this.dialogName = 'bpmn' }, icon: 'el-icon-circle-plus' }
         ],
         column: [
           {
@@ -104,7 +99,7 @@ export default {
           {
             text: '设计模型',
             show: _this.checkPermission(['actModel.edit']),
-            click: data => { _this.propId = data.id; _this.dialogName = 'moduler' }
+            click: data => { _this.propId = data.id; _this.dialogName = 'bpmn' }
           },
           {
             text: '删除',

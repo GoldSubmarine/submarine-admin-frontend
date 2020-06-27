@@ -40,6 +40,12 @@ const systemWorkflowRouter = {
       component: () => import('@/views/system/workflow/todo/index'),
       name: 'WorkflowTodo',
       meta: { title: '我的待办', icon: 'activiti', permission: ['actProcess'] }
+    },
+    {
+      path: 'done',
+      component: () => import('@/views/system/workflow/done/index'),
+      name: 'WorkflowDone',
+      meta: { title: '我的已办', icon: 'activiti', permission: ['actProcess'] }
     }
   ]
 }

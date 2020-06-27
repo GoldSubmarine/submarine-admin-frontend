@@ -1,16 +1,14 @@
 import html2canvas from 'html2canvas'
 
 export async function getScreenshot() {
-  const imgHeight = window.document.querySelector('.el-form').offsetHeight
-  const imgWidth = window.document.querySelector('.el-form').offsetWidth
-  const scale = window.devicePixelRatio
-  const imgData = await html2canvas(window.document.querySelector('.el-form'), {
+  const dom = window.document.querySelector('.js-screenshot')
+  const imgData = await html2canvas(dom, {
     useCORS: true,
     type: 'dataURL',
     backgroundColor: null,
-    scale: scale,
-    width: imgWidth,
-    height: imgHeight
+    scale: window.devicePixelRatio,
+    width: dom.offsetWidth,
+    height: dom.offsetHeight
   })
   return imgData.toDataURL()
 }

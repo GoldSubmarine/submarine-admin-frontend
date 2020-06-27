@@ -11,7 +11,20 @@
         <el-tag :type="getStatusTagType(scope.row.status)">{{ filterDic('ApplyStatus', scope.row.status) }}</el-tag>
       </template>
     </x-table>
-    <reason v-if="dialogName == 'reason'" :id="propId" @refresh="getApplyPage" @close="closeDialog" />
+    <reason
+      v-if="dialogName == 'reason'"
+      :id="processInstanceId"
+      @refresh="getApplyPage"
+      @close="closeDialog"
+    />
+    <formLoader
+      v-if="dialogName == 'formLoader'"
+      :mode="mode"
+      :process-instance-id="processInstanceId"
+      :process-definition-id="processDefinitionId"
+      :process-definition-key="processDefinitionKey"
+      @close="closeDialog"
+    />
   </div>
 </template>
 
@@ -19,9 +32,10 @@
 import { getApplyPage } from '@/api/actTask'
 import { importDic, filterDic } from '@/utils'
 import reason from './reason'
+import formLoader from '../components/formLoader'
 
 export default {
-  components: { reason },
+  components: { reason, formLoader },
   data() {
     return {
       loading: 0,
@@ -35,7 +49,9 @@ export default {
       searchData: {
         lastVersion: true
       },
-      propId: ''
+      processInstanceId: '',
+      processDefinitionId: '',
+      processDefinitionKey: ''
     }
   },
   computed: {
@@ -48,7 +64,9 @@ export default {
         column: [
           {
             name: 'processDefinitionName',
-            label: '任务名称'
+            label: '任务名称',
+            search: true,
+            xType: 'input'
           },
           {
             name: 'processDefinitionCategory',
@@ -80,6 +98,11 @@ export default {
             text: '撤销',
             show: data => _this.checkPermission(['actProcess.del']) && data.status === 'process',
             click: _this.del
+          },
+          {
+            text: '详情',
+            show: _this.checkPermission(['actProcess.del']),
+            click: _this.detail
           }
         ]
       }
@@ -87,7 +110,6 @@ export default {
   },
   mounted() {
     this.getApplyPage()
-    console.log(this)
   },
   methods: {
     filterDic: filterDic,
@@ -104,8 +126,15 @@ export default {
       if (status === 'abandon') return 'danger'
     },
     del(data) {
-      this.propId = data.processInstanceId
+      this.processInstanceId = data.processInstanceId
       this.dialogName = 'reason'
+    },
+    detail(data) {
+      this.processDefinitionKey = data.processDefinitionKey
+      this.processDefinitionId = data.processDefinitionId
+      this.processInstanceId = data.processInstanceId
+      this.mode = 'detail'
+      this.dialogName = 'formLoader'
     },
     closeDialog() {
       this.dialogName = ''

@@ -5,12 +5,8 @@
       :config="tableConfig"
       :data="tableData"
       :page.sync="page"
-      :load="getTodoPage"
-    >
-      <template #suspended="scope">
-        <el-tag :type="scope.row.suspended ? 'danger' : 'success'">{{ scope.row.suspended ? '已挂起' : '进行中' }}</el-tag>
-      </template>
-    </x-table>
+      :load="getDonePage"
+    />
     <formLoader
       v-if="dialogName == 'formLoader'"
       :process-definition-key="processDefinitionKey"
@@ -18,15 +14,15 @@
       :task-definition-key="taskDefinitionKey"
       :process-definition-id="processDefinitionId"
       :task-id="taskId"
-      mode="approve"
-      @refresh="getTodoPage"
+      mode="detail"
+      @refresh="getDonePage"
       @close="closeDialog"
     />
   </div>
 </template>
 
 <script>
-import { getTodoPage } from '@/api/actTask'
+import { getDonePage } from '@/api/actTask'
 import { importDic } from '@/utils'
 import formLoader from '../components/formLoader'
 
@@ -77,18 +73,13 @@ export default {
             label: '申请人'
           },
           {
-            name: 'suspended',
-            label: '状态',
-            slot: true
-          },
-          {
-            name: 'createTime',
-            label: '创建时间'
+            name: 'endTime',
+            label: '审核时间'
           }
         ],
         operate: [
           {
-            text: '办理',
+            text: '详情',
             show: _this.checkPermission(['actProcess.del']),
             click: _this.showInstance
           }
@@ -97,12 +88,12 @@ export default {
     }
   },
   mounted() {
-    this.getTodoPage()
+    this.getDonePage()
   },
   methods: {
-    getTodoPage() {
+    getDonePage() {
       this.loading++
-      getTodoPage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
+      getDonePage(this.searchData, this.page.pageNum, this.page.pageSize).then(res => {
         this.tableData = res.data
         this.page.total = res.total
       }).catch(e => console.error(e)).finally(() => this.loading--)

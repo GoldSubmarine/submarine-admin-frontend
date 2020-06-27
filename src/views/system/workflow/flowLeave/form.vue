@@ -1,17 +1,17 @@
 <template>
   <div class="app-container">
-    <el-dialog :fullscreen="mode === 'approve'" :title="dialogTitle + '（请假申请）'" :visible.sync="dialogVisible" width="520px" :close-on-click-modal="false" @closed="$emit('close')">
-      <div v-if="mode === 'add'">
-        <x-form ref="xForm" v-model="formData" v-loading="loading" :config="formConfig" />
+    <el-dialog :fullscreen="/(approve|detail)/.test(mode)" :title="dialogTitle + '（请假申请）'" :visible.sync="dialogVisible" width="520px" :close-on-click-modal="false" @closed="$emit('close')">
+      <div v-if="mode === 'add'" v-loading="loading">
+        <x-form ref="xForm" v-model="formData" class="js-screenshot" :config="formConfig" />
         <el-button style="margin-left: 120px" type="primary" @click="saveFlowLeave">保存</el-button>
         <el-button type="primary" @click="$emit('close')">取消</el-button>
       </div>
       <el-row v-else :gutter="20">
         <el-col :span="14">
-          <el-card class="approve-box-card">
-            <x-form ref="xForm" v-model="formData" v-loading="loading" :config="formConfig" />
-            <approveForm ref="approveForm" :data.sync="approveForm" />
-            <div style="margin: 0 0 30px 120px">
+          <el-card v-loading="loading" class="approve-box-card">
+            <x-form ref="xForm" v-model="formData" class="js-screenshot" :config="formConfig" />
+            <approveForm v-if="mode === 'approve'" ref="approveForm" :data.sync="approveForm" />
+            <div v-if="mode === 'approve'" style="margin: 0 0 30px 120px">
               <el-button type="primary" @click="approveFlowLeave">确认审核</el-button>
               <el-link style="float: right" type="primary" @click="showHistory = true">历史记录</el-link>
             </div>
@@ -34,10 +34,10 @@ import approveForm from '../components/approveForm'
 import editHistory from '../components/editHistory'
 import { getScreenshot, isEdited } from '../components/util'
 export default {
-  formKey: 'Leave',
+  name: 'LeaveApply',
   components: { historyTimeline, approveForm, editHistory },
   props: {
-    mode: { // add, approve
+    mode: { // add, approve, detail
       type: String,
       required: true
     },
@@ -66,16 +66,14 @@ export default {
       originFormDataCache: {},
       formData: {},
       approveForm: {},
-      formDisabled: false,
-      dialogTitle: '编辑',
-      showBtn: true
+      dialogTitle: '编辑'
     }
   },
   computed: {
     formConfig() {
       const _this = this
       return {
-        disabled: _this.formDisabled,
+        disabled: _this.mode === 'detail',
         inline: false,
         itemStyle: 'width: 100%;',
         item: [
@@ -116,6 +114,10 @@ export default {
         }
         if (this.mode === 'approve') {
           this.dialogTitle = '核准'
+          this.getFlowLeaveDetailByProcessInstanceId()
+        }
+        if (this.mode === 'detail') {
+          this.dialogTitle = '详情'
           this.getFlowLeaveDetailByProcessInstanceId()
         }
       },

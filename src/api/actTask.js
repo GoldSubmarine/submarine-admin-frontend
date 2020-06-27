@@ -1,35 +1,35 @@
 import request from '@/utils/request'
 
 /**
- * 获取流程表单key
+ * 获取待办
  */
-export function getFormKey(processDefinitionId, taskDefinitionKey) {
+export function getTodoPage(data, pageNum, pageSize) {
   return request({
-    url: '/workflow/task/form-key',
+    url: '/workflow/task/todo/page',
     method: 'get',
-    params: { processDefinitionId, taskDefinitionKey }
+    params: { ...data, pageNum, pageSize }
   })
 }
 
 /**
- * 获取待办
+ * 获取已办任务
  */
-export function getTodoPage(data) {
+export function getDonePage(data, pageNum, pageSize) {
   return request({
-    url: '/workflow/task/todo/page',
+    url: '/workflow/task/done/page',
     method: 'get',
-    params: data
+    params: { ...data, pageNum, pageSize }
   })
 }
 
 /**
  * 获取我的申请
  */
-export function getApplyPage(data) {
+export function getApplyPage(data, pageNum, pageSize) {
   return request({
     url: '/workflow/task/apply/page',
     method: 'get',
-    params: data
+    params: { ...data, pageNum, pageSize }
   })
 }
 
@@ -47,10 +47,10 @@ export function deleteApply(processInstanceId, deleteReason) {
 /**
  * 获取历史操作记录
  */
-export function getHistoryOperate(processInstanceId, activityId) {
+export function getHistoryOperate(processInstanceId, taskDefinitionKey) {
   return request({
     url: '/workflow/task/history/operate',
     method: 'get',
-    params: { processInstanceId, activityId }
+    params: { processInstanceId, taskDefinitionKey }
   })
 }

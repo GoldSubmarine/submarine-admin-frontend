@@ -8,24 +8,34 @@
       :load="getActProcessPage"
     >
       <template #resourceName="scope">
-        <el-link type="primary" @click="showResource(scope.row.id, scope.row.resourceName, false)">{{ scope.row.resourceName }}</el-link>
+        <el-link type="primary" @click="showResource(scope.row.id, scope.row.resourceName, 'xml')">{{ scope.row.resourceName }}</el-link>
       </template>
       <template #dgrmResourceName="scope">
-        <el-link type="primary" @click="showResource(scope.row.id, scope.row.dgrmResourceName, true)">{{ scope.row.dgrmResourceName }}</el-link>
+        <!-- <el-image
+          style="width: 60px; height: 60px"
+          :src="scope.row.dgrmResourceName"
+          :preview-src-list="[scope.row.dgrmResourceName]"
+        /> -->
+        <el-link type="primary" @click="showResource(scope.row.id, scope.row.dgrmResourceName, 'img')">{{ scope.row.dgrmResourceName }}</el-link>
       </template>
     </x-table>
+    <el-image-viewer v-if="showViewer" :on-close="() => showViewer = false" :url-list="[imgData]" />
   </div>
 </template>
 
 <script>
+import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
 import { getActProcessPage, deleteActDeployment, getActProcessResource, changeProcessStatus } from '@/api/actProcess'
 import { importDic } from '../../../../utils'
 
 export default {
+  components: { ElImageViewer },
   data() {
     return {
       loading: 0,
       tableData: [],
+      showViewer: false,
+      imgData: '',
       page: {
         pageNum: 1,
         pageSize: 10,
@@ -130,14 +140,20 @@ export default {
         this.page.total = res.total
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
-    showResource(id, name, isSvg) {
+    showResource(id, name, mode) {
       this.loading++
       getActProcessResource(id, name).then(res => {
-        this.$alert(res, '预览', {
-          // center: escape,
-          customClass: isSvg ? 'resource-middle-class' : 'resource-class',
-          dangerouslyUseHTMLString: isSvg
-        }).catch(e => console.log(e))
+        if (mode === 'xml') {
+          this.$alert(res, '预览', {
+            // center: escape,
+            customClass: 'resource-class',
+            dangerouslyUseHTMLString: false
+          }).catch(e => console.log(e))
+        }
+        if (mode === 'img') {
+          this.imgData = res
+          this.showViewer = true
+        }
       }).catch(e => console.log(e)).finally(() => this.loading--)
     },
     changeProcessStatus(id, suspensionState) {

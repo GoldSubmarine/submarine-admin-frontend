@@ -7,9 +7,9 @@ module.exports = {
   },
   mixin: {
     frontRootPath: '.',
-    backRootPath: 'K:/github/submarine-admin-backend',
-    module: 'system.tool',
-    modulePath: 'system/tool',
+    backRootPath: 'C:/Users/charles/Desktop/project/java/submarine-admin-backend',
+    module: 'system.workflow',
+    modulePath: 'system/workflow',
     entity: '',
     Entity: '',
     entityZh: ''
