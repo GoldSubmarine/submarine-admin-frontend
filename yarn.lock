@@ -832,7 +832,7 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
-"@babel/runtime@^7.8.4", "@babel/runtime@^7.9.6":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.6":
   version "7.10.3"
   resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.10.3.tgz#670d002655a7c366540c67f6fd3342cd09500364"
   integrity sha1-Zw0AJlWnw2ZUDGf2/TNCzQlQA2Q=
@@ -1102,6 +1102,20 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
+
+"@riophae/vue-treeselect@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.npm.taobao.org/@riophae/vue-treeselect/download/@riophae/vue-treeselect-0.0.38.tgz#13af5dfcd732a9f41fa96f99821108e72666dd4f"
+  integrity sha1-E69d/NcyqfQfqW+ZghEI5yZm3U8=
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    babel-helper-vue-jsx-merge-props "^2.0.3"
+    easings-css "^1.0.0"
+    fuzzysearch "^1.0.3"
+    is-promise "^2.1.0"
+    lodash "^4.0.0"
+    material-colors "^1.2.6"
+    watch-size "^2.0.0"
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
@@ -2085,7 +2099,7 @@ babel-generator@^6.18.0:
     source-map "^0.5.7"
     trim-right "^1.0.1"
 
-babel-helper-vue-jsx-merge-props@^2.0.0:
+babel-helper-vue-jsx-merge-props@^2.0.0, babel-helper-vue-jsx-merge-props@^2.0.3:
   version "2.0.3"
   resolved "https://registry.npm.taobao.org/babel-helper-vue-jsx-merge-props/download/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
   integrity sha1-Iq69OzOQIyjlEyk6jkmSs4T58bY=
@@ -4099,6 +4113,11 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
+easings-css@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/easings-css/download/easings-css-1.0.0.tgz#dde569003bb7a4a0c0b77878f5db3e0be5679c81"
+  integrity sha1-3eVpADu3pKDAt3h49ds+C+VnnIE=
+
 easy-stack@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/easy-stack/download/easy-stack-1.0.0.tgz#12c91b3085a37f0baa336e9486eac4bf94e3e788"
@@ -5066,6 +5085,11 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/functional-red-black-tree/download/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
+
+fuzzysearch@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npm.taobao.org/fuzzysearch/download/fuzzysearch-1.0.3.tgz#dffc80f6d6b04223f2226aa79dd194231096d008"
+  integrity sha1-3/yA9tawQiPyImqnndGUIxCW0Ag=
 
 gensync@^1.0.0-beta.1:
   version "1.0.0-beta.1"
@@ -7092,6 +7116,11 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
+lodash-es@^4.17.15:
+  version "4.17.15"
+  resolved "https://registry.npm.taobao.org/lodash-es/download/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
+  integrity sha1-Ib2Wg5NUQS8j16EDQOXqxu5FXXg=
+
 lodash.defaultsdeep@^4.6.1:
   version "4.6.1"
   resolved "https://registry.npm.taobao.org/lodash.defaultsdeep/download/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
@@ -7137,7 +7166,7 @@ lodash@4.17.11:
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha1-s56mIp72B+zYniyN8SU2iRysm40=
 
-lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.4:
+lodash@^4.0.0, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.3, lodash@^4.17.4:
   version "4.17.15"
   resolved "https://registry.npm.taobao.org/lodash/download/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha1-tEf2ZwoEVbv+7dETku/zMOoJdUg=
@@ -7247,6 +7276,11 @@ matches-selector@^1.2.0:
   version "1.2.0"
   resolved "https://registry.npm.taobao.org/matches-selector/download/matches-selector-1.2.0.tgz#d1814e7e8f43e69d22ac33c9af727dc884ecf12a"
   integrity sha1-0YFOfo9D5p0irDPJr3J9yITs8So=
+
+material-colors@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.npm.taobao.org/material-colors/download/material-colors-1.2.6.tgz#6d1958871126992ceecc72f4bcc4d8f010865f46"
+  integrity sha1-bRlYhxEmmSzuzHL0vMTY8BCGX0Y=
 
 math-random@^1.0.1:
   version "1.0.4"
@@ -11200,6 +11234,11 @@ walker@^1.0.7, walker@~1.0.5:
   dependencies:
     makeerror "1.0.x"
 
+watch-size@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/watch-size/download/watch-size-2.0.0.tgz#096ee28d0365bd7ea03d9c8bf1f2f50a73be1474"
+  integrity sha1-CW7ijQNlvX6gPZyL8fL1CnO+FHQ=
+
 watchpack-chokidar2@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/watchpack-chokidar2/download/watchpack-chokidar2-2.0.0.tgz#9948a1866cbbd6cb824dea13a7ed691f6c8ddff0"
@@ -11521,10 +11560,13 @@ ws@~6.1.0:
   dependencies:
     async-limiter "~1.0.0"
 
-xcrud@0.3.8:
-  version "0.3.8"
-  resolved "https://registry.npm.taobao.org/xcrud/download/xcrud-0.3.8.tgz#4cffee3cebac86085426c6db2edabc91e4da54b3"
-  integrity sha1-TP/uPOushghUJsbbLtq8keTaVLM=
+xcrud@0.3.11:
+  version "0.3.11"
+  resolved "https://registry.npm.taobao.org/xcrud/download/xcrud-0.3.11.tgz#f166a3a53a059657b0c84bb947df7f4d3dd786bc"
+  integrity sha1-8WajpToFllewyEu5R99/TT3Xhrw=
+  dependencies:
+    "@riophae/vue-treeselect" "^0.0.38"
+    lodash-es "^4.17.15"
 
 xml-name-validator@^3.0.0:
   version "3.0.0"
