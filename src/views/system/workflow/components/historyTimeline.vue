@@ -1,25 +1,21 @@
 <template>
   <div class="block">
-    <el-timeline>
-      <el-timeline-item v-for="(operate,index) in historyOperateList" :key="index" :timestamp="operate.endTime" placement="top">
-        <el-card>
-          <h4>{{ operate.activityType === 'startEvent' ? '发起人' : '核准人' }}：{{ operate.assigneeName }}</h4>
-          <div v-if="operate.endTime">
-            <p v-if="operate.activityType !== 'startEvent'">审批意见：{{ operate.comment }}</p>
-            <p v-if="operate.activityType !== 'startEvent'">
-              审批结果：
-              <el-tag :type="operate.approveStatus === 'reject' ? 'danger' : 'success'">
-                {{ filterDic('TaskApplyStatus', operate.approveStatus) }}
-              </el-tag>
-            </p>
-            <p>耗时：{{ (operate.durationInMillis/1000/60/60).toFixed(2) }} 小时</p>
-          </div>
-          <div v-else>
-            审批中...
-          </div>
-        </el-card>
-      </el-timeline-item>
-    </el-timeline>
+    <x-table
+      :config="tableConfig"
+      :data="historyOperateList"
+      :load="getHistoryOperate"
+    >
+      <template #approveStatus="scope">
+        <el-tag v-if="scope.row.approveStatus" :type="scope.row.approveStatus === 'reject' ? 'danger' : 'success'">
+          {{ filterDic('TaskApplyStatus', scope.row.approveStatus) }}
+        </el-tag>
+      </template>
+      <template #status="scope">
+        <el-tag :type="scope.row.endTime ? 'success' : 'info'">
+          {{ scope.row.endTime ? '已处理' : '待处理' }}
+        </el-tag>
+      </template>
+    </x-table>
   </div>
 </template>
 
@@ -41,6 +37,57 @@ export default {
     return {
       loading: 0,
       historyOperateList: []
+    }
+  },
+  computed: {
+    tableConfig() {
+      return {
+        stripe: true,
+        search: false,
+        reset: false,
+        column: [
+          {
+            name: 'name',
+            label: '任务名称'
+          },
+          {
+            name: 'assigneeName',
+            label: '处理人'
+          },
+          {
+            name: 'approveStatus',
+            label: '处理结果',
+            slot: true
+          },
+          {
+            name: 'comment',
+            label: '处理意见'
+          },
+          {
+            name: 'durationInMillis',
+            label: '耗时',
+            formatter: row => {
+              if (row.endTime) {
+                return `${(row.durationInMillis / 1000 / 60 / 60).toFixed(2)} 小时`
+              }
+              return ''
+            }
+          },
+          {
+            name: 'beginTime',
+            label: '开始时间'
+          },
+          {
+            name: 'endTime',
+            label: '结束时间'
+          },
+          {
+            name: 'status',
+            label: '状态',
+            slot: true
+          }
+        ]
+      }
     }
   },
   mounted() {

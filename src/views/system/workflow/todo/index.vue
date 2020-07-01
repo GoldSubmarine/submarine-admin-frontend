@@ -8,7 +8,7 @@
       :load="getTodoPage"
     >
       <template #suspended="scope">
-        <el-tag :type="scope.row.suspended ? 'danger' : 'success'">{{ scope.row.suspended ? '已挂起' : '进行中' }}</el-tag>
+        <el-tag :type="getStatus(scope.row).type">{{ getStatus(scope.row).word }}</el-tag>
       </template>
     </x-table>
     <formLoader
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { getTodoPage } from '@/api/actTask'
+import { getTodoPage, claimTask } from '@/api/actTask'
 import { importDic } from '@/utils'
 import formLoader from '../components/formLoader'
 
@@ -89,8 +89,13 @@ export default {
         operate: [
           {
             text: '办理',
-            show: _this.checkPermission(['actProcess.del']),
+            show: data => _this.checkPermission(['actProcess.del']) && data.assigneeId,
             click: _this.showInstance
+          },
+          {
+            text: '签收',
+            show: data => _this.checkPermission(['actProcess.del']) && !data.assigneeId,
+            click: _this.claimTask
           }
         ]
       }
@@ -115,6 +120,30 @@ export default {
       this.taskId = data.id
       this.mode = 'approve'
       this.dialogName = 'formLoader'
+    },
+    claimTask(row) {
+      this.commonConfirm('确认签收该任务？').then(res => {
+        this.loading++
+        claimTask(row.id).then(res => {
+          this.$message.success(res.msg)
+          this.getTodoPage()
+        }).catch(e => console.log(e)).finally(() => this.loading--)
+      })
+    },
+    getStatus(row) {
+      let word = ''
+      let type = ''
+      if (row.suspended) {
+        word = '已挂起'
+        type = 'danger'
+      } else if (!row.assigneeId) {
+        word = '待签收'
+        type = 'warning'
+      } else {
+        word = '办理中'
+        type = 'success'
+      }
+      return { word, type }
     },
     closeDialog() {
       this.dialogName = ''

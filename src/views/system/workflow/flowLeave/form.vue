@@ -11,6 +11,9 @@ import { getScreenshot } from '@/views/system/workflow/components/util'
 
 export default {
   name: 'LeaveApply',
+  parentVariable: {
+    width: '540px'
+  },
   props: {
     mode: { // add, approve, detail
       type: String,

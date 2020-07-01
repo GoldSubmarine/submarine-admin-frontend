@@ -34,6 +34,16 @@ export function getApplyPage(data, pageNum, pageSize) {
 }
 
 /**
+ * 签收任务
+ */
+export function claimTask(taskId) {
+  return request({
+    url: '/workflow/task/apply/claim/' + taskId,
+    method: 'post'
+  })
+}
+
+/**
  * 撤销申请
  */
 export function deleteApply(processInstanceId, deleteReason) {
