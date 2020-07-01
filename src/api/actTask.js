@@ -38,8 +38,19 @@ export function getApplyPage(data, pageNum, pageSize) {
  */
 export function claimTask(taskId) {
   return request({
-    url: '/workflow/task/apply/claim/' + taskId,
+    url: '/workflow/task/claim/' + taskId,
     method: 'post'
+  })
+}
+
+/**
+ * 委托任务
+ */
+export function delegateTask(taskId, assigneeId) {
+  return request({
+    url: '/workflow/task/delegate/' + taskId,
+    method: 'post',
+    data: { assigneeId }
   })
 }
 
