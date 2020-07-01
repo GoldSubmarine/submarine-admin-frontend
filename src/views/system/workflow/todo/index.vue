@@ -113,6 +113,7 @@ export default {
       this.processDefinitionKey = data.processDefinitionKey
       this.taskDefinitionKey = data.taskDefinitionKey
       this.taskId = data.id
+      this.mode = 'approve'
       this.dialogName = 'formLoader'
     },
     closeDialog() {

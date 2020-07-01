@@ -11560,10 +11560,10 @@ ws@~6.1.0:
   dependencies:
     async-limiter "~1.0.0"
 
-xcrud@0.3.11:
-  version "0.3.11"
-  resolved "https://registry.npm.taobao.org/xcrud/download/xcrud-0.3.11.tgz#f166a3a53a059657b0c84bb947df7f4d3dd786bc"
-  integrity sha1-8WajpToFllewyEu5R99/TT3Xhrw=
+xcrud@0.3.12:
+  version "0.3.12"
+  resolved "https://registry.npm.taobao.org/xcrud/download/xcrud-0.3.12.tgz?cache=0&sync_timestamp=1593487701461&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fxcrud%2Fdownload%2Fxcrud-0.3.12.tgz#86c3c6648b95a6d790ec0bc95ab2d50a03d7f626"
+  integrity sha1-hsPGZIuVpteQ7AvJWrLVCgPX9iY=
   dependencies:
     "@riophae/vue-treeselect" "^0.0.38"
     lodash-es "^4.17.15"

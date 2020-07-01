@@ -1,41 +1,16 @@
 <template>
-  <div class="app-container">
-    <el-dialog :fullscreen="/(approve|detail)/.test(mode)" :title="dialogTitle + '（请假申请）'" :visible.sync="dialogVisible" width="520px" :close-on-click-modal="false" @closed="$emit('close')">
-      <div v-if="mode === 'add'" v-loading="loading">
-        <x-form ref="xForm" v-model="formData" class="js-screenshot" :config="formConfig" />
-        <el-button style="margin-left: 120px" type="primary" @click="saveFlowLeave">保存</el-button>
-        <el-button type="primary" @click="$emit('close')">取消</el-button>
-      </div>
-      <el-row v-else :gutter="20">
-        <el-col :span="14">
-          <el-card v-loading="loading" class="approve-box-card">
-            <x-form ref="xForm" v-model="formData" class="js-screenshot" :config="formConfig" />
-            <approveForm v-if="mode === 'approve'" ref="approveForm" :data.sync="approveForm" />
-            <div v-if="mode === 'approve'" style="margin: 0 0 30px 120px">
-              <el-button type="primary" @click="approveFlowLeave">确认审核</el-button>
-              <el-link style="float: right" type="primary" @click="showHistory = true">历史记录</el-link>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :span="10">
-          <historyTimeline :process-instance-id="processInstanceId" :task-definition-key="taskDefinitionKey" />
-        </el-col>
-      </el-row>
-    </el-dialog>
-    <editHistory v-if="showHistory" :process-instance-id="processInstanceId" @close="handleClose" />
+  <div v-loading="loading">
+    <x-form ref="xForm" v-model="formData" :config="formConfig" />
   </div>
 </template>
 
 <script>
 import { getFlowLeaveDetailByProcessInstanceId, saveFlowLeave, approveFlowLeave } from '@/api/flowLeave'
 import { importRules } from '@/utils/index'
-import historyTimeline from '../components/historyTimeline'
-import approveForm from '../components/approveForm'
-import editHistory from '../components/editHistory'
-import { getScreenshot, isEdited } from '../components/util'
+import { getScreenshot } from '@/views/system/workflow/components/util'
+
 export default {
   name: 'LeaveApply',
-  components: { historyTimeline, approveForm, editHistory },
   props: {
     mode: { // add, approve, detail
       type: String,
@@ -44,29 +19,14 @@ export default {
     processInstanceId: {
       type: String,
       default: null
-    },
-    taskId: {
-      type: String,
-      default: null
-    },
-    taskDefinitionKey: {
-      type: String,
-      default: null
-    },
-    processDefinitionId: {
-      type: String,
-      default: null
     }
   },
   data() {
     return {
       loading: 0,
       dialogVisible: true,
-      showHistory: false,
       originFormDataCache: {},
-      formData: {},
-      approveForm: {},
-      dialogTitle: '编辑'
+      formData: {}
     }
   },
   computed: {
@@ -106,23 +66,12 @@ export default {
       }
     }
   },
-  watch: {
-    mode: {
-      handler: function(mode) {
-        if (this.mode === 'add') {
-          this.dialogTitle = '填报'
-        }
-        if (this.mode === 'approve') {
-          this.dialogTitle = '核准'
-          this.getFlowLeaveDetailByProcessInstanceId()
-        }
-        if (this.mode === 'detail') {
-          this.dialogTitle = '详情'
-          this.getFlowLeaveDetailByProcessInstanceId()
-        }
-      },
-      immediate: true
+  mounted() {
+    if (this.mode !== 'add') {
+      this.getFlowLeaveDetailByProcessInstanceId()
     }
+    this.$on('add', () => this.save('add'))
+    this.$on('approve', () => this.save('approve'))
   },
   methods: {
     getFlowLeaveDetailByProcessInstanceId() {
@@ -134,44 +83,27 @@ export default {
         this.formData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
-    saveFlowLeave() {
+    save(type) {
       this.$refs['xForm'].validate().then(async() => {
-        const copy = await this.handleData()
+        const copy = JSON.parse(JSON.stringify(this.formData))
+        copy.endTime = copy.beginTime[1]
+        copy.beginTime = copy.beginTime[0]
+        // 填充必要参数
+        this.$emit('fill', copy)
+        copy.img = await getScreenshot(this.originFormDataCache, copy)
         this.loading++
-        saveFlowLeave(copy).then(res => {
+        let promise
+        if (type === 'add') {
+          promise = saveFlowLeave(copy)
+        } else if (type === 'approve') {
+          promise = approveFlowLeave(copy)
+        }
+        promise.then(res => {
           this.$message.success(res.msg)
-          this.dialogVisible = false
+          this.$emit('close')
           this.$emit('refresh')
         }).catch(e => console.error(e)).finally(() => this.loading--)
       })
-    },
-    approveFlowLeave() {
-      this.$refs['approveForm'].validate().then(() => {
-        this.$refs['xForm'].validate().then(async() => {
-          const copy = await this.handleData()
-          this.loading++
-          approveFlowLeave(copy).then(res => {
-            this.$message.success(res.msg)
-            this.dialogVisible = false
-            this.$emit('refresh')
-          }).catch(e => console.error(e)).finally(() => this.loading--)
-        })
-      })
-    },
-    async handleData() {
-      const copy = { ...this.formData, ...this.approveForm }
-      copy.endTime = copy.beginTime[1]
-      copy.beginTime = copy.beginTime[0]
-      copy.processDefinitionId = this.processDefinitionId
-      copy.processInstanceId = this.processInstanceId
-      copy.taskId = this.taskId
-      if (isEdited(this.originFormDataCache, copy)) {
-        copy.img = await getScreenshot()
-      }
-      return copy
-    },
-    handleClose() {
-      this.showHistory = false
     }
   }
 }

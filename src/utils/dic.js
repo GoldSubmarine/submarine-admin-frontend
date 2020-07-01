@@ -72,8 +72,14 @@ export const ProcessSuspensionState = [
 
 // 我的申请状态
 export const ApplyStatus = [
-  { label: '进行中', value: 'process' },
-  { label: '已完成', value: 'done' },
-  { label: '已作废', value: 'abandon' }
+  { label: '进行中', value: 'unfinish' },
+  { label: '已完成', value: 'finish' },
+  { label: '已撤销', value: 'delete' }
+]
+
+// 任务的状态
+export const TaskApplyStatus = [
+  { label: '通过', value: 'approve' },
+  { label: '驳回', value: 'reject' }
 ]
 

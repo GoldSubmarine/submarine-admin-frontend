@@ -6,6 +6,12 @@
           <h4>{{ operate.activityType === 'startEvent' ? '发起人' : '核准人' }}：{{ operate.assigneeName }}</h4>
           <div v-if="operate.endTime">
             <p v-if="operate.activityType !== 'startEvent'">审批意见：{{ operate.comment }}</p>
+            <p v-if="operate.activityType !== 'startEvent'">
+              审批结果：
+              <el-tag :type="operate.approveStatus === 'reject' ? 'danger' : 'success'">
+                {{ filterDic('TaskApplyStatus', operate.approveStatus) }}
+              </el-tag>
+            </p>
             <p>耗时：{{ (operate.durationInMillis/1000/60/60).toFixed(2) }} 小时</p>
           </div>
           <div v-else>
@@ -19,6 +25,7 @@
 
 <script>
 import { getHistoryOperate } from '@/api/actTask'
+import { filterDic } from '../../../../utils'
 export default {
   props: {
     processInstanceId: {
@@ -40,6 +47,7 @@ export default {
     this.getHistoryOperate()
   },
   methods: {
+    filterDic: filterDic,
     getHistoryOperate() {
       this.loading++
       getHistoryOperate(this.processInstanceId, this.taskDefinitionKey).then(res => {

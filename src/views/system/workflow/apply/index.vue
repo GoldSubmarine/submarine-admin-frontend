@@ -82,6 +82,9 @@ export default {
           {
             name: 'status',
             label: '状态',
+            search: 'true',
+            xType: 'select',
+            dic: importDic('all', 'ApplyStatus'),
             slot: true
           },
           {
@@ -96,7 +99,7 @@ export default {
         operate: [
           {
             text: '撤销',
-            show: data => _this.checkPermission(['actProcess.del']) && data.status === 'process',
+            show: data => _this.checkPermission(['actProcess.del']) && data.status === 'unfinish',
             click: _this.del
           },
           {
@@ -121,9 +124,9 @@ export default {
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
     getStatusTagType(status) {
-      if (status === 'process') return 'success'
-      if (status === 'done') return ''
-      if (status === 'abandon') return 'danger'
+      if (status === 'unfinish') return 'success'
+      if (status === 'finish') return ''
+      if (status === 'delete') return 'danger'
     },
     del(data) {
       this.processInstanceId = data.processInstanceId
