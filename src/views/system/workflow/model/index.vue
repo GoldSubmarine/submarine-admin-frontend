@@ -14,8 +14,7 @@
 <script>
 import { getActModelPage, deleteActModel, deployActModel } from '@/api/actModel'
 import moduler from './moduler'
-import { importDic } from '../../../../utils'
-// import { importDic } from '@/utils'
+import { importDic } from '@/utils'
 
 export default {
   components: {
@@ -48,7 +47,7 @@ export default {
         btn: [
           {
             text: '新增',
-            show: _this.checkPermission(['actModel.add']),
+            show: _this.checkPermission(['workflowModel.add']),
             click: () => { _this.propId = ''; _this.dialogName = 'moduler' },
             icon: 'el-icon-circle-plus'
           }
@@ -98,17 +97,17 @@ export default {
         operate: [
           {
             text: '部署',
-            show: _this.checkPermission(['actModel.edit']),
+            show: _this.checkPermission(['workflowModel.edit']),
             click: data => _this.deployActModel(data.id)
           },
           {
             text: '设计模型',
-            show: _this.checkPermission(['actModel.edit']),
+            show: _this.checkPermission(['workflowModel.edit']),
             click: data => { _this.propId = data.id; _this.dialogName = 'moduler' }
           },
           {
             text: '删除',
-            show: _this.checkPermission(['actModel.del']),
+            show: _this.checkPermission(['workflowModel.del']),
             click: _this.del
           }
         ]

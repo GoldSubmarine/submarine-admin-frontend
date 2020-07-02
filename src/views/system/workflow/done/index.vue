@@ -80,7 +80,7 @@ export default {
         operate: [
           {
             text: '详情',
-            show: _this.checkPermission(['actProcess.del']),
+            show: _this.checkPermission(['workflowTask.find']),
             click: _this.showInstance
           }
         ]

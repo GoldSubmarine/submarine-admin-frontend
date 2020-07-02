@@ -99,12 +99,12 @@ export default {
         operate: [
           {
             text: '撤销',
-            show: data => _this.checkPermission(['actProcess.del']) && data.status === 'unfinish',
+            show: data => _this.checkPermission(['workflowTask.delete']) && data.status === 'unfinish',
             click: _this.del
           },
           {
             text: '详情',
-            show: _this.checkPermission(['actProcess.del']),
+            show: _this.checkPermission(['workflowTask.find']),
             click: _this.detail
           }
         ]

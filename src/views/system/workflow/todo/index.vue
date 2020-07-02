@@ -91,17 +91,17 @@ export default {
         operate: [
           {
             text: '办理',
-            show: data => _this.checkPermission(['actProcess.del']) && data.assigneeId,
+            show: data => _this.checkPermission(['workflowTask.find']) && data.assigneeId,
             click: _this.showInstance
           },
           {
             text: '签收',
-            show: data => _this.checkPermission(['actProcess.del']) && !data.assigneeId,
+            show: data => _this.checkPermission(['workflowTask.claim']) && !data.assigneeId,
             click: _this.claimTask
           },
           {
             text: '委托',
-            show: data => _this.checkPermission(['actProcess.del']) && data.assigneeId,
+            show: data => _this.checkPermission(['workflowTask.delegate']) && data.assigneeId,
             click: _this.delegateTask
           }
         ]

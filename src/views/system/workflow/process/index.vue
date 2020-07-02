@@ -112,17 +112,17 @@ export default {
         operate: [
           {
             text: '激活',
-            show: data => _this.checkPermission(['actProcess.edit']) && data.suspensionState === 'suspended',
+            show: data => _this.checkPermission(['workflowProcess.edit']) && data.suspensionState === 'suspended',
             click: data => _this.changeProcessStatus(data.id, 'active')
           },
           {
             text: '挂起',
-            show: data => _this.checkPermission(['actProcess.edit']) && data.suspensionState === 'active',
+            show: data => _this.checkPermission(['workflowProcess.edit']) && data.suspensionState === 'active',
             click: data => _this.changeProcessStatus(data.id, 'suspended')
           },
           {
             text: '删除',
-            show: _this.checkPermission(['actProcess.del']),
+            show: _this.checkPermission(['workflowProcess.del']),
             click: _this.del
           }
         ]
