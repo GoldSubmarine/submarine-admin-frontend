@@ -22,16 +22,18 @@
       @refresh="getTodoPage"
       @close="closeDialog"
     />
+    <delegateForm v-if="dialogName == 'delegateForm'" :task-id="taskId" @refresh="getTodoPage" @close="closeDialog" />
   </div>
 </template>
 
 <script>
-import { getTodoPage, claimTask, delegateTask } from '@/api/actTask'
+import { getTodoPage, claimTask } from '@/api/actTask'
 import { importDic } from '@/utils'
 import formLoader from '../components/formLoader'
+import delegateForm from './delegate'
 
 export default {
-  components: { formLoader },
+  components: { formLoader, delegateForm },
   data() {
     return {
       loading: 0,
@@ -99,7 +101,7 @@ export default {
           },
           {
             text: '委托',
-            show: data => _this.checkPermission(['actProcess.del']) && !data.assigneeId,
+            show: data => _this.checkPermission(['actProcess.del']) && data.assigneeId,
             click: _this.delegateTask
           }
         ]
@@ -136,13 +138,8 @@ export default {
       })
     },
     delegateTask(row) {
-      this.commonConfirm('确认签收该任务？').then(res => {
-        this.loading++
-        delegateTask(row.id).then(res => {
-          this.$message.success(res.msg)
-          this.getTodoPage()
-        }).catch(e => console.log(e)).finally(() => this.loading--)
-      })
+      this.taskId = row.id
+      this.dialogName = 'delegateForm'
     },
     getStatus(row) {
       let word = ''
