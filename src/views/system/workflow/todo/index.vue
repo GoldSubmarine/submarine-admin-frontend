@@ -68,7 +68,7 @@ export default {
             xType: 'input'
           },
           {
-            name: 'category',
+            name: 'processDefinitionCategory',
             label: '分类',
             search: 'true',
             xType: 'select',
