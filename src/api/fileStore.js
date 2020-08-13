@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+import store from '@/store'
 
 /**
  * 分页获取
@@ -74,10 +75,13 @@ export function uploadFileStore(data) {
 /**
  * 获取文件的二进制数据
  */
-export function getFileStoreBinary(url) {
+export function getFileStoreBinary(url, responseType = 'blob') {
+  if (url.indexOf(store.getters.api.baseUrl) === 0) {
+    url = url.substring(store.getters.api.baseUrl.length)
+  }
   return request({
     url: url,
     method: 'get',
-    responseType: 'blob'
+    responseType: responseType // arraybuffer, blob
   })
 }
