@@ -24,3 +24,20 @@ export function listToTree(data) {
     return (!idSet.has(item.pid)) && pidSet.has(item.pid)
   })
 }
+
+/**
+ * tree 转 list
+ */
+export function treeToList(tree) {
+  const result = []
+  recursive(tree)
+  return result
+  function recursive(data) {
+    data.forEach(item => {
+      result.push(item)
+      if (item.children && item.children.length > 0) {
+        recursive(item.children)
+      }
+    })
+  }
+}
