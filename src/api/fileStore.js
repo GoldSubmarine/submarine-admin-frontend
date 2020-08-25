@@ -38,6 +38,17 @@ export function getFileStoreDetail(id) {
 }
 
 /**
+ * 获取详情
+ */
+export function findListByIds(ids) {
+  return request({
+    url: '/file/list/ids',
+    method: 'get',
+    params: { ids }
+  })
+}
+
+/**
  * 保存
  */
 export function saveFileStore(data) {
