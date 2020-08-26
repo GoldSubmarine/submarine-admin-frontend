@@ -29,7 +29,7 @@ export default {
   props: {
     ids: {
       type: String,
-      required: true
+      default: null
     },
     disabled: {
       type: Boolean,

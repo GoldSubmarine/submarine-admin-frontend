@@ -1,6 +1,7 @@
 import { login, logout, getInfo } from '@/api/auth'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import defaultAvatar from '@/assets/avatar/avatar.png'
 
 const state = {
   id: '',
@@ -29,7 +30,7 @@ const mutations = {
     state.name = name
   },
   SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+    state.avatar = avatar ?? defaultAvatar
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
