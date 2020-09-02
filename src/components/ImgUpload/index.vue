@@ -21,6 +21,7 @@
 <script>
 import ElImageViewer from 'element-ui/packages/image/src/image-viewer'
 import { findListByIds } from '@/api/fileStore'
+import Compressor from 'compressorjs'
 
 export default {
   components: {
@@ -34,6 +35,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    compress: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -55,10 +60,21 @@ export default {
     }
   },
   methods: {
-    beforeUpload(file) {
+    async beforeUpload(file) {
       if (file.type.indexOf('image') !== 0) {
         this.$message.error('只能上传图片')
         return false
+      }
+      if (this.compress) {
+        const result = await new Promise((resolve, reject) => {
+          new Compressor(file, {
+            quality: 0.6,
+            convertSize: 1000000, // png图片最大1M，大于1M将会被转换成jpg进行压缩
+            success: resolve,
+            error: reject
+          })
+        })
+        return result
       }
       return true
     },
