@@ -7,6 +7,7 @@ import user from './modules/user'
 import permission from './modules/permission'
 import api from './modules/api'
 import dic from './modules/dic'
+import socket from './modules/socket'
 
 Vue.use(Vuex)
 
@@ -17,7 +18,8 @@ const store = new Vuex.Store({
     user,
     permission,
     api,
-    dic
+    dic,
+    socket
   },
   getters
 })
