@@ -17,15 +17,15 @@ const mutations = {
 const actions = {
   register({ commit }) {
     const vueSocketIO = new VueSocketIO({
-      debug: true,
-      connection: `http://${window.location.hostname}:${api.state.socketPort}`,
+      debug: process.env.NODE_ENV === 'development',
+      connection: `${window.location.origin}:${api.state.socketPort}`,
       // vuex: {
       //   store,
       //   actionPrefix: 'SOCKET_',
       //   mutationPrefix: 'SOCKET_'
       // },
       options: {
-        path: api.state.baseUrl,
+        path: api.state.baseUrl + '/socket.io',
         transports: ['websocket']
       }
     })
