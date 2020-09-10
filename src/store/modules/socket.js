@@ -18,7 +18,7 @@ const actions = {
   register({ commit }) {
     const vueSocketIO = new VueSocketIO({
       debug: process.env.NODE_ENV === 'development',
-      connection: `${window.location.origin}:${api.state.socketPort}`,
+      connection: `${window.location.protocol}//${window.location.hostname}:${api.state.socketPort}`,
       // vuex: {
       //   store,
       //   actionPrefix: 'SOCKET_',
