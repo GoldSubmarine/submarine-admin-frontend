@@ -15,6 +15,13 @@ export const sex = [
   { label: '女', value: 'female' }
 ]
 
+// 权限新增方式
+export const permissionAddType = [
+  { label: '单个', value: false },
+  { label: '模块', value: true }
+]
+
+// 权限类型
 export const permissionType = [
   { label: '菜单', value: 'menu' },
   { label: '按钮', value: 'button' }

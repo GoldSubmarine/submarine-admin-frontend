@@ -31,16 +31,20 @@ export default {
       type: String,
       default: null
     },
-    isModule: {
-      type: Boolean,
-      default: false
+    pid: {
+      type: String,
+      default: null
     }
   },
   data() {
+    const _this = this
     return {
       loading: 0,
       dialogVisible: true,
-      formData: {},
+      formData: {
+        isModule: false,
+        pid: _this.pid
+      },
       formDisabled: false,
       dialogTitle: '编辑',
       showBtn: true,
@@ -55,12 +59,20 @@ export default {
         inline: false,
         item: [
           {
+            xType: 'radio',
+            label: '新增方式',
+            name: 'isModule',
+            dic: importDic('permissionAddType'),
+            rules: importRules('selectRequired'),
+            show: _this.mode === 'add'
+          },
+          {
             xType: 'select',
             label: '类型',
             name: 'type',
             dic: importDic('permissionType'),
             rules: importRules('selectRequired'),
-            disabled: _this.isModule
+            disabled: _this.formData.isModule
           },
           {
             xType: 'input',
@@ -104,9 +116,6 @@ export default {
         if (this.mode === 'add') {
           this.dialogTitle = '新建'
         }
-        if (this.mode === 'add' && this.isModule) {
-          this.dialogTitle = '新建模块'
-        }
         if (this.mode === 'edit') {
           this.dialogTitle = '编辑'
           this.getPermissionDetail()
@@ -119,13 +128,20 @@ export default {
         }
       },
       immediate: true
+    },
+    'formData.isModule': {
+      handler: function(val) {
+        if (val) {
+          this.formData.type = 'menu'
+        } else {
+          this.formData.type = ''
+        }
+      },
+      immediate: true
     }
   },
   mounted() {
     this.getPermissionTree()
-    if (this.isModule) {
-      this.formData.type = 'menu'
-    }
   },
   methods: {
     getPermissionDetail() {
@@ -152,10 +168,12 @@ export default {
         .then(() => {
           this.loading++
           let promise
-          if (this.isModule) {
-            promise = saveModulePermission(this.formData)
+          const copy = JSON.parse(JSON.stringify(this.formData))
+          delete copy.isModule
+          if (this.formData.isModule) {
+            promise = saveModulePermission(copy)
           } else {
-            promise = savePermission(this.formData)
+            promise = savePermission(copy)
           }
           promise
             .then(res => {

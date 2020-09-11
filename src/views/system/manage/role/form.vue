@@ -71,9 +71,6 @@ export default {
       immediate: true
     }
   },
-  mounted() {
-
-  },
   methods: {
     getRoleDetail() {
       this.loading++

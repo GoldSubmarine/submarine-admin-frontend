@@ -6,7 +6,7 @@
       :data="tableData"
       :load="getPermissionTree"
     />
-    <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" :is-module="isModule" @refresh="getPermissionTree" @close="closeDialog" />
+    <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" :pid="pid" @refresh="getPermissionTree" @close="closeDialog" />
   </div>
 </template>
 
@@ -25,9 +25,9 @@ export default {
       tableData: [],
       searchData: {},
       propId: '',
+      pid: '',
       dialogName: '',
-      mode: '',
-      isModule: false
+      mode: ''
     }
   },
   computed: {
@@ -39,20 +39,66 @@ export default {
         rowKey: 'id',
         treeProps: { children: 'children', hasChildren: 'hasChildren' },
         btn: [
-          { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' },
-          { text: '新增模块', click: () => _this.operate('add', '', true), icon: 'el-icon-circle-plus' }
+          {
+            text: '新增',
+            click: () => _this.operate('add'),
+            icon: 'el-icon-circle-plus'
+          }
         ],
         column: [
-          { label: '名称', name: 'name', search: true, xType: 'input', align: 'left' },
-          { label: '类型', name: 'type', search: true, xType: 'select', dic: importDic('permissionType') },
-          { label: '权限值', name: 'value', search: true, xType: 'input' },
-          { label: '备注', name: 'remark', search: true, xType: 'input' },
-          { label: '创建时间', name: 'createTime' }
+          {
+            label: '名称',
+            name: 'name',
+            search: true,
+            xType: 'input',
+            align: 'left'
+          },
+          {
+            label: '类型',
+            name: 'type',
+            search: true,
+            xType: 'select',
+            width: 100,
+            dic: importDic('permissionType')
+          },
+          {
+            label: '权限值',
+            name: 'value',
+            search: true,
+            xType: 'input'
+          },
+          {
+            label: '备注',
+            name: 'remark',
+            search: true,
+            xType: 'input'
+          },
+          {
+            label: '创建时间',
+            name: 'createTime'
+          }
         ],
         operate: [
-          { text: '编辑', show: true, click: data => _this.operate('edit', data) },
-          { text: '删除', show: true, click: _this.del },
-          { text: '详情', show: true, click: data => _this.operate('detail', data) }
+          {
+            text: '新增',
+            show: true,
+            click: data => _this.operate('add', data)
+          },
+          {
+            text: '编辑',
+            show: true,
+            click: data => _this.operate('edit', data)
+          },
+          {
+            text: '删除',
+            show: true,
+            click: _this.del
+          },
+          {
+            text: '详情',
+            show: true,
+            click: data => _this.operate('detail', data)
+          }
         ]
       }
     }
@@ -67,9 +113,9 @@ export default {
         this.tableData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
-    operate(mode, data, isModule) {
+    operate(mode, data = {}) {
       if (mode !== 'add') this.propId = data.id
-      this.isModule = Boolean(isModule)
+      this.pid = data.id
       this.mode = mode
       this.dialogName = 'dForm'
     },
@@ -84,6 +130,8 @@ export default {
     },
     closeDialog() {
       this.dialogName = ''
+      this.propId = ''
+      this.pid = ''
     }
   }
 }

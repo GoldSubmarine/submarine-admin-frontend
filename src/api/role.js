@@ -50,13 +50,27 @@ export function saveRole(data) {
 /**
  * 权限保存
  */
-export function saveRolePermission(roleId, type, permissionList) {
+export function saveRolePermission(roleId, permissionList) {
   return request({
     url: '/role/permission/save',
     method: 'post',
     data: {
       roleId,
-      type,
+      permissionList
+    }
+  })
+}
+
+/**
+ * 批量权限保存
+ */
+export function saveRolePermissionBatch(batchAuthType, roleIds, permissionList) {
+  return request({
+    url: '/role/permission/batch-save',
+    method: 'post',
+    data: {
+      batchAuthType,
+      roleIds,
       permissionList
     }
   })

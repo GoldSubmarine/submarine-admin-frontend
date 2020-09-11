@@ -18,13 +18,20 @@ export default {
     id: {
       type: String,
       default: null
+    },
+    pid: {
+      type: String,
+      default: null
     }
   },
   data() {
+    const _this = this
     return {
       loading: 0,
       dialogVisible: true,
-      formData: {},
+      formData: {
+        pid: _this.pid
+      },
       formDisabled: false,
       dialogTitle: '编辑',
       showBtn: true,
@@ -38,14 +45,42 @@ export default {
         disabled: _this.formDisabled,
         inline: false,
         item: [
-          { xType: 'input', name: 'name', label: '名称', rules: importRules('inputRequired') },
-          { xType: 'input', name: 'code', label: '编码' },
-          { xType: 'select', type: 'tree', name: 'pid', dic: { data: _this.treeData, label: 'name', value: 'id' }, label: '父级' },
-          { xType: 'input', name: 'remark', label: '备注' }
+          {
+            xType: 'input',
+            name: 'name',
+            label: '名称',
+            rules: importRules('inputRequired')
+          },
+          {
+            xType: 'input',
+            name: 'code',
+            label: '编码'
+          },
+          {
+            xType: 'select',
+            type: 'tree',
+            name: 'pid',
+            disabled: !!_this.pid,
+            dic: { data: _this.treeData, label: 'name', value: 'id' },
+            label: '父级'
+          },
+          {
+            xType: 'input',
+            name: 'remark',
+            label: '备注'
+          }
         ],
         operate: [
-          { text: '保存', show: _this.showBtn, click: _this.saveDept },
-          { text: '取消', show: _this.showBtn, click: () => { _this.dialogVisible = false } }
+          {
+            text: '保存',
+            show: _this.showBtn,
+            click: _this.saveDept
+          },
+          {
+            text: '取消',
+            show: _this.showBtn,
+            click: () => { _this.dialogVisible = false }
+          }
         ]
       }
     }

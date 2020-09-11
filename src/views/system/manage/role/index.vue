@@ -1,8 +1,9 @@
 <template>
   <div v-loading="loading" class="app-container">
     <el-row :gutter="20">
-      <el-col :span="16">
+      <el-col :span="17">
         <x-table
+          ref="table"
           v-model="searchData"
           :config="tableConfig"
           :data="tableData"
@@ -10,8 +11,8 @@
           :load="getRolePage"
         />
       </el-col>
-      <el-col :span="8">
-        <treeSelect :id="propTreeId" mode="permission" />
+      <el-col :span="7">
+        <treeSelect :id="propTreeId" :is-batch-auth="isBatchAuth" />
       </el-col>
     </el-row>
 
@@ -34,6 +35,7 @@ export default {
     return {
       loading: 0,
       tableData: [],
+      isBatchAuth: false,
       page: {
         pageNum: 1,
         pageSize: 10,
@@ -53,21 +55,74 @@ export default {
         search: true,
         reset: true,
         stripe: false,
-        highlightCurrentRow: true,
-        currentChange: _this.currentChange,
+        highlightCurrentRow: !_this.isBatchAuth,
+        selectionChange: _this.selectChange,
+        currentChange: _this.selectChange,
         btn: [
-          { text: '新增', show: _this.checkPermission(['role', 'role.add']), click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
+          {
+            text: '新增',
+            show: _this.checkPermission(['role', 'role.add']),
+            click: () => _this.operate('add'),
+            icon: 'el-icon-circle-plus'
+          },
+          {
+            text: `${_this.isBatchAuth ? '关闭' : '开启'}批量授权`,
+            type: 'warning',
+            show: _this.checkPermission(['role', 'role.add']),
+            click: () => {
+              _this.$refs.table.clearSelection()
+              _this.isBatchAuth = !_this.isBatchAuth
+              _this.propTreeId = ''
+            },
+            icon: 'el-icon-s-tools'
+          }
         ],
         column: [
-          { label: '名称', name: 'name', search: true, xType: 'input' },
-          { label: '编码', name: 'code', search: true, xType: 'input' },
-          { xType: 'select', name: 'orgAdminDisplay', label: '机构管理员是否可见', dic: importDic('displayType') },
-          { label: '备注', name: 'remark' }
+          {
+            type: 'selection',
+            show: _this.isBatchAuth
+          },
+          {
+            label: '名称',
+            name: 'name',
+            search: true,
+            xType: 'input'
+          },
+          {
+            label: '编码',
+            name: 'code',
+            search: true,
+            xType: 'input'
+          },
+          {
+            xType: 'select',
+            name: 'orgAdminDisplay',
+            label: '机构管理员是否可见',
+            width: 150,
+            dic: importDic('displayType')
+          },
+          {
+            label: '备注',
+            name: 'remark',
+            width: 180
+          }
         ],
         operate: [
-          { text: '编辑', show: _this.checkPermission(['role', 'role.edit']), click: data => _this.operate('edit', data) },
-          { text: '删除', show: _this.checkPermission(['role', 'role.del']), click: _this.del },
-          { text: '详情', show: _this.checkPermission(['role', 'role.find']), click: data => _this.operate('detail', data) }
+          {
+            text: '编辑',
+            show: _this.checkPermission(['role', 'role.edit']),
+            click: data => _this.operate('edit', data)
+          },
+          {
+            text: '删除',
+            show: _this.checkPermission(['role', 'role.del']),
+            click: _this.del
+          },
+          {
+            text: '详情',
+            show: _this.checkPermission(['role', 'role.find']),
+            click: data => _this.operate('detail', data)
+          }
         ]
       }
     }
@@ -88,8 +143,13 @@ export default {
       this.mode = mode
       this.dialogName = 'dForm'
     },
-    currentChange(data) {
-      this.propTreeId = data ? data.id : null
+    selectChange(data) {
+      if (this.isBatchAuth && data instanceof Array) {
+        this.propTreeId = data.map(item => item.id).join(',')
+      }
+      if (!this.isBatchAuth && data instanceof Object) {
+        this.propTreeId = data?.id
+      }
     },
     del(data) {
       this.delConfirm().then(() => {

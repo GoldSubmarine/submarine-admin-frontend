@@ -6,7 +6,7 @@
       :data="tableData"
       :load="getDeptTree"
     />
-    <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" @refresh="getDeptTree" @close="closeDialog" />
+    <dForm v-if="dialogName == 'dForm'" :id="propId" :mode="mode" :pid="pid" @refresh="getDeptTree" @close="closeDialog" />
   </div>
 </template>
 
@@ -24,6 +24,7 @@ export default {
       tableData: [],
       searchData: {},
       propId: '',
+      pid: '',
       dialogName: ''
     }
   },
@@ -36,18 +37,57 @@ export default {
         rowKey: 'id',
         treeProps: { children: 'children', hasChildren: 'hasChildren' },
         btn: [
-          { text: '新增', click: () => _this.operate('add'), icon: 'el-icon-circle-plus' }
+          {
+            text: '新增',
+            click: () => _this.operate('add'),
+            icon: 'el-icon-circle-plus'
+          }
         ],
         column: [
-          { label: '名称', name: 'name', align: 'left', search: true, xType: 'input' },
-          { label: '编码', name: 'code', search: true, xType: 'input' },
-          { label: '备注', name: 'remark', search: true, xType: 'input' },
-          { label: '创建时间', name: 'createTime' }
+          {
+            label: '名称',
+            name: 'name',
+            align: 'left',
+            search: true,
+            xType: 'input'
+          },
+          {
+            label: '编码',
+            name: 'code',
+            search: true,
+            xType: 'input'
+          },
+          {
+            label: '备注',
+            name: 'remark',
+            xType: 'input'
+          },
+          {
+            label: '创建时间',
+            name: 'createTime'
+          }
         ],
         operate: [
-          { text: '编辑', show: true, click: data => _this.operate('edit', data) },
-          { text: '删除', show: true, click: _this.del },
-          { text: '详情', show: true, click: data => _this.operate('detail', data) }
+          {
+            text: '新增',
+            show: true,
+            click: data => _this.operate('add', data)
+          },
+          {
+            text: '编辑',
+            show: true,
+            click: data => _this.operate('edit', data)
+          },
+          {
+            text: '删除',
+            show: true,
+            click: _this.del
+          },
+          {
+            text: '详情',
+            show: true,
+            click: data => _this.operate('detail', data)
+          }
         ]
       }
     }
@@ -62,8 +102,9 @@ export default {
         this.tableData = res
       }).catch(e => console.error(e)).finally(() => this.loading--)
     },
-    operate(mode, data) {
+    operate(mode, data = {}) {
       if (mode !== 'add') this.propId = data.id
+      this.pid = data.id
       this.mode = mode
       this.dialogName = 'dForm'
     },
@@ -78,6 +119,8 @@ export default {
     },
     closeDialog() {
       this.dialogName = ''
+      this.propId = ''
+      this.pid = ''
     }
   }
 }
