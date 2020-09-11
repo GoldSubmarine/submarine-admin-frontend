@@ -91,6 +91,11 @@ export default {
             name: 'pid',
             dic: { data: _this.treeData, label: 'name', value: 'id' },
             label: '父级'
+          },
+          {
+            xType: 'input',
+            name: 'remark',
+            label: '备注'
           }
         ],
         operate: [
@@ -131,10 +136,12 @@ export default {
     },
     'formData.isModule': {
       handler: function(val) {
-        if (val) {
-          this.formData.type = 'menu'
-        } else {
-          this.formData.type = ''
+        if (this.mode === 'add') {
+          if (val) {
+            this.formData.type = 'menu'
+          } else {
+            this.formData.type = ''
+          }
         }
       },
       immediate: true
