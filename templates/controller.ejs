@@ -33,7 +33,7 @@ public class <%= Entity %>Controller {
     @GetMapping("/list/page")
     public XPage<<%= Entity %>Dto> findListByPage(<%= Entity %>Dto <%= entity %>Dto, XPage<Void> xPage) {
         IPage<<%= Entity %>> <%= entity %>Page = <%= entity %>Service.find<%= Entity %>List(<%= entity %>Dto, XPage.toIPage(xPage));
-        return DtoConverter.toDto(<%= entity %>Page, <%= Entity %>MapStruct.class);
+        return DtoConverter.toDto(<%= entity %>Page, <%= Entity %>MapStruct.INSTANCE);
     }
 
     /**
@@ -43,7 +43,7 @@ public class <%= Entity %>Controller {
     @GetMapping("/list/all")
     public List<<%= Entity %>Dto> findList(<%= Entity %>Dto <%= entity %>Dto) {
         List<<%= Entity %>> <%= entity %>List = <%= entity %>Service.find<%= Entity %>List(<%= entity %>Dto);
-        return DtoConverter.toDto(<%= entity %>List, <%= Entity %>MapStruct.class);
+        return DtoConverter.toDto(<%= entity %>List, <%= Entity %>MapStruct.INSTANCE);
     }
 
     /**
@@ -53,7 +53,7 @@ public class <%= Entity %>Controller {
     @GetMapping("/detail/{id}")
     public <%= Entity %>Dto getById(@PathVariable long id) {
         <%= Entity %> <%= entity %> = <%= entity %>Service.get<%= Entity %>ById(id);
-        return DtoConverter.toDto(<%= entity %>, <%= Entity %>MapStruct.class);
+        return DtoConverter.toDto(<%= entity %>, <%= Entity %>MapStruct.INSTANCE);
     }
 
     /**
@@ -62,7 +62,7 @@ public class <%= Entity %>Controller {
     @PreAuthorize("hasAnyAuthority('<%= entity %>.add', '<%= entity %>.edit')")
     @PostMapping("/save")
     public Result<Void> save(@Valid @RequestBody <%= Entity %>Dto <%= entity %>Dto) {
-        <%= entity %>Service.save<%= Entity %>(DtoConverter.toEntity(<%= entity %>Dto, <%= Entity %>MapStruct.class));
+        <%= entity %>Service.save<%= Entity %>(DtoConverter.toEntity(<%= entity %>Dto, <%= Entity %>MapStruct.INSTANCE));
         return Result.build(ResultStatus.SAVE_SUCCESS);
     }
 

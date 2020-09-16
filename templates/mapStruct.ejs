@@ -4,8 +4,9 @@ import com.htnova.common.base.BaseMapStruct;
 import com.htnova.<%= module %>.dto.<%= Entity %>Dto;
 import com.htnova.<%= module %>.entity.<%= Entity %>;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface <%= Entity %>MapStruct extends BaseMapStruct<<%= Entity %>Dto, <%= Entity %>> {
-
+  <%= Entity %>MapStruct INSTANCE = Mappers.getMapper(<%= Entity %>MapStruct.class);
 }
